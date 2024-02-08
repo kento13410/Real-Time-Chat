@@ -1,6 +1,6 @@
-module real-time-chat
+module Real-Time-Chat
 
-go 1.21
+go 1.20
 
 require (
 	google.golang.org/grpc v1.61.0

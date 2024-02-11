@@ -1,4 +1,4 @@
-package db
+package model
 
 import (
 	"database/sql"
@@ -21,7 +21,6 @@ func Open() *sql.DB {
 		os.Getenv("DB_NAME"),
 		os.Getenv("DB_PORT"),
 	)
-	fmt.Println(dsn)
 	db, err := sql.Open("postgres", dsn)
 	if err != nil {
 		log.Fatal("failed to init database: ", err)
@@ -32,7 +31,7 @@ func Open() *sql.DB {
 		log.Fatal("failed to connect database: ", err)
 	}
 
-	log.Default().Println("success to connect db!!")
+	log.Default().Println("success to connect model!!")
 
 	return db
 }

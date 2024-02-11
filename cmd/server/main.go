@@ -1,7 +1,7 @@
 package main
 
 import (
-	"Real-Time-Chat/db"
+	"Real-Time-Chat/model"
 	"fmt"
 	"net"
 
@@ -15,8 +15,8 @@ import (
 )
 
 func main() {
-	DB := db.Open()
-	defer db.Close(DB)
+	DB := model.Open()
+	defer model.Close(DB)
 
 	port := 8080
 	listener, err := net.Listen("tcp", fmt.Sprintf(":%d", port))

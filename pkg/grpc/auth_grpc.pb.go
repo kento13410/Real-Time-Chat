@@ -36,7 +36,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AuthServiceClient interface {
 	Signup(ctx context.Context, in *SignupRequest, opts ...grpc.CallOption) (*SignupResponse, error)
-	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 	Logout(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*LogoutResponse, error)
 }
 
@@ -57,8 +57,8 @@ func (c *authServiceClient) Signup(ctx context.Context, in *SignupRequest, opts 
 	return out, nil
 }
 
-func (c *authServiceClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *authServiceClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error) {
+	out := new(LoginResponse)
 	err := c.cc.Invoke(ctx, AuthService_Login_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -80,7 +80,7 @@ func (c *authServiceClient) Logout(ctx context.Context, in *empty.Empty, opts ..
 // for forward compatibility
 type AuthServiceServer interface {
 	Signup(context.Context, *SignupRequest) (*SignupResponse, error)
-	Login(context.Context, *LoginRequest) (*empty.Empty, error)
+	Login(context.Context, *LoginRequest) (*LoginResponse, error)
 	Logout(context.Context, *empty.Empty) (*LogoutResponse, error)
 	mustEmbedUnimplementedAuthServiceServer()
 }
@@ -102,30 +102,30 @@ type UnimplementedAuthServiceServer struct {
 func (UnimplementedAuthServiceServer) Signup(context.Context, *SignupRequest) (*SignupResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Signup not implemented")
 }
-func (UnimplementedAuthServiceServer) Login(ctx context.Context, req *LoginRequest) (*empty.Empty, error) {
+func (UnimplementedAuthServiceServer) Login(ctx context.Context, req *LoginRequest) (*LoginResponse, error) {
 	// ユーザー認証ロジック (ダミーの例)
 	if req.Username != "expectedUsername" || req.Password != "expectedPassword" {
-		return nil, status.Errorf(codes.Unauthenticated, "invalid username or password")
+		return &LoginResponse{Success: false}, status.Errorf(codes.Unauthenticated, "invalid username or password")
 	}
 
 	b := make([]byte, 64)
 	if _, err := io.ReadFull(rand.Reader, b); err != nil {
-		return nil, status.Errorf(codes.Internal, "ランダムな文字作成時にエラーが発生しました: %v", err)
+		return &LoginResponse{Success: false}, status.Errorf(codes.Internal, "ランダムな文字作成時にエラーが発生しました: %v", err)
 	}
 	newRedisKey := base64.URLEncoding.EncodeToString(b)
 	redisValue := "user_id" // 実際にはリクエストから得られるユーザーIDやその他のユーザー情報を使う
 
 	// Redisにセッションキーを保存（例: 24時間の有効期限を設定）
 	if err := conn.Set(ctx, newRedisKey, redisValue, 24*time.Hour).Err(); err != nil {
-		return nil, status.Errorf(codes.Internal, "Session登録時にエラーが発生: %v", err)
+		return &LoginResponse{Success: false}, status.Errorf(codes.Internal, "Session登録時にエラーが発生: %v", err)
 	}
 
 	md := metadata.New(map[string]string{"session-id": newRedisKey})
 	if err := grpc.SendHeader(ctx, md); err != nil {
-		return nil, status.Errorf(codes.Internal, "SendHeader時にエラーが発生: %v", err)
+		return &LoginResponse{Success: false}, status.Errorf(codes.Internal, "SendHeader時にエラーが発生: %v", err)
 	}
 
-	return nil, nil
+	return &LoginResponse{Success: true}, nil
 }
 func (UnimplementedAuthServiceServer) Logout(ctx context.Context, req *empty.Empty) (*LogoutResponse, error) {
 	// メタデータからセッションIDを取得

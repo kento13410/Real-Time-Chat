@@ -40,7 +40,7 @@ func main() {
 	}()
 
 	reflection.Register(server)
-
+	
 	// Ctrl+Cが入力されたらGraceful shutdownされるようにする
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, os.Interrupt)

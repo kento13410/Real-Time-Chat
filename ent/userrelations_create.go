@@ -31,12 +31,6 @@ func (urc *UserRelationsCreate) SetUserID2(i int) *UserRelationsCreate {
 	return urc
 }
 
-// SetID sets the "id" field.
-func (urc *UserRelationsCreate) SetID(i int) *UserRelationsCreate {
-	urc.mutation.SetID(i)
-	return urc
-}
-
 // Mutation returns the UserRelationsMutation object of the builder.
 func (urc *UserRelationsCreate) Mutation() *UserRelationsMutation {
 	return urc.mutation
@@ -91,10 +85,8 @@ func (urc *UserRelationsCreate) sqlSave(ctx context.Context) (*UserRelations, er
 		}
 		return nil, err
 	}
-	if _spec.ID.Value != _node.ID {
-		id := _spec.ID.Value.(int64)
-		_node.ID = int(id)
-	}
+	id := _spec.ID.Value.(int64)
+	_node.ID = int(id)
 	urc.mutation.id = &_node.ID
 	urc.mutation.done = true
 	return _node, nil
@@ -105,10 +97,6 @@ func (urc *UserRelationsCreate) createSpec() (*UserRelations, *sqlgraph.CreateSp
 		_node = &UserRelations{config: urc.config}
 		_spec = sqlgraph.NewCreateSpec(userrelations.Table, sqlgraph.NewFieldSpec(userrelations.FieldID, field.TypeInt))
 	)
-	if id, ok := urc.mutation.ID(); ok {
-		_node.ID = id
-		_spec.ID.Value = id
-	}
 	if value, ok := urc.mutation.UserID1(); ok {
 		_spec.SetField(userrelations.FieldUserID1, field.TypeInt, value)
 		_node.UserID1 = value
@@ -164,7 +152,7 @@ func (urcb *UserRelationsCreateBulk) Save(ctx context.Context) ([]*UserRelations
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
+				if specs[i].ID.Value != nil {
 					id := specs[i].ID.Value.(int64)
 					nodes[i].ID = int(id)
 				}

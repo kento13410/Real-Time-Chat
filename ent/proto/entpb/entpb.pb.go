@@ -122,6 +122,202 @@ func (ListChatRequest_View) EnumDescriptor() ([]byte, []int) {
 	return file_entpb_entpb_proto_rawDescGZIP(), []int{5, 0}
 }
 
+type GetUserRequest_View int32
+
+const (
+	GetUserRequest_VIEW_UNSPECIFIED GetUserRequest_View = 0
+	GetUserRequest_BASIC            GetUserRequest_View = 1
+	GetUserRequest_WITH_EDGE_IDS    GetUserRequest_View = 2
+)
+
+// Enum value maps for GetUserRequest_View.
+var (
+	GetUserRequest_View_name = map[int32]string{
+		0: "VIEW_UNSPECIFIED",
+		1: "BASIC",
+		2: "WITH_EDGE_IDS",
+	}
+	GetUserRequest_View_value = map[string]int32{
+		"VIEW_UNSPECIFIED": 0,
+		"BASIC":            1,
+		"WITH_EDGE_IDS":    2,
+	}
+)
+
+func (x GetUserRequest_View) Enum() *GetUserRequest_View {
+	p := new(GetUserRequest_View)
+	*p = x
+	return p
+}
+
+func (x GetUserRequest_View) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (GetUserRequest_View) Descriptor() protoreflect.EnumDescriptor {
+	return file_entpb_entpb_proto_enumTypes[2].Descriptor()
+}
+
+func (GetUserRequest_View) Type() protoreflect.EnumType {
+	return &file_entpb_entpb_proto_enumTypes[2]
+}
+
+func (x GetUserRequest_View) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use GetUserRequest_View.Descriptor instead.
+func (GetUserRequest_View) EnumDescriptor() ([]byte, []int) {
+	return file_entpb_entpb_proto_rawDescGZIP(), []int{11, 0}
+}
+
+type ListUserRequest_View int32
+
+const (
+	ListUserRequest_VIEW_UNSPECIFIED ListUserRequest_View = 0
+	ListUserRequest_BASIC            ListUserRequest_View = 1
+	ListUserRequest_WITH_EDGE_IDS    ListUserRequest_View = 2
+)
+
+// Enum value maps for ListUserRequest_View.
+var (
+	ListUserRequest_View_name = map[int32]string{
+		0: "VIEW_UNSPECIFIED",
+		1: "BASIC",
+		2: "WITH_EDGE_IDS",
+	}
+	ListUserRequest_View_value = map[string]int32{
+		"VIEW_UNSPECIFIED": 0,
+		"BASIC":            1,
+		"WITH_EDGE_IDS":    2,
+	}
+)
+
+func (x ListUserRequest_View) Enum() *ListUserRequest_View {
+	p := new(ListUserRequest_View)
+	*p = x
+	return p
+}
+
+func (x ListUserRequest_View) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ListUserRequest_View) Descriptor() protoreflect.EnumDescriptor {
+	return file_entpb_entpb_proto_enumTypes[3].Descriptor()
+}
+
+func (ListUserRequest_View) Type() protoreflect.EnumType {
+	return &file_entpb_entpb_proto_enumTypes[3]
+}
+
+func (x ListUserRequest_View) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ListUserRequest_View.Descriptor instead.
+func (ListUserRequest_View) EnumDescriptor() ([]byte, []int) {
+	return file_entpb_entpb_proto_rawDescGZIP(), []int{14, 0}
+}
+
+type GetUserRelationsRequest_View int32
+
+const (
+	GetUserRelationsRequest_VIEW_UNSPECIFIED GetUserRelationsRequest_View = 0
+	GetUserRelationsRequest_BASIC            GetUserRelationsRequest_View = 1
+	GetUserRelationsRequest_WITH_EDGE_IDS    GetUserRelationsRequest_View = 2
+)
+
+// Enum value maps for GetUserRelationsRequest_View.
+var (
+	GetUserRelationsRequest_View_name = map[int32]string{
+		0: "VIEW_UNSPECIFIED",
+		1: "BASIC",
+		2: "WITH_EDGE_IDS",
+	}
+	GetUserRelationsRequest_View_value = map[string]int32{
+		"VIEW_UNSPECIFIED": 0,
+		"BASIC":            1,
+		"WITH_EDGE_IDS":    2,
+	}
+)
+
+func (x GetUserRelationsRequest_View) Enum() *GetUserRelationsRequest_View {
+	p := new(GetUserRelationsRequest_View)
+	*p = x
+	return p
+}
+
+func (x GetUserRelationsRequest_View) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (GetUserRelationsRequest_View) Descriptor() protoreflect.EnumDescriptor {
+	return file_entpb_entpb_proto_enumTypes[4].Descriptor()
+}
+
+func (GetUserRelationsRequest_View) Type() protoreflect.EnumType {
+	return &file_entpb_entpb_proto_enumTypes[4]
+}
+
+func (x GetUserRelationsRequest_View) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use GetUserRelationsRequest_View.Descriptor instead.
+func (GetUserRelationsRequest_View) EnumDescriptor() ([]byte, []int) {
+	return file_entpb_entpb_proto_rawDescGZIP(), []int{20, 0}
+}
+
+type ListUserRelationsRequest_View int32
+
+const (
+	ListUserRelationsRequest_VIEW_UNSPECIFIED ListUserRelationsRequest_View = 0
+	ListUserRelationsRequest_BASIC            ListUserRelationsRequest_View = 1
+	ListUserRelationsRequest_WITH_EDGE_IDS    ListUserRelationsRequest_View = 2
+)
+
+// Enum value maps for ListUserRelationsRequest_View.
+var (
+	ListUserRelationsRequest_View_name = map[int32]string{
+		0: "VIEW_UNSPECIFIED",
+		1: "BASIC",
+		2: "WITH_EDGE_IDS",
+	}
+	ListUserRelationsRequest_View_value = map[string]int32{
+		"VIEW_UNSPECIFIED": 0,
+		"BASIC":            1,
+		"WITH_EDGE_IDS":    2,
+	}
+)
+
+func (x ListUserRelationsRequest_View) Enum() *ListUserRelationsRequest_View {
+	p := new(ListUserRelationsRequest_View)
+	*p = x
+	return p
+}
+
+func (x ListUserRelationsRequest_View) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ListUserRelationsRequest_View) Descriptor() protoreflect.EnumDescriptor {
+	return file_entpb_entpb_proto_enumTypes[5].Descriptor()
+}
+
+func (ListUserRelationsRequest_View) Type() protoreflect.EnumType {
+	return &file_entpb_entpb_proto_enumTypes[5]
+}
+
+func (x ListUserRelationsRequest_View) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ListUserRelationsRequest_View.Descriptor instead.
+func (ListUserRelationsRequest_View) EnumDescriptor() ([]byte, []int) {
+	return file_entpb_entpb_proto_rawDescGZIP(), []int{23, 0}
+}
+
 type Chat struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -609,6 +805,956 @@ func (x *BatchCreateChatsResponse) GetChats() []*Chat {
 	return nil
 }
 
+type User struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id           int64  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Username     string `protobuf:"bytes,2,opt,name=username,proto3" json:"username,omitempty"`
+	Email        string `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
+	PasswordHash string `protobuf:"bytes,4,opt,name=password_hash,json=passwordHash,proto3" json:"password_hash,omitempty"`
+}
+
+func (x *User) Reset() {
+	*x = User{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_entpb_entpb_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *User) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*User) ProtoMessage() {}
+
+func (x *User) ProtoReflect() protoreflect.Message {
+	mi := &file_entpb_entpb_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use User.ProtoReflect.Descriptor instead.
+func (*User) Descriptor() ([]byte, []int) {
+	return file_entpb_entpb_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *User) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *User) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+func (x *User) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *User) GetPasswordHash() string {
+	if x != nil {
+		return x.PasswordHash
+	}
+	return ""
+}
+
+type CreateUserRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	User *User `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+}
+
+func (x *CreateUserRequest) Reset() {
+	*x = CreateUserRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_entpb_entpb_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CreateUserRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateUserRequest) ProtoMessage() {}
+
+func (x *CreateUserRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_entpb_entpb_proto_msgTypes[10]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateUserRequest.ProtoReflect.Descriptor instead.
+func (*CreateUserRequest) Descriptor() ([]byte, []int) {
+	return file_entpb_entpb_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *CreateUserRequest) GetUser() *User {
+	if x != nil {
+		return x.User
+	}
+	return nil
+}
+
+type GetUserRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id   int64               `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	View GetUserRequest_View `protobuf:"varint,2,opt,name=view,proto3,enum=entpb.GetUserRequest_View" json:"view,omitempty"`
+}
+
+func (x *GetUserRequest) Reset() {
+	*x = GetUserRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_entpb_entpb_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetUserRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserRequest) ProtoMessage() {}
+
+func (x *GetUserRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_entpb_entpb_proto_msgTypes[11]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserRequest.ProtoReflect.Descriptor instead.
+func (*GetUserRequest) Descriptor() ([]byte, []int) {
+	return file_entpb_entpb_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *GetUserRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *GetUserRequest) GetView() GetUserRequest_View {
+	if x != nil {
+		return x.View
+	}
+	return GetUserRequest_VIEW_UNSPECIFIED
+}
+
+type UpdateUserRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	User *User `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+}
+
+func (x *UpdateUserRequest) Reset() {
+	*x = UpdateUserRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_entpb_entpb_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateUserRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateUserRequest) ProtoMessage() {}
+
+func (x *UpdateUserRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_entpb_entpb_proto_msgTypes[12]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateUserRequest.ProtoReflect.Descriptor instead.
+func (*UpdateUserRequest) Descriptor() ([]byte, []int) {
+	return file_entpb_entpb_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *UpdateUserRequest) GetUser() *User {
+	if x != nil {
+		return x.User
+	}
+	return nil
+}
+
+type DeleteUserRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id int64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+}
+
+func (x *DeleteUserRequest) Reset() {
+	*x = DeleteUserRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_entpb_entpb_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DeleteUserRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteUserRequest) ProtoMessage() {}
+
+func (x *DeleteUserRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_entpb_entpb_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteUserRequest.ProtoReflect.Descriptor instead.
+func (*DeleteUserRequest) Descriptor() ([]byte, []int) {
+	return file_entpb_entpb_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *DeleteUserRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type ListUserRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	PageSize  int32                `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	PageToken string               `protobuf:"bytes,2,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
+	View      ListUserRequest_View `protobuf:"varint,3,opt,name=view,proto3,enum=entpb.ListUserRequest_View" json:"view,omitempty"`
+}
+
+func (x *ListUserRequest) Reset() {
+	*x = ListUserRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_entpb_entpb_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListUserRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListUserRequest) ProtoMessage() {}
+
+func (x *ListUserRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_entpb_entpb_proto_msgTypes[14]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListUserRequest.ProtoReflect.Descriptor instead.
+func (*ListUserRequest) Descriptor() ([]byte, []int) {
+	return file_entpb_entpb_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *ListUserRequest) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+func (x *ListUserRequest) GetPageToken() string {
+	if x != nil {
+		return x.PageToken
+	}
+	return ""
+}
+
+func (x *ListUserRequest) GetView() ListUserRequest_View {
+	if x != nil {
+		return x.View
+	}
+	return ListUserRequest_VIEW_UNSPECIFIED
+}
+
+type ListUserResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	UserList      []*User `protobuf:"bytes,1,rep,name=user_list,json=userList,proto3" json:"user_list,omitempty"`
+	NextPageToken string  `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+}
+
+func (x *ListUserResponse) Reset() {
+	*x = ListUserResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_entpb_entpb_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListUserResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListUserResponse) ProtoMessage() {}
+
+func (x *ListUserResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_entpb_entpb_proto_msgTypes[15]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListUserResponse.ProtoReflect.Descriptor instead.
+func (*ListUserResponse) Descriptor() ([]byte, []int) {
+	return file_entpb_entpb_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *ListUserResponse) GetUserList() []*User {
+	if x != nil {
+		return x.UserList
+	}
+	return nil
+}
+
+func (x *ListUserResponse) GetNextPageToken() string {
+	if x != nil {
+		return x.NextPageToken
+	}
+	return ""
+}
+
+type BatchCreateUsersRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Requests []*CreateUserRequest `protobuf:"bytes,1,rep,name=requests,proto3" json:"requests,omitempty"`
+}
+
+func (x *BatchCreateUsersRequest) Reset() {
+	*x = BatchCreateUsersRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_entpb_entpb_proto_msgTypes[16]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *BatchCreateUsersRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BatchCreateUsersRequest) ProtoMessage() {}
+
+func (x *BatchCreateUsersRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_entpb_entpb_proto_msgTypes[16]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BatchCreateUsersRequest.ProtoReflect.Descriptor instead.
+func (*BatchCreateUsersRequest) Descriptor() ([]byte, []int) {
+	return file_entpb_entpb_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *BatchCreateUsersRequest) GetRequests() []*CreateUserRequest {
+	if x != nil {
+		return x.Requests
+	}
+	return nil
+}
+
+type BatchCreateUsersResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Users []*User `protobuf:"bytes,1,rep,name=users,proto3" json:"users,omitempty"`
+}
+
+func (x *BatchCreateUsersResponse) Reset() {
+	*x = BatchCreateUsersResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_entpb_entpb_proto_msgTypes[17]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *BatchCreateUsersResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BatchCreateUsersResponse) ProtoMessage() {}
+
+func (x *BatchCreateUsersResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_entpb_entpb_proto_msgTypes[17]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BatchCreateUsersResponse.ProtoReflect.Descriptor instead.
+func (*BatchCreateUsersResponse) Descriptor() ([]byte, []int) {
+	return file_entpb_entpb_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *BatchCreateUsersResponse) GetUsers() []*User {
+	if x != nil {
+		return x.Users
+	}
+	return nil
+}
+
+type UserRelations struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id       int64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	UserId_1 int64 `protobuf:"varint,2,opt,name=user_id_1,json=userId1,proto3" json:"user_id_1,omitempty"`
+	UserId_2 int64 `protobuf:"varint,3,opt,name=user_id_2,json=userId2,proto3" json:"user_id_2,omitempty"`
+}
+
+func (x *UserRelations) Reset() {
+	*x = UserRelations{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_entpb_entpb_proto_msgTypes[18]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UserRelations) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserRelations) ProtoMessage() {}
+
+func (x *UserRelations) ProtoReflect() protoreflect.Message {
+	mi := &file_entpb_entpb_proto_msgTypes[18]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserRelations.ProtoReflect.Descriptor instead.
+func (*UserRelations) Descriptor() ([]byte, []int) {
+	return file_entpb_entpb_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *UserRelations) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *UserRelations) GetUserId_1() int64 {
+	if x != nil {
+		return x.UserId_1
+	}
+	return 0
+}
+
+func (x *UserRelations) GetUserId_2() int64 {
+	if x != nil {
+		return x.UserId_2
+	}
+	return 0
+}
+
+type CreateUserRelationsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	UserRelations *UserRelations `protobuf:"bytes,1,opt,name=user_relations,json=userRelations,proto3" json:"user_relations,omitempty"`
+}
+
+func (x *CreateUserRelationsRequest) Reset() {
+	*x = CreateUserRelationsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_entpb_entpb_proto_msgTypes[19]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CreateUserRelationsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateUserRelationsRequest) ProtoMessage() {}
+
+func (x *CreateUserRelationsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_entpb_entpb_proto_msgTypes[19]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateUserRelationsRequest.ProtoReflect.Descriptor instead.
+func (*CreateUserRelationsRequest) Descriptor() ([]byte, []int) {
+	return file_entpb_entpb_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *CreateUserRelationsRequest) GetUserRelations() *UserRelations {
+	if x != nil {
+		return x.UserRelations
+	}
+	return nil
+}
+
+type GetUserRelationsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id   int64                        `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	View GetUserRelationsRequest_View `protobuf:"varint,2,opt,name=view,proto3,enum=entpb.GetUserRelationsRequest_View" json:"view,omitempty"`
+}
+
+func (x *GetUserRelationsRequest) Reset() {
+	*x = GetUserRelationsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_entpb_entpb_proto_msgTypes[20]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetUserRelationsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserRelationsRequest) ProtoMessage() {}
+
+func (x *GetUserRelationsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_entpb_entpb_proto_msgTypes[20]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserRelationsRequest.ProtoReflect.Descriptor instead.
+func (*GetUserRelationsRequest) Descriptor() ([]byte, []int) {
+	return file_entpb_entpb_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *GetUserRelationsRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *GetUserRelationsRequest) GetView() GetUserRelationsRequest_View {
+	if x != nil {
+		return x.View
+	}
+	return GetUserRelationsRequest_VIEW_UNSPECIFIED
+}
+
+type UpdateUserRelationsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	UserRelations *UserRelations `protobuf:"bytes,1,opt,name=user_relations,json=userRelations,proto3" json:"user_relations,omitempty"`
+}
+
+func (x *UpdateUserRelationsRequest) Reset() {
+	*x = UpdateUserRelationsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_entpb_entpb_proto_msgTypes[21]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateUserRelationsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateUserRelationsRequest) ProtoMessage() {}
+
+func (x *UpdateUserRelationsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_entpb_entpb_proto_msgTypes[21]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateUserRelationsRequest.ProtoReflect.Descriptor instead.
+func (*UpdateUserRelationsRequest) Descriptor() ([]byte, []int) {
+	return file_entpb_entpb_proto_rawDescGZIP(), []int{21}
+}
+
+func (x *UpdateUserRelationsRequest) GetUserRelations() *UserRelations {
+	if x != nil {
+		return x.UserRelations
+	}
+	return nil
+}
+
+type DeleteUserRelationsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id int64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+}
+
+func (x *DeleteUserRelationsRequest) Reset() {
+	*x = DeleteUserRelationsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_entpb_entpb_proto_msgTypes[22]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DeleteUserRelationsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteUserRelationsRequest) ProtoMessage() {}
+
+func (x *DeleteUserRelationsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_entpb_entpb_proto_msgTypes[22]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteUserRelationsRequest.ProtoReflect.Descriptor instead.
+func (*DeleteUserRelationsRequest) Descriptor() ([]byte, []int) {
+	return file_entpb_entpb_proto_rawDescGZIP(), []int{22}
+}
+
+func (x *DeleteUserRelationsRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type ListUserRelationsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	PageSize  int32                         `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	PageToken string                        `protobuf:"bytes,2,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
+	View      ListUserRelationsRequest_View `protobuf:"varint,3,opt,name=view,proto3,enum=entpb.ListUserRelationsRequest_View" json:"view,omitempty"`
+}
+
+func (x *ListUserRelationsRequest) Reset() {
+	*x = ListUserRelationsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_entpb_entpb_proto_msgTypes[23]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListUserRelationsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListUserRelationsRequest) ProtoMessage() {}
+
+func (x *ListUserRelationsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_entpb_entpb_proto_msgTypes[23]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListUserRelationsRequest.ProtoReflect.Descriptor instead.
+func (*ListUserRelationsRequest) Descriptor() ([]byte, []int) {
+	return file_entpb_entpb_proto_rawDescGZIP(), []int{23}
+}
+
+func (x *ListUserRelationsRequest) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+func (x *ListUserRelationsRequest) GetPageToken() string {
+	if x != nil {
+		return x.PageToken
+	}
+	return ""
+}
+
+func (x *ListUserRelationsRequest) GetView() ListUserRelationsRequest_View {
+	if x != nil {
+		return x.View
+	}
+	return ListUserRelationsRequest_VIEW_UNSPECIFIED
+}
+
+type ListUserRelationsResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	UserRelationsList []*UserRelations `protobuf:"bytes,1,rep,name=user_relations_list,json=userRelationsList,proto3" json:"user_relations_list,omitempty"`
+	NextPageToken     string           `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+}
+
+func (x *ListUserRelationsResponse) Reset() {
+	*x = ListUserRelationsResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_entpb_entpb_proto_msgTypes[24]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListUserRelationsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListUserRelationsResponse) ProtoMessage() {}
+
+func (x *ListUserRelationsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_entpb_entpb_proto_msgTypes[24]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListUserRelationsResponse.ProtoReflect.Descriptor instead.
+func (*ListUserRelationsResponse) Descriptor() ([]byte, []int) {
+	return file_entpb_entpb_proto_rawDescGZIP(), []int{24}
+}
+
+func (x *ListUserRelationsResponse) GetUserRelationsList() []*UserRelations {
+	if x != nil {
+		return x.UserRelationsList
+	}
+	return nil
+}
+
+func (x *ListUserRelationsResponse) GetNextPageToken() string {
+	if x != nil {
+		return x.NextPageToken
+	}
+	return ""
+}
+
+type BatchCreateUserRelationsSliceRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Requests []*CreateUserRelationsRequest `protobuf:"bytes,1,rep,name=requests,proto3" json:"requests,omitempty"`
+}
+
+func (x *BatchCreateUserRelationsSliceRequest) Reset() {
+	*x = BatchCreateUserRelationsSliceRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_entpb_entpb_proto_msgTypes[25]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *BatchCreateUserRelationsSliceRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BatchCreateUserRelationsSliceRequest) ProtoMessage() {}
+
+func (x *BatchCreateUserRelationsSliceRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_entpb_entpb_proto_msgTypes[25]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BatchCreateUserRelationsSliceRequest.ProtoReflect.Descriptor instead.
+func (*BatchCreateUserRelationsSliceRequest) Descriptor() ([]byte, []int) {
+	return file_entpb_entpb_proto_rawDescGZIP(), []int{25}
+}
+
+func (x *BatchCreateUserRelationsSliceRequest) GetRequests() []*CreateUserRelationsRequest {
+	if x != nil {
+		return x.Requests
+	}
+	return nil
+}
+
+type BatchCreateUserRelationsSliceResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	UserRelationsSlice []*UserRelations `protobuf:"bytes,1,rep,name=user_relations_slice,json=userRelationsSlice,proto3" json:"user_relations_slice,omitempty"`
+}
+
+func (x *BatchCreateUserRelationsSliceResponse) Reset() {
+	*x = BatchCreateUserRelationsSliceResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_entpb_entpb_proto_msgTypes[26]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *BatchCreateUserRelationsSliceResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BatchCreateUserRelationsSliceResponse) ProtoMessage() {}
+
+func (x *BatchCreateUserRelationsSliceResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_entpb_entpb_proto_msgTypes[26]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BatchCreateUserRelationsSliceResponse.ProtoReflect.Descriptor instead.
+func (*BatchCreateUserRelationsSliceResponse) Descriptor() ([]byte, []int) {
+	return file_entpb_entpb_proto_rawDescGZIP(), []int{26}
+}
+
+func (x *BatchCreateUserRelationsSliceResponse) GetUserRelationsSlice() []*UserRelations {
+	if x != nil {
+		return x.UserRelationsSlice
+	}
+	return nil
+}
+
 var File_entpb_entpb_proto protoreflect.FileDescriptor
 
 var file_entpb_entpb_proto_rawDesc = []byte{
@@ -673,31 +1819,200 @@ var file_entpb_entpb_proto_rawDesc = []byte{
 	0x65, 0x43, 0x68, 0x61, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x21,
 	0x0a, 0x05, 0x63, 0x68, 0x61, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0b, 0x2e,
 	0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x43, 0x68, 0x61, 0x74, 0x52, 0x05, 0x63, 0x68, 0x61, 0x74,
-	0x73, 0x32, 0xdf, 0x02, 0x0a, 0x0b, 0x43, 0x68, 0x61, 0x74, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63,
-	0x65, 0x12, 0x2f, 0x0a, 0x06, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x12, 0x18, 0x2e, 0x65, 0x6e,
-	0x74, 0x70, 0x62, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x68, 0x61, 0x74, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0b, 0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x43, 0x68,
-	0x61, 0x74, 0x12, 0x29, 0x0a, 0x03, 0x47, 0x65, 0x74, 0x12, 0x15, 0x2e, 0x65, 0x6e, 0x74, 0x70,
-	0x62, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x68, 0x61, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x1a, 0x0b, 0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x43, 0x68, 0x61, 0x74, 0x12, 0x2f, 0x0a,
-	0x06, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x12, 0x18, 0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e,
-	0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x68, 0x61, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x1a, 0x0b, 0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x43, 0x68, 0x61, 0x74, 0x12, 0x3a,
-	0x0a, 0x06, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x12, 0x18, 0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62,
-	0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x43, 0x68, 0x61, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x1a, 0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x12, 0x37, 0x0a, 0x04, 0x4c, 0x69,
-	0x73, 0x74, 0x12, 0x16, 0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x43,
-	0x68, 0x61, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x17, 0x2e, 0x65, 0x6e, 0x74,
-	0x70, 0x62, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x43, 0x68, 0x61, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x12, 0x4e, 0x0a, 0x0b, 0x42, 0x61, 0x74, 0x63, 0x68, 0x43, 0x72, 0x65, 0x61,
-	0x74, 0x65, 0x12, 0x1e, 0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x42, 0x61, 0x74, 0x63, 0x68,
-	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x68, 0x61, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x1a, 0x1f, 0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x42, 0x61, 0x74, 0x63, 0x68,
-	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x68, 0x61, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x42, 0x20, 0x5a, 0x1e, 0x52, 0x65, 0x61, 0x6c, 0x2d, 0x54, 0x69, 0x6d, 0x65,
-	0x2d, 0x43, 0x68, 0x61, 0x74, 0x2f, 0x65, 0x6e, 0x74, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f,
-	0x65, 0x6e, 0x74, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x73, 0x22, 0x6d, 0x0a, 0x04, 0x55, 0x73, 0x65, 0x72, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x02, 0x69, 0x64, 0x12, 0x1a, 0x0a, 0x08, 0x75, 0x73, 0x65,
+	0x72, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x75, 0x73, 0x65,
+	0x72, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x18, 0x03,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x12, 0x23, 0x0a, 0x0d, 0x70,
+	0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x5f, 0x68, 0x61, 0x73, 0x68, 0x18, 0x04, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x0c, 0x70, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x48, 0x61, 0x73, 0x68,
+	0x22, 0x34, 0x0a, 0x11, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1f, 0x0a, 0x04, 0x75, 0x73, 0x65, 0x72, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x0b, 0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x55, 0x73, 0x65, 0x72,
+	0x52, 0x04, 0x75, 0x73, 0x65, 0x72, 0x22, 0x8c, 0x01, 0x0a, 0x0e, 0x47, 0x65, 0x74, 0x55, 0x73,
+	0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x02, 0x69, 0x64, 0x12, 0x2e, 0x0a, 0x04, 0x76, 0x69, 0x65,
+	0x77, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x1a, 0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e,
+	0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x56,
+	0x69, 0x65, 0x77, 0x52, 0x04, 0x76, 0x69, 0x65, 0x77, 0x22, 0x3a, 0x0a, 0x04, 0x56, 0x69, 0x65,
+	0x77, 0x12, 0x14, 0x0a, 0x10, 0x56, 0x49, 0x45, 0x57, 0x5f, 0x55, 0x4e, 0x53, 0x50, 0x45, 0x43,
+	0x49, 0x46, 0x49, 0x45, 0x44, 0x10, 0x00, 0x12, 0x09, 0x0a, 0x05, 0x42, 0x41, 0x53, 0x49, 0x43,
+	0x10, 0x01, 0x12, 0x11, 0x0a, 0x0d, 0x57, 0x49, 0x54, 0x48, 0x5f, 0x45, 0x44, 0x47, 0x45, 0x5f,
+	0x49, 0x44, 0x53, 0x10, 0x02, 0x22, 0x34, 0x0a, 0x11, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x55,
+	0x73, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1f, 0x0a, 0x04, 0x75, 0x73,
+	0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0b, 0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62,
+	0x2e, 0x55, 0x73, 0x65, 0x72, 0x52, 0x04, 0x75, 0x73, 0x65, 0x72, 0x22, 0x23, 0x0a, 0x11, 0x44,
+	0x65, 0x6c, 0x65, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x02, 0x69, 0x64,
+	0x22, 0xba, 0x01, 0x0a, 0x0f, 0x4c, 0x69, 0x73, 0x74, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x12, 0x1b, 0x0a, 0x09, 0x70, 0x61, 0x67, 0x65, 0x5f, 0x73, 0x69, 0x7a,
+	0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x08, 0x70, 0x61, 0x67, 0x65, 0x53, 0x69, 0x7a,
+	0x65, 0x12, 0x1d, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x65, 0x5f, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x70, 0x61, 0x67, 0x65, 0x54, 0x6f, 0x6b, 0x65, 0x6e,
+	0x12, 0x2f, 0x0a, 0x04, 0x76, 0x69, 0x65, 0x77, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x1b,
+	0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x55, 0x73, 0x65, 0x72, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x56, 0x69, 0x65, 0x77, 0x52, 0x04, 0x76, 0x69, 0x65,
+	0x77, 0x22, 0x3a, 0x0a, 0x04, 0x56, 0x69, 0x65, 0x77, 0x12, 0x14, 0x0a, 0x10, 0x56, 0x49, 0x45,
+	0x57, 0x5f, 0x55, 0x4e, 0x53, 0x50, 0x45, 0x43, 0x49, 0x46, 0x49, 0x45, 0x44, 0x10, 0x00, 0x12,
+	0x09, 0x0a, 0x05, 0x42, 0x41, 0x53, 0x49, 0x43, 0x10, 0x01, 0x12, 0x11, 0x0a, 0x0d, 0x57, 0x49,
+	0x54, 0x48, 0x5f, 0x45, 0x44, 0x47, 0x45, 0x5f, 0x49, 0x44, 0x53, 0x10, 0x02, 0x22, 0x64, 0x0a,
+	0x10, 0x4c, 0x69, 0x73, 0x74, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x12, 0x28, 0x0a, 0x09, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x6c, 0x69, 0x73, 0x74, 0x18, 0x01,
+	0x20, 0x03, 0x28, 0x0b, 0x32, 0x0b, 0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x55, 0x73, 0x65,
+	0x72, 0x52, 0x08, 0x75, 0x73, 0x65, 0x72, 0x4c, 0x69, 0x73, 0x74, 0x12, 0x26, 0x0a, 0x0f, 0x6e,
+	0x65, 0x78, 0x74, 0x5f, 0x70, 0x61, 0x67, 0x65, 0x5f, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x6e, 0x65, 0x78, 0x74, 0x50, 0x61, 0x67, 0x65, 0x54, 0x6f,
+	0x6b, 0x65, 0x6e, 0x22, 0x4f, 0x0a, 0x17, 0x42, 0x61, 0x74, 0x63, 0x68, 0x43, 0x72, 0x65, 0x61,
+	0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x34,
+	0x0a, 0x08, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b,
+	0x32, 0x18, 0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x55,
+	0x73, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x08, 0x72, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x73, 0x22, 0x3d, 0x0a, 0x18, 0x42, 0x61, 0x74, 0x63, 0x68, 0x43, 0x72, 0x65,
+	0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x12, 0x21, 0x0a, 0x05, 0x75, 0x73, 0x65, 0x72, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32,
+	0x0b, 0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x52, 0x05, 0x75, 0x73,
+	0x65, 0x72, 0x73, 0x22, 0x57, 0x0a, 0x0d, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x6c, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x73, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03,
+	0x52, 0x02, 0x69, 0x64, 0x12, 0x1a, 0x0a, 0x09, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x5f,
+	0x31, 0x18, 0x02, 0x20, 0x01, 0x28, 0x03, 0x52, 0x07, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x31,
+	0x12, 0x1a, 0x0a, 0x09, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x5f, 0x32, 0x18, 0x03, 0x20,
+	0x01, 0x28, 0x03, 0x52, 0x07, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x32, 0x22, 0x59, 0x0a, 0x1a,
+	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x6c, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x3b, 0x0a, 0x0e, 0x75, 0x73,
+	0x65, 0x72, 0x5f, 0x72, 0x65, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x14, 0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x52,
+	0x65, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x0d, 0x75, 0x73, 0x65, 0x72, 0x52, 0x65,
+	0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x22, 0x9e, 0x01, 0x0a, 0x17, 0x47, 0x65, 0x74, 0x55,
+	0x73, 0x65, 0x72, 0x52, 0x65, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52,
+	0x02, 0x69, 0x64, 0x12, 0x37, 0x0a, 0x04, 0x76, 0x69, 0x65, 0x77, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x0e, 0x32, 0x23, 0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65,
+	0x72, 0x52, 0x65, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x2e, 0x56, 0x69, 0x65, 0x77, 0x52, 0x04, 0x76, 0x69, 0x65, 0x77, 0x22, 0x3a, 0x0a, 0x04,
+	0x56, 0x69, 0x65, 0x77, 0x12, 0x14, 0x0a, 0x10, 0x56, 0x49, 0x45, 0x57, 0x5f, 0x55, 0x4e, 0x53,
+	0x50, 0x45, 0x43, 0x49, 0x46, 0x49, 0x45, 0x44, 0x10, 0x00, 0x12, 0x09, 0x0a, 0x05, 0x42, 0x41,
+	0x53, 0x49, 0x43, 0x10, 0x01, 0x12, 0x11, 0x0a, 0x0d, 0x57, 0x49, 0x54, 0x48, 0x5f, 0x45, 0x44,
+	0x47, 0x45, 0x5f, 0x49, 0x44, 0x53, 0x10, 0x02, 0x22, 0x59, 0x0a, 0x1a, 0x55, 0x70, 0x64, 0x61,
+	0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x3b, 0x0a, 0x0e, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x72,
+	0x65, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x14,
+	0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x6c, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x73, 0x52, 0x0d, 0x75, 0x73, 0x65, 0x72, 0x52, 0x65, 0x6c, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x73, 0x22, 0x2c, 0x0a, 0x1a, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x55, 0x73, 0x65,
+	0x72, 0x52, 0x65, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x02, 0x69,
+	0x64, 0x22, 0xcc, 0x01, 0x0a, 0x18, 0x4c, 0x69, 0x73, 0x74, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65,
+	0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1b,
+	0x0a, 0x09, 0x70, 0x61, 0x67, 0x65, 0x5f, 0x73, 0x69, 0x7a, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x05, 0x52, 0x08, 0x70, 0x61, 0x67, 0x65, 0x53, 0x69, 0x7a, 0x65, 0x12, 0x1d, 0x0a, 0x0a, 0x70,
+	0x61, 0x67, 0x65, 0x5f, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x09, 0x70, 0x61, 0x67, 0x65, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x38, 0x0a, 0x04, 0x76, 0x69,
+	0x65, 0x77, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x24, 0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62,
+	0x2e, 0x4c, 0x69, 0x73, 0x74, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x6c, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x56, 0x69, 0x65, 0x77, 0x52, 0x04,
+	0x76, 0x69, 0x65, 0x77, 0x22, 0x3a, 0x0a, 0x04, 0x56, 0x69, 0x65, 0x77, 0x12, 0x14, 0x0a, 0x10,
+	0x56, 0x49, 0x45, 0x57, 0x5f, 0x55, 0x4e, 0x53, 0x50, 0x45, 0x43, 0x49, 0x46, 0x49, 0x45, 0x44,
+	0x10, 0x00, 0x12, 0x09, 0x0a, 0x05, 0x42, 0x41, 0x53, 0x49, 0x43, 0x10, 0x01, 0x12, 0x11, 0x0a,
+	0x0d, 0x57, 0x49, 0x54, 0x48, 0x5f, 0x45, 0x44, 0x47, 0x45, 0x5f, 0x49, 0x44, 0x53, 0x10, 0x02,
+	0x22, 0x89, 0x01, 0x0a, 0x19, 0x4c, 0x69, 0x73, 0x74, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x6c,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x44,
+	0x0a, 0x13, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x72, 0x65, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73,
+	0x5f, 0x6c, 0x69, 0x73, 0x74, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x65, 0x6e,
+	0x74, 0x70, 0x62, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x73, 0x52, 0x11, 0x75, 0x73, 0x65, 0x72, 0x52, 0x65, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73,
+	0x4c, 0x69, 0x73, 0x74, 0x12, 0x26, 0x0a, 0x0f, 0x6e, 0x65, 0x78, 0x74, 0x5f, 0x70, 0x61, 0x67,
+	0x65, 0x5f, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x6e,
+	0x65, 0x78, 0x74, 0x50, 0x61, 0x67, 0x65, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x22, 0x65, 0x0a, 0x24,
+	0x42, 0x61, 0x74, 0x63, 0x68, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x52,
+	0x65, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x53, 0x6c, 0x69, 0x63, 0x65, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x12, 0x3d, 0x0a, 0x08, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x73,
+	0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x21, 0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x43,
+	0x72, 0x65, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x6c, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x08, 0x72, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x73, 0x22, 0x6f, 0x0a, 0x25, 0x42, 0x61, 0x74, 0x63, 0x68, 0x43, 0x72, 0x65, 0x61,
+	0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x53,
+	0x6c, 0x69, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x46, 0x0a, 0x14,
+	0x75, 0x73, 0x65, 0x72, 0x5f, 0x72, 0x65, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x5f, 0x73,
+	0x6c, 0x69, 0x63, 0x65, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x65, 0x6e, 0x74,
+	0x70, 0x62, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73,
+	0x52, 0x12, 0x75, 0x73, 0x65, 0x72, 0x52, 0x65, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x53,
+	0x6c, 0x69, 0x63, 0x65, 0x32, 0xdf, 0x02, 0x0a, 0x0b, 0x43, 0x68, 0x61, 0x74, 0x53, 0x65, 0x72,
+	0x76, 0x69, 0x63, 0x65, 0x12, 0x2f, 0x0a, 0x06, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x12, 0x18,
+	0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x68, 0x61,
+	0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0b, 0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62,
+	0x2e, 0x43, 0x68, 0x61, 0x74, 0x12, 0x29, 0x0a, 0x03, 0x47, 0x65, 0x74, 0x12, 0x15, 0x2e, 0x65,
+	0x6e, 0x74, 0x70, 0x62, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x68, 0x61, 0x74, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x1a, 0x0b, 0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x43, 0x68, 0x61, 0x74,
+	0x12, 0x2f, 0x0a, 0x06, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x12, 0x18, 0x2e, 0x65, 0x6e, 0x74,
+	0x70, 0x62, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x68, 0x61, 0x74, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x1a, 0x0b, 0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x43, 0x68, 0x61,
+	0x74, 0x12, 0x3a, 0x0a, 0x06, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x12, 0x18, 0x2e, 0x65, 0x6e,
+	0x74, 0x70, 0x62, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x43, 0x68, 0x61, 0x74, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x12, 0x37, 0x0a,
+	0x04, 0x4c, 0x69, 0x73, 0x74, 0x12, 0x16, 0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x4c, 0x69,
+	0x73, 0x74, 0x43, 0x68, 0x61, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x17, 0x2e,
+	0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x43, 0x68, 0x61, 0x74, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x4e, 0x0a, 0x0b, 0x42, 0x61, 0x74, 0x63, 0x68, 0x43,
+	0x72, 0x65, 0x61, 0x74, 0x65, 0x12, 0x1e, 0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x42, 0x61,
+	0x74, 0x63, 0x68, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x68, 0x61, 0x74, 0x73, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1f, 0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x42, 0x61,
+	0x74, 0x63, 0x68, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x68, 0x61, 0x74, 0x73, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x32, 0xdf, 0x02, 0x0a, 0x0b, 0x55, 0x73, 0x65, 0x72, 0x53,
+	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x2f, 0x0a, 0x06, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65,
+	0x12, 0x18, 0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x55,
+	0x73, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0b, 0x2e, 0x65, 0x6e, 0x74,
+	0x70, 0x62, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x12, 0x29, 0x0a, 0x03, 0x47, 0x65, 0x74, 0x12, 0x15,
+	0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0b, 0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x55, 0x73,
+	0x65, 0x72, 0x12, 0x2f, 0x0a, 0x06, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x12, 0x18, 0x2e, 0x65,
+	0x6e, 0x74, 0x70, 0x62, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0b, 0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x55,
+	0x73, 0x65, 0x72, 0x12, 0x3a, 0x0a, 0x06, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x12, 0x18, 0x2e,
+	0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65,
+	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x12,
+	0x37, 0x0a, 0x04, 0x4c, 0x69, 0x73, 0x74, 0x12, 0x16, 0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e,
+	0x4c, 0x69, 0x73, 0x74, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
+	0x17, 0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x55, 0x73, 0x65, 0x72,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x4e, 0x0a, 0x0b, 0x42, 0x61, 0x74, 0x63,
+	0x68, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x12, 0x1e, 0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e,
+	0x42, 0x61, 0x74, 0x63, 0x68, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x73,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1f, 0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e,
+	0x42, 0x61, 0x74, 0x63, 0x68, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x73,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x32, 0xd3, 0x03, 0x0a, 0x14, 0x55, 0x73, 0x65,
+	0x72, 0x52, 0x65, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63,
+	0x65, 0x12, 0x41, 0x0a, 0x06, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x12, 0x21, 0x2e, 0x65, 0x6e,
+	0x74, 0x70, 0x62, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65,
+	0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x14,
+	0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x6c, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x73, 0x12, 0x3b, 0x0a, 0x03, 0x47, 0x65, 0x74, 0x12, 0x1e, 0x2e, 0x65, 0x6e,
+	0x74, 0x70, 0x62, 0x2e, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x6c, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x14, 0x2e, 0x65, 0x6e,
+	0x74, 0x70, 0x62, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x73, 0x12, 0x41, 0x0a, 0x06, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x12, 0x21, 0x2e, 0x65, 0x6e,
+	0x74, 0x70, 0x62, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65,
+	0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x14,
+	0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x6c, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x73, 0x12, 0x43, 0x0a, 0x06, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x12, 0x21,
+	0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x55, 0x73, 0x65,
+	0x72, 0x52, 0x65, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x1a, 0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x12, 0x49, 0x0a, 0x04, 0x4c, 0x69, 0x73,
+	0x74, 0x12, 0x1f, 0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x55, 0x73,
+	0x65, 0x72, 0x52, 0x65, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x1a, 0x20, 0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x55,
+	0x73, 0x65, 0x72, 0x52, 0x65, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x12, 0x68, 0x0a, 0x0b, 0x42, 0x61, 0x74, 0x63, 0x68, 0x43, 0x72, 0x65,
+	0x61, 0x74, 0x65, 0x12, 0x2b, 0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x42, 0x61, 0x74, 0x63,
+	0x68, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x6c, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x73, 0x53, 0x6c, 0x69, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x1a, 0x2c, 0x2e, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x42, 0x61, 0x74, 0x63, 0x68, 0x43, 0x72,
+	0x65, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x73, 0x53, 0x6c, 0x69, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x20,
+	0x5a, 0x1e, 0x52, 0x65, 0x61, 0x6c, 0x2d, 0x54, 0x69, 0x6d, 0x65, 0x2d, 0x43, 0x68, 0x61, 0x74,
+	0x2f, 0x65, 0x6e, 0x74, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x65, 0x6e, 0x74, 0x70, 0x62,
+	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -712,49 +2027,109 @@ func file_entpb_entpb_proto_rawDescGZIP() []byte {
 	return file_entpb_entpb_proto_rawDescData
 }
 
-var file_entpb_entpb_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_entpb_entpb_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_entpb_entpb_proto_enumTypes = make([]protoimpl.EnumInfo, 6)
+var file_entpb_entpb_proto_msgTypes = make([]protoimpl.MessageInfo, 27)
 var file_entpb_entpb_proto_goTypes = []interface{}{
-	(GetChatRequest_View)(0),         // 0: entpb.GetChatRequest.View
-	(ListChatRequest_View)(0),        // 1: entpb.ListChatRequest.View
-	(*Chat)(nil),                     // 2: entpb.Chat
-	(*CreateChatRequest)(nil),        // 3: entpb.CreateChatRequest
-	(*GetChatRequest)(nil),           // 4: entpb.GetChatRequest
-	(*UpdateChatRequest)(nil),        // 5: entpb.UpdateChatRequest
-	(*DeleteChatRequest)(nil),        // 6: entpb.DeleteChatRequest
-	(*ListChatRequest)(nil),          // 7: entpb.ListChatRequest
-	(*ListChatResponse)(nil),         // 8: entpb.ListChatResponse
-	(*BatchCreateChatsRequest)(nil),  // 9: entpb.BatchCreateChatsRequest
-	(*BatchCreateChatsResponse)(nil), // 10: entpb.BatchCreateChatsResponse
-	(*timestamp.Timestamp)(nil),      // 11: google.protobuf.Timestamp
-	(*empty.Empty)(nil),              // 12: google.protobuf.Empty
+	(GetChatRequest_View)(0),                      // 0: entpb.GetChatRequest.View
+	(ListChatRequest_View)(0),                     // 1: entpb.ListChatRequest.View
+	(GetUserRequest_View)(0),                      // 2: entpb.GetUserRequest.View
+	(ListUserRequest_View)(0),                     // 3: entpb.ListUserRequest.View
+	(GetUserRelationsRequest_View)(0),             // 4: entpb.GetUserRelationsRequest.View
+	(ListUserRelationsRequest_View)(0),            // 5: entpb.ListUserRelationsRequest.View
+	(*Chat)(nil),                                  // 6: entpb.Chat
+	(*CreateChatRequest)(nil),                     // 7: entpb.CreateChatRequest
+	(*GetChatRequest)(nil),                        // 8: entpb.GetChatRequest
+	(*UpdateChatRequest)(nil),                     // 9: entpb.UpdateChatRequest
+	(*DeleteChatRequest)(nil),                     // 10: entpb.DeleteChatRequest
+	(*ListChatRequest)(nil),                       // 11: entpb.ListChatRequest
+	(*ListChatResponse)(nil),                      // 12: entpb.ListChatResponse
+	(*BatchCreateChatsRequest)(nil),               // 13: entpb.BatchCreateChatsRequest
+	(*BatchCreateChatsResponse)(nil),              // 14: entpb.BatchCreateChatsResponse
+	(*User)(nil),                                  // 15: entpb.User
+	(*CreateUserRequest)(nil),                     // 16: entpb.CreateUserRequest
+	(*GetUserRequest)(nil),                        // 17: entpb.GetUserRequest
+	(*UpdateUserRequest)(nil),                     // 18: entpb.UpdateUserRequest
+	(*DeleteUserRequest)(nil),                     // 19: entpb.DeleteUserRequest
+	(*ListUserRequest)(nil),                       // 20: entpb.ListUserRequest
+	(*ListUserResponse)(nil),                      // 21: entpb.ListUserResponse
+	(*BatchCreateUsersRequest)(nil),               // 22: entpb.BatchCreateUsersRequest
+	(*BatchCreateUsersResponse)(nil),              // 23: entpb.BatchCreateUsersResponse
+	(*UserRelations)(nil),                         // 24: entpb.UserRelations
+	(*CreateUserRelationsRequest)(nil),            // 25: entpb.CreateUserRelationsRequest
+	(*GetUserRelationsRequest)(nil),               // 26: entpb.GetUserRelationsRequest
+	(*UpdateUserRelationsRequest)(nil),            // 27: entpb.UpdateUserRelationsRequest
+	(*DeleteUserRelationsRequest)(nil),            // 28: entpb.DeleteUserRelationsRequest
+	(*ListUserRelationsRequest)(nil),              // 29: entpb.ListUserRelationsRequest
+	(*ListUserRelationsResponse)(nil),             // 30: entpb.ListUserRelationsResponse
+	(*BatchCreateUserRelationsSliceRequest)(nil),  // 31: entpb.BatchCreateUserRelationsSliceRequest
+	(*BatchCreateUserRelationsSliceResponse)(nil), // 32: entpb.BatchCreateUserRelationsSliceResponse
+	(*timestamp.Timestamp)(nil),                   // 33: google.protobuf.Timestamp
+	(*empty.Empty)(nil),                           // 34: google.protobuf.Empty
 }
 var file_entpb_entpb_proto_depIdxs = []int32{
-	11, // 0: entpb.Chat.sent_at:type_name -> google.protobuf.Timestamp
-	2,  // 1: entpb.CreateChatRequest.chat:type_name -> entpb.Chat
+	33, // 0: entpb.Chat.sent_at:type_name -> google.protobuf.Timestamp
+	6,  // 1: entpb.CreateChatRequest.chat:type_name -> entpb.Chat
 	0,  // 2: entpb.GetChatRequest.view:type_name -> entpb.GetChatRequest.View
-	2,  // 3: entpb.UpdateChatRequest.chat:type_name -> entpb.Chat
+	6,  // 3: entpb.UpdateChatRequest.chat:type_name -> entpb.Chat
 	1,  // 4: entpb.ListChatRequest.view:type_name -> entpb.ListChatRequest.View
-	2,  // 5: entpb.ListChatResponse.chat_list:type_name -> entpb.Chat
-	3,  // 6: entpb.BatchCreateChatsRequest.requests:type_name -> entpb.CreateChatRequest
-	2,  // 7: entpb.BatchCreateChatsResponse.chats:type_name -> entpb.Chat
-	3,  // 8: entpb.ChatService.Create:input_type -> entpb.CreateChatRequest
-	4,  // 9: entpb.ChatService.Get:input_type -> entpb.GetChatRequest
-	5,  // 10: entpb.ChatService.Update:input_type -> entpb.UpdateChatRequest
-	6,  // 11: entpb.ChatService.Delete:input_type -> entpb.DeleteChatRequest
-	7,  // 12: entpb.ChatService.List:input_type -> entpb.ListChatRequest
-	9,  // 13: entpb.ChatService.BatchCreate:input_type -> entpb.BatchCreateChatsRequest
-	2,  // 14: entpb.ChatService.Create:output_type -> entpb.Chat
-	2,  // 15: entpb.ChatService.Get:output_type -> entpb.Chat
-	2,  // 16: entpb.ChatService.Update:output_type -> entpb.Chat
-	12, // 17: entpb.ChatService.Delete:output_type -> google.protobuf.Empty
-	8,  // 18: entpb.ChatService.List:output_type -> entpb.ListChatResponse
-	10, // 19: entpb.ChatService.BatchCreate:output_type -> entpb.BatchCreateChatsResponse
-	14, // [14:20] is the sub-list for method output_type
-	8,  // [8:14] is the sub-list for method input_type
-	8,  // [8:8] is the sub-list for extension type_name
-	8,  // [8:8] is the sub-list for extension extendee
-	0,  // [0:8] is the sub-list for field type_name
+	6,  // 5: entpb.ListChatResponse.chat_list:type_name -> entpb.Chat
+	7,  // 6: entpb.BatchCreateChatsRequest.requests:type_name -> entpb.CreateChatRequest
+	6,  // 7: entpb.BatchCreateChatsResponse.chats:type_name -> entpb.Chat
+	15, // 8: entpb.CreateUserRequest.user:type_name -> entpb.User
+	2,  // 9: entpb.GetUserRequest.view:type_name -> entpb.GetUserRequest.View
+	15, // 10: entpb.UpdateUserRequest.user:type_name -> entpb.User
+	3,  // 11: entpb.ListUserRequest.view:type_name -> entpb.ListUserRequest.View
+	15, // 12: entpb.ListUserResponse.user_list:type_name -> entpb.User
+	16, // 13: entpb.BatchCreateUsersRequest.requests:type_name -> entpb.CreateUserRequest
+	15, // 14: entpb.BatchCreateUsersResponse.users:type_name -> entpb.User
+	24, // 15: entpb.CreateUserRelationsRequest.user_relations:type_name -> entpb.UserRelations
+	4,  // 16: entpb.GetUserRelationsRequest.view:type_name -> entpb.GetUserRelationsRequest.View
+	24, // 17: entpb.UpdateUserRelationsRequest.user_relations:type_name -> entpb.UserRelations
+	5,  // 18: entpb.ListUserRelationsRequest.view:type_name -> entpb.ListUserRelationsRequest.View
+	24, // 19: entpb.ListUserRelationsResponse.user_relations_list:type_name -> entpb.UserRelations
+	25, // 20: entpb.BatchCreateUserRelationsSliceRequest.requests:type_name -> entpb.CreateUserRelationsRequest
+	24, // 21: entpb.BatchCreateUserRelationsSliceResponse.user_relations_slice:type_name -> entpb.UserRelations
+	7,  // 22: entpb.ChatService.Create:input_type -> entpb.CreateChatRequest
+	8,  // 23: entpb.ChatService.Get:input_type -> entpb.GetChatRequest
+	9,  // 24: entpb.ChatService.Update:input_type -> entpb.UpdateChatRequest
+	10, // 25: entpb.ChatService.Delete:input_type -> entpb.DeleteChatRequest
+	11, // 26: entpb.ChatService.List:input_type -> entpb.ListChatRequest
+	13, // 27: entpb.ChatService.BatchCreate:input_type -> entpb.BatchCreateChatsRequest
+	16, // 28: entpb.UserService.Create:input_type -> entpb.CreateUserRequest
+	17, // 29: entpb.UserService.Get:input_type -> entpb.GetUserRequest
+	18, // 30: entpb.UserService.Update:input_type -> entpb.UpdateUserRequest
+	19, // 31: entpb.UserService.Delete:input_type -> entpb.DeleteUserRequest
+	20, // 32: entpb.UserService.List:input_type -> entpb.ListUserRequest
+	22, // 33: entpb.UserService.BatchCreate:input_type -> entpb.BatchCreateUsersRequest
+	25, // 34: entpb.UserRelationsService.Create:input_type -> entpb.CreateUserRelationsRequest
+	26, // 35: entpb.UserRelationsService.Get:input_type -> entpb.GetUserRelationsRequest
+	27, // 36: entpb.UserRelationsService.Update:input_type -> entpb.UpdateUserRelationsRequest
+	28, // 37: entpb.UserRelationsService.Delete:input_type -> entpb.DeleteUserRelationsRequest
+	29, // 38: entpb.UserRelationsService.List:input_type -> entpb.ListUserRelationsRequest
+	31, // 39: entpb.UserRelationsService.BatchCreate:input_type -> entpb.BatchCreateUserRelationsSliceRequest
+	6,  // 40: entpb.ChatService.Create:output_type -> entpb.Chat
+	6,  // 41: entpb.ChatService.Get:output_type -> entpb.Chat
+	6,  // 42: entpb.ChatService.Update:output_type -> entpb.Chat
+	34, // 43: entpb.ChatService.Delete:output_type -> google.protobuf.Empty
+	12, // 44: entpb.ChatService.List:output_type -> entpb.ListChatResponse
+	14, // 45: entpb.ChatService.BatchCreate:output_type -> entpb.BatchCreateChatsResponse
+	15, // 46: entpb.UserService.Create:output_type -> entpb.User
+	15, // 47: entpb.UserService.Get:output_type -> entpb.User
+	15, // 48: entpb.UserService.Update:output_type -> entpb.User
+	34, // 49: entpb.UserService.Delete:output_type -> google.protobuf.Empty
+	21, // 50: entpb.UserService.List:output_type -> entpb.ListUserResponse
+	23, // 51: entpb.UserService.BatchCreate:output_type -> entpb.BatchCreateUsersResponse
+	24, // 52: entpb.UserRelationsService.Create:output_type -> entpb.UserRelations
+	24, // 53: entpb.UserRelationsService.Get:output_type -> entpb.UserRelations
+	24, // 54: entpb.UserRelationsService.Update:output_type -> entpb.UserRelations
+	34, // 55: entpb.UserRelationsService.Delete:output_type -> google.protobuf.Empty
+	30, // 56: entpb.UserRelationsService.List:output_type -> entpb.ListUserRelationsResponse
+	32, // 57: entpb.UserRelationsService.BatchCreate:output_type -> entpb.BatchCreateUserRelationsSliceResponse
+	40, // [40:58] is the sub-list for method output_type
+	22, // [22:40] is the sub-list for method input_type
+	22, // [22:22] is the sub-list for extension type_name
+	22, // [22:22] is the sub-list for extension extendee
+	0,  // [0:22] is the sub-list for field type_name
 }
 
 func init() { file_entpb_entpb_proto_init() }
@@ -871,16 +2246,232 @@ func file_entpb_entpb_proto_init() {
 				return nil
 			}
 		}
+		file_entpb_entpb_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*User); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_entpb_entpb_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateUserRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_entpb_entpb_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetUserRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_entpb_entpb_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateUserRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_entpb_entpb_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteUserRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_entpb_entpb_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListUserRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_entpb_entpb_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListUserResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_entpb_entpb_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*BatchCreateUsersRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_entpb_entpb_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*BatchCreateUsersResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_entpb_entpb_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UserRelations); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_entpb_entpb_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateUserRelationsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_entpb_entpb_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetUserRelationsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_entpb_entpb_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateUserRelationsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_entpb_entpb_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteUserRelationsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_entpb_entpb_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListUserRelationsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_entpb_entpb_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListUserRelationsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_entpb_entpb_proto_msgTypes[25].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*BatchCreateUserRelationsSliceRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_entpb_entpb_proto_msgTypes[26].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*BatchCreateUserRelationsSliceResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_entpb_entpb_proto_rawDesc,
-			NumEnums:      2,
-			NumMessages:   9,
+			NumEnums:      6,
+			NumMessages:   27,
 			NumExtensions: 0,
-			NumServices:   1,
+			NumServices:   3,
 		},
 		GoTypes:           file_entpb_entpb_proto_goTypes,
 		DependencyIndexes: file_entpb_entpb_proto_depIdxs,

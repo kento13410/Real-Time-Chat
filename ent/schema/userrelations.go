@@ -22,7 +22,13 @@ func (UserRelations) Annotations() []schema.Annotation {
 // Fields of the UserRelations.
 func (UserRelations) Fields() []ent.Field {
 	return []ent.Field{
-		field.Int("user_id_1"),
-		field.Int("user_id_2"),
+		field.Int("user_id_1").
+			Annotations(
+				entproto.Field(2),
+			),
+		field.Int("user_id_2").
+			Annotations(
+				entproto.Field(3),
+			),
 	}
 }

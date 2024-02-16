@@ -33,8 +33,7 @@ func main() {
 	server := grpc.NewServer()
 
 	// サーバー登録用の構造体を呼び出す
-	// ほんとは前方互換性のため埋め込みをする必要がある
-	s := mygrpc.UnimplementedAuthServiceServer{}
+	s := mygrpc.NewServer()
 
 	// サーバーにAuthメソッドを登録
 	mygrpc.RegisterAuthServiceServer(server, s)

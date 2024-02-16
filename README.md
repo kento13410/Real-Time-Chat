@@ -6,6 +6,7 @@
 
 - **言語**: Go
 - **データストア**: PostgresSQL, Redis
+- **ORM**: ent
 - **通信**: gRPC
 
 ## 主な機能

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Real-Time-Chat/ent/proto/entpb"
 	"Real-Time-Chat/model"
 	"fmt"
 	"net"
@@ -15,8 +16,12 @@ import (
 )
 
 func main() {
-	DB := model.Open()
-	defer model.Close(DB)
+	DB := model.DBOpen()
+	defer model.DBClose(DB)
+
+	// entクライアントの初期化
+	client := model.EntOpen()
+	defer model.EntClose(client)
 
 	port := 8080
 	listener, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
@@ -33,6 +38,9 @@ func main() {
 
 	// サーバーにAuthメソッドを登録
 	mygrpc.RegisterAuthServiceServer(server, s)
+
+	svc := entpb.NewChatService(client)
+	entpb.RegisterChatServiceServer(server, svc)
 
 	go func() {
 		log.Printf("start gRPC server port: %v", port)

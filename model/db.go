@@ -9,7 +9,7 @@ import (
 	"os"
 )
 
-func Open() *sql.DB {
+func DBOpen() *sql.DB {
 	if err := godotenv.Load(".env"); err != nil {
 		panic(err)
 	}
@@ -36,7 +36,7 @@ func Open() *sql.DB {
 	return db
 }
 
-func Close(db *sql.DB) {
+func DBClose(db *sql.DB) {
 	if err := db.Close(); err != nil {
 		panic(err)
 	}

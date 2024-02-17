@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Real-Time-Chat/ent"
 	"Real-Time-Chat/ent/proto/entpb"
 	"Real-Time-Chat/model"
 	"fmt"
@@ -32,14 +33,11 @@ func main() {
 	// gRPCサーバーを作成
 	server := grpc.NewServer()
 
-	// サーバー登録用の構造体を呼び出す
-	s := mygrpc.NewServer()
+	// サーバーにgrpc自作メソッドを登録
+	registerGrpcServices(server)
 
-	// サーバーにAuthメソッドを登録
-	mygrpc.RegisterAuthServiceServer(server, s)
-
-	svc := entpb.NewChatService(client)
-	entpb.RegisterChatServiceServer(server, svc)
+	// サーバーにentメソッドを登録
+	registerEntServices(server, client)
 
 	go func() {
 		log.Printf("start gRPC server port: %v", port)
@@ -54,4 +52,14 @@ func main() {
 	<-quit
 	log.Println("stopping gRPC server...")
 	server.GracefulStop()
+}
+
+func registerGrpcServices(server *grpc.Server) {
+	mygrpc.RegisterAuthServiceServer(server, &mygrpc.AuthServer{})
+}
+
+func registerEntServices(server *grpc.Server, client *ent.Client) {
+	entpb.RegisterChatServiceServer(server, entpb.NewChatService(client))
+	entpb.RegisterUserServiceServer(server, entpb.NewUserService(client))
+	entpb.RegisterUserRelationsServiceServer(server, entpb.NewUserRelationsService(client))
 }

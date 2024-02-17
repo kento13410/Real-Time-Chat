@@ -95,6 +95,10 @@ func init() {
 	})
 }
 
+type AuthServer struct {
+	UnimplementedAuthServiceServer
+}
+
 // UnimplementedAuthServiceServer must be embedded to have forward compatible implementations.
 type UnimplementedAuthServiceServer struct {
 }

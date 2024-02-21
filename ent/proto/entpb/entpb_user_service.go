@@ -58,9 +58,15 @@ func toProtoUser(e *ent.User) (*User, error) {
 			Id: id,
 		})
 	}
-	for _, edg := range e.Edges.UserRelations {
+	for _, edg := range e.Edges.UserRelations1 {
 		id := int64(edg.ID)
-		v.UserRelations = append(v.UserRelations, &UserRelation{
+		v.UserRelations_1 = append(v.UserRelations_1, &UserRelation{
+			Id: id,
+		})
+	}
+	for _, edg := range e.Edges.UserRelations2 {
+		id := int64(edg.ID)
+		v.UserRelations_2 = append(v.UserRelations_2, &UserRelation{
 			Id: id,
 		})
 	}
@@ -124,7 +130,10 @@ func (svc *UserService) Get(ctx context.Context, req *GetUserRequest) (*User, er
 			WithSentMessages(func(query *ent.ChatQuery) {
 				query.Select(chat.FieldID)
 			}).
-			WithUserRelations(func(query *ent.UserRelationQuery) {
+			WithUserRelations1(func(query *ent.UserRelationQuery) {
+				query.Select(userrelation.FieldID)
+			}).
+			WithUserRelations2(func(query *ent.UserRelationQuery) {
 				query.Select(userrelation.FieldID)
 			}).
 			Only(ctx)
@@ -161,9 +170,13 @@ func (svc *UserService) Update(ctx context.Context, req *UpdateUserRequest) (*Us
 		sentmessages := int(item.GetId())
 		m.AddSentMessageIDs(sentmessages)
 	}
-	for _, item := range user.GetUserRelations() {
-		userrelations := int(item.GetId())
-		m.AddUserRelationIDs(userrelations)
+	for _, item := range user.GetUserRelations_1() {
+		userrelations1 := int(item.GetId())
+		m.AddUserRelations1IDs(userrelations1)
+	}
+	for _, item := range user.GetUserRelations_2() {
+		userrelations2 := int(item.GetId())
+		m.AddUserRelations2IDs(userrelations2)
 	}
 
 	res, err := m.Save(ctx)
@@ -241,7 +254,10 @@ func (svc *UserService) List(ctx context.Context, req *ListUserRequest) (*ListUs
 			WithSentMessages(func(query *ent.ChatQuery) {
 				query.Select(chat.FieldID)
 			}).
-			WithUserRelations(func(query *ent.UserRelationQuery) {
+			WithUserRelations1(func(query *ent.UserRelationQuery) {
+				query.Select(userrelation.FieldID)
+			}).
+			WithUserRelations2(func(query *ent.UserRelationQuery) {
 				query.Select(userrelation.FieldID)
 			}).
 			All(ctx)
@@ -321,9 +337,13 @@ func (svc *UserService) createBuilder(user *User) (*ent.UserCreate, error) {
 		sentmessages := int(item.GetId())
 		m.AddSentMessageIDs(sentmessages)
 	}
-	for _, item := range user.GetUserRelations() {
-		userrelations := int(item.GetId())
-		m.AddUserRelationIDs(userrelations)
+	for _, item := range user.GetUserRelations_1() {
+		userrelations1 := int(item.GetId())
+		m.AddUserRelations1IDs(userrelations1)
+	}
+	for _, item := range user.GetUserRelations_2() {
+		userrelations2 := int(item.GetId())
+		m.AddUserRelations2IDs(userrelations2)
 	}
 	return m, nil
 }

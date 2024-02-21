@@ -15,12 +15,28 @@ var (
 		{Name: "receiver_id", Type: field.TypeInt},
 		{Name: "message", Type: field.TypeString},
 		{Name: "sent_at", Type: field.TypeTime},
+		{Name: "user_sent_messages", Type: field.TypeInt},
+		{Name: "user_received_messages", Type: field.TypeInt},
 	}
 	// ChatsTable holds the schema information for the "chats" table.
 	ChatsTable = &schema.Table{
 		Name:       "chats",
 		Columns:    ChatsColumns,
 		PrimaryKey: []*schema.Column{ChatsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "chats_users_sent_messages",
+				Columns:    []*schema.Column{ChatsColumns[5]},
+				RefColumns: []*schema.Column{UsersColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+			{
+				Symbol:     "chats_users_received_messages",
+				Columns:    []*schema.Column{ChatsColumns[6]},
+				RefColumns: []*schema.Column{UsersColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
 	}
 	// UsersColumns holds the columns for the "users" table.
 	UsersColumns = []*schema.Column{
@@ -28,6 +44,7 @@ var (
 		{Name: "username", Type: field.TypeString, Unique: true},
 		{Name: "email", Type: field.TypeString, Unique: true},
 		{Name: "password_hash", Type: field.TypeString},
+		{Name: "created_at", Type: field.TypeTime},
 	}
 	// UsersTable holds the schema information for the "users" table.
 	UsersTable = &schema.Table{
@@ -40,12 +57,29 @@ var (
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "user_id_1", Type: field.TypeInt},
 		{Name: "user_id_2", Type: field.TypeInt},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "user_user_relations_1", Type: field.TypeInt},
+		{Name: "user_user_relations_2", Type: field.TypeInt},
 	}
 	// UserRelationsTable holds the schema information for the "user_relations" table.
 	UserRelationsTable = &schema.Table{
 		Name:       "user_relations",
 		Columns:    UserRelationsColumns,
 		PrimaryKey: []*schema.Column{UserRelationsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "user_relations_users_user_relations_1",
+				Columns:    []*schema.Column{UserRelationsColumns[4]},
+				RefColumns: []*schema.Column{UsersColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+			{
+				Symbol:     "user_relations_users_user_relations_2",
+				Columns:    []*schema.Column{UserRelationsColumns[5]},
+				RefColumns: []*schema.Column{UsersColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
@@ -56,4 +90,8 @@ var (
 )
 
 func init() {
+	ChatsTable.ForeignKeys[0].RefTable = UsersTable
+	ChatsTable.ForeignKeys[1].RefTable = UsersTable
+	UserRelationsTable.ForeignKeys[0].RefTable = UsersTable
+	UserRelationsTable.ForeignKeys[1].RefTable = UsersTable
 }

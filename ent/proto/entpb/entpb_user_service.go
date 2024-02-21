@@ -3,16 +3,20 @@ package entpb
 
 import (
 	ent "Real-Time-Chat/ent"
+	chat "Real-Time-Chat/ent/chat"
 	user "Real-Time-Chat/ent/user"
+	userrelation "Real-Time-Chat/ent/userrelation"
 	context "context"
 	base64 "encoding/base64"
 	entproto "entgo.io/contrib/entproto"
+	runtime "entgo.io/contrib/entproto/runtime"
 	sqlgraph "entgo.io/ent/dialect/sql/sqlgraph"
 	fmt "fmt"
 	empty "github.com/golang/protobuf/ptypes/empty"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	strconv "strconv"
 )
 
@@ -32,6 +36,8 @@ func NewUserService(client *ent.Client) *UserService {
 // toProtoUser transforms the ent type to the pb type
 func toProtoUser(e *ent.User) (*User, error) {
 	v := &User{}
+	created_at := timestamppb.New(e.CreatedAt)
+	v.CreatedAt = created_at
 	email := e.Email
 	v.Email = email
 	id := int64(e.ID)
@@ -40,6 +46,24 @@ func toProtoUser(e *ent.User) (*User, error) {
 	v.PasswordHash = password_hash
 	username := e.Username
 	v.Username = username
+	for _, edg := range e.Edges.ReceivedMessages {
+		id := int64(edg.ID)
+		v.ReceivedMessages = append(v.ReceivedMessages, &Chat{
+			Id: id,
+		})
+	}
+	for _, edg := range e.Edges.SentMessages {
+		id := int64(edg.ID)
+		v.SentMessages = append(v.SentMessages, &Chat{
+			Id: id,
+		})
+	}
+	for _, edg := range e.Edges.UserRelations {
+		id := int64(edg.ID)
+		v.UserRelations = append(v.UserRelations, &UserRelation{
+			Id: id,
+		})
+	}
 	return v, nil
 }
 
@@ -94,6 +118,15 @@ func (svc *UserService) Get(ctx context.Context, req *GetUserRequest) (*User, er
 	case GetUserRequest_WITH_EDGE_IDS:
 		get, err = svc.client.User.Query().
 			Where(user.ID(id)).
+			WithReceivedMessages(func(query *ent.ChatQuery) {
+				query.Select(chat.FieldID)
+			}).
+			WithSentMessages(func(query *ent.ChatQuery) {
+				query.Select(chat.FieldID)
+			}).
+			WithUserRelations(func(query *ent.UserRelationQuery) {
+				query.Select(userrelation.FieldID)
+			}).
 			Only(ctx)
 	default:
 		return nil, status.Error(codes.InvalidArgument, "invalid argument: unknown view")
@@ -120,6 +153,18 @@ func (svc *UserService) Update(ctx context.Context, req *UpdateUserRequest) (*Us
 	m.SetPasswordHash(userPasswordHash)
 	userUsername := user.GetUsername()
 	m.SetUsername(userUsername)
+	for _, item := range user.GetReceivedMessages() {
+		receivedmessages := int(item.GetId())
+		m.AddReceivedMessageIDs(receivedmessages)
+	}
+	for _, item := range user.GetSentMessages() {
+		sentmessages := int(item.GetId())
+		m.AddSentMessageIDs(sentmessages)
+	}
+	for _, item := range user.GetUserRelations() {
+		userrelations := int(item.GetId())
+		m.AddUserRelationIDs(userrelations)
+	}
 
 	res, err := m.Save(ctx)
 	switch {
@@ -190,6 +235,15 @@ func (svc *UserService) List(ctx context.Context, req *ListUserRequest) (*ListUs
 		entList, err = listQuery.All(ctx)
 	case ListUserRequest_WITH_EDGE_IDS:
 		entList, err = listQuery.
+			WithReceivedMessages(func(query *ent.ChatQuery) {
+				query.Select(chat.FieldID)
+			}).
+			WithSentMessages(func(query *ent.ChatQuery) {
+				query.Select(chat.FieldID)
+			}).
+			WithUserRelations(func(query *ent.UserRelationQuery) {
+				query.Select(userrelation.FieldID)
+			}).
 			All(ctx)
 	}
 	switch {
@@ -251,11 +305,25 @@ func (svc *UserService) BatchCreate(ctx context.Context, req *BatchCreateUsersRe
 
 func (svc *UserService) createBuilder(user *User) (*ent.UserCreate, error) {
 	m := svc.client.User.Create()
+	userCreatedAt := runtime.ExtractTime(user.GetCreatedAt())
+	m.SetCreatedAt(userCreatedAt)
 	userEmail := user.GetEmail()
 	m.SetEmail(userEmail)
 	userPasswordHash := user.GetPasswordHash()
 	m.SetPasswordHash(userPasswordHash)
 	userUsername := user.GetUsername()
 	m.SetUsername(userUsername)
+	for _, item := range user.GetReceivedMessages() {
+		receivedmessages := int(item.GetId())
+		m.AddReceivedMessageIDs(receivedmessages)
+	}
+	for _, item := range user.GetSentMessages() {
+		sentmessages := int(item.GetId())
+		m.AddSentMessageIDs(sentmessages)
+	}
+	for _, item := range user.GetUserRelations() {
+		userrelations := int(item.GetId())
+		m.AddUserRelationIDs(userrelations)
+	}
 	return m, nil
 }

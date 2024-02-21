@@ -4,6 +4,7 @@ package entpb
 import (
 	ent "Real-Time-Chat/ent"
 	chat "Real-Time-Chat/ent/chat"
+	user "Real-Time-Chat/ent/user"
 	context "context"
 	base64 "encoding/base64"
 	entproto "entgo.io/contrib/entproto"
@@ -44,6 +45,18 @@ func toProtoChat(e *ent.Chat) (*Chat, error) {
 	v.SenderId = sender_id
 	sent_at := timestamppb.New(e.SentAt)
 	v.SentAt = sent_at
+	if edg := e.Edges.Receiver; edg != nil {
+		id := int64(edg.ID)
+		v.Receiver = &User{
+			Id: id,
+		}
+	}
+	if edg := e.Edges.Sender; edg != nil {
+		id := int64(edg.ID)
+		v.Sender = &User{
+			Id: id,
+		}
+	}
 	return v, nil
 }
 
@@ -98,6 +111,12 @@ func (svc *ChatService) Get(ctx context.Context, req *GetChatRequest) (*Chat, er
 	case GetChatRequest_WITH_EDGE_IDS:
 		get, err = svc.client.Chat.Query().
 			Where(chat.ID(id)).
+			WithReceiver(func(query *ent.UserQuery) {
+				query.Select(user.FieldID)
+			}).
+			WithSender(func(query *ent.UserQuery) {
+				query.Select(user.FieldID)
+			}).
 			Only(ctx)
 	default:
 		return nil, status.Error(codes.InvalidArgument, "invalid argument: unknown view")
@@ -124,8 +143,14 @@ func (svc *ChatService) Update(ctx context.Context, req *UpdateChatRequest) (*Ch
 	m.SetReceiverID(chatReceiverID)
 	chatSenderID := int(chat.GetSenderId())
 	m.SetSenderID(chatSenderID)
-	chatSentAt := runtime.ExtractTime(chat.GetSentAt())
-	m.SetSentAt(chatSentAt)
+	if chat.GetReceiver() != nil {
+		chatReceiver := int(chat.GetReceiver().GetId())
+		m.SetReceiverID(chatReceiver)
+	}
+	if chat.GetSender() != nil {
+		chatSender := int(chat.GetSender().GetId())
+		m.SetSenderID(chatSender)
+	}
 
 	res, err := m.Save(ctx)
 	switch {
@@ -196,6 +221,12 @@ func (svc *ChatService) List(ctx context.Context, req *ListChatRequest) (*ListCh
 		entList, err = listQuery.All(ctx)
 	case ListChatRequest_WITH_EDGE_IDS:
 		entList, err = listQuery.
+			WithReceiver(func(query *ent.UserQuery) {
+				query.Select(user.FieldID)
+			}).
+			WithSender(func(query *ent.UserQuery) {
+				query.Select(user.FieldID)
+			}).
 			All(ctx)
 	}
 	switch {
@@ -265,5 +296,13 @@ func (svc *ChatService) createBuilder(chat *Chat) (*ent.ChatCreate, error) {
 	m.SetSenderID(chatSenderID)
 	chatSentAt := runtime.ExtractTime(chat.GetSentAt())
 	m.SetSentAt(chatSentAt)
+	if chat.GetReceiver() != nil {
+		chatReceiver := int(chat.GetReceiver().GetId())
+		m.SetReceiverID(chatReceiver)
+	}
+	if chat.GetSender() != nil {
+		chatSender := int(chat.GetSender().GetId())
+		m.SetSenderID(chatSender)
+	}
 	return m, nil
 }

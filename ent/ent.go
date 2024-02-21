@@ -5,7 +5,7 @@ package ent
 import (
 	"Real-Time-Chat/ent/chat"
 	"Real-Time-Chat/ent/user"
-	"Real-Time-Chat/ent/userrelations"
+	"Real-Time-Chat/ent/userrelation"
 	"context"
 	"errors"
 	"fmt"
@@ -75,9 +75,9 @@ var (
 func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
-			chat.Table:          chat.ValidColumn,
-			user.Table:          user.ValidColumn,
-			userrelations.Table: userrelations.ValidColumn,
+			chat.Table:         chat.ValidColumn,
+			user.Table:         user.ValidColumn,
+			userrelation.Table: userrelation.ValidColumn,
 		})
 	})
 	return columnCheck(table, column)

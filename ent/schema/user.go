@@ -4,7 +4,9 @@ import (
 	"entgo.io/contrib/entproto"
 	"entgo.io/ent"
 	"entgo.io/ent/schema"
+	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
+	"time"
 )
 
 // User holds the schema definition for the Users entity.
@@ -34,5 +36,21 @@ func (User) Fields() []ent.Field {
 			Annotations(
 				entproto.Field(4),
 			),
+		field.Time("created_at").Immutable().
+			Default(func() time.Time {
+				return time.Now()
+			}).
+			Annotations(
+				entproto.Field(5),
+			),
+	}
+}
+
+func (User) Edges() []ent.Edge {
+	return []ent.Edge{
+		edge.To("user_relations_1", UserRelation.Type).Annotations(entproto.Field(6)),
+		edge.To("user_relations_2", UserRelation.Type).Annotations(entproto.Field(7)),
+		edge.To("sent_messages", Chat.Type).Annotations(entproto.Field(8)),
+		edge.To("received_messages", Chat.Type).Annotations(entproto.Field(9)),
 	}
 }

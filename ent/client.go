@@ -13,11 +13,12 @@ import (
 
 	"Real-Time-Chat/ent/chat"
 	"Real-Time-Chat/ent/user"
-	"Real-Time-Chat/ent/userrelations"
+	"Real-Time-Chat/ent/userrelation"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
+	"entgo.io/ent/dialect/sql/sqlgraph"
 )
 
 // Client is the client that holds all ent builders.
@@ -29,8 +30,8 @@ type Client struct {
 	Chat *ChatClient
 	// User is the client for interacting with the User builders.
 	User *UserClient
-	// UserRelations is the client for interacting with the UserRelations builders.
-	UserRelations *UserRelationsClient
+	// UserRelation is the client for interacting with the UserRelation builders.
+	UserRelation *UserRelationClient
 }
 
 // NewClient creates a new client configured with the given options.
@@ -44,7 +45,7 @@ func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
 	c.Chat = NewChatClient(c.config)
 	c.User = NewUserClient(c.config)
-	c.UserRelations = NewUserRelationsClient(c.config)
+	c.UserRelation = NewUserRelationClient(c.config)
 }
 
 type (
@@ -135,11 +136,11 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	cfg := c.config
 	cfg.driver = tx
 	return &Tx{
-		ctx:           ctx,
-		config:        cfg,
-		Chat:          NewChatClient(cfg),
-		User:          NewUserClient(cfg),
-		UserRelations: NewUserRelationsClient(cfg),
+		ctx:          ctx,
+		config:       cfg,
+		Chat:         NewChatClient(cfg),
+		User:         NewUserClient(cfg),
+		UserRelation: NewUserRelationClient(cfg),
 	}, nil
 }
 
@@ -157,11 +158,11 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	cfg := c.config
 	cfg.driver = &txDriver{tx: tx, drv: c.driver}
 	return &Tx{
-		ctx:           ctx,
-		config:        cfg,
-		Chat:          NewChatClient(cfg),
-		User:          NewUserClient(cfg),
-		UserRelations: NewUserRelationsClient(cfg),
+		ctx:          ctx,
+		config:       cfg,
+		Chat:         NewChatClient(cfg),
+		User:         NewUserClient(cfg),
+		UserRelation: NewUserRelationClient(cfg),
 	}, nil
 }
 
@@ -192,7 +193,7 @@ func (c *Client) Close() error {
 func (c *Client) Use(hooks ...Hook) {
 	c.Chat.Use(hooks...)
 	c.User.Use(hooks...)
-	c.UserRelations.Use(hooks...)
+	c.UserRelation.Use(hooks...)
 }
 
 // Intercept adds the query interceptors to all the entity clients.
@@ -200,7 +201,7 @@ func (c *Client) Use(hooks ...Hook) {
 func (c *Client) Intercept(interceptors ...Interceptor) {
 	c.Chat.Intercept(interceptors...)
 	c.User.Intercept(interceptors...)
-	c.UserRelations.Intercept(interceptors...)
+	c.UserRelation.Intercept(interceptors...)
 }
 
 // Mutate implements the ent.Mutator interface.
@@ -210,8 +211,8 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.Chat.mutate(ctx, m)
 	case *UserMutation:
 		return c.User.mutate(ctx, m)
-	case *UserRelationsMutation:
-		return c.UserRelations.mutate(ctx, m)
+	case *UserRelationMutation:
+		return c.UserRelation.mutate(ctx, m)
 	default:
 		return nil, fmt.Errorf("ent: unknown mutation type %T", m)
 	}
@@ -323,6 +324,38 @@ func (c *ChatClient) GetX(ctx context.Context, id int) *Chat {
 		panic(err)
 	}
 	return obj
+}
+
+// QuerySender queries the sender edge of a Chat.
+func (c *ChatClient) QuerySender(ch *Chat) *UserQuery {
+	query := (&UserClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := ch.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(chat.Table, chat.FieldID, id),
+			sqlgraph.To(user.Table, user.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, chat.SenderTable, chat.SenderColumn),
+		)
+		fromV = sqlgraph.Neighbors(ch.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryReceiver queries the receiver edge of a Chat.
+func (c *ChatClient) QueryReceiver(ch *Chat) *UserQuery {
+	query := (&UserClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := ch.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(chat.Table, chat.FieldID, id),
+			sqlgraph.To(user.Table, user.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, chat.ReceiverTable, chat.ReceiverColumn),
+		)
+		fromV = sqlgraph.Neighbors(ch.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
 }
 
 // Hooks returns the client hooks.
@@ -458,6 +491,70 @@ func (c *UserClient) GetX(ctx context.Context, id int) *User {
 	return obj
 }
 
+// QueryUserRelations1 queries the user_relations_1 edge of a User.
+func (c *UserClient) QueryUserRelations1(u *User) *UserRelationQuery {
+	query := (&UserRelationClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := u.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(user.Table, user.FieldID, id),
+			sqlgraph.To(userrelation.Table, userrelation.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, user.UserRelations1Table, user.UserRelations1Column),
+		)
+		fromV = sqlgraph.Neighbors(u.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryUserRelations2 queries the user_relations_2 edge of a User.
+func (c *UserClient) QueryUserRelations2(u *User) *UserRelationQuery {
+	query := (&UserRelationClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := u.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(user.Table, user.FieldID, id),
+			sqlgraph.To(userrelation.Table, userrelation.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, user.UserRelations2Table, user.UserRelations2Column),
+		)
+		fromV = sqlgraph.Neighbors(u.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QuerySentMessages queries the sent_messages edge of a User.
+func (c *UserClient) QuerySentMessages(u *User) *ChatQuery {
+	query := (&ChatClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := u.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(user.Table, user.FieldID, id),
+			sqlgraph.To(chat.Table, chat.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, user.SentMessagesTable, user.SentMessagesColumn),
+		)
+		fromV = sqlgraph.Neighbors(u.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryReceivedMessages queries the received_messages edge of a User.
+func (c *UserClient) QueryReceivedMessages(u *User) *ChatQuery {
+	query := (&ChatClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := u.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(user.Table, user.FieldID, id),
+			sqlgraph.To(chat.Table, chat.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, user.ReceivedMessagesTable, user.ReceivedMessagesColumn),
+		)
+		fromV = sqlgraph.Neighbors(u.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
 // Hooks returns the client hooks.
 func (c *UserClient) Hooks() []Hook {
 	return c.hooks.User
@@ -483,107 +580,107 @@ func (c *UserClient) mutate(ctx context.Context, m *UserMutation) (Value, error)
 	}
 }
 
-// UserRelationsClient is a client for the UserRelations schema.
-type UserRelationsClient struct {
+// UserRelationClient is a client for the UserRelation schema.
+type UserRelationClient struct {
 	config
 }
 
-// NewUserRelationsClient returns a client for the UserRelations from the given config.
-func NewUserRelationsClient(c config) *UserRelationsClient {
-	return &UserRelationsClient{config: c}
+// NewUserRelationClient returns a client for the UserRelation from the given config.
+func NewUserRelationClient(c config) *UserRelationClient {
+	return &UserRelationClient{config: c}
 }
 
 // Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `userrelations.Hooks(f(g(h())))`.
-func (c *UserRelationsClient) Use(hooks ...Hook) {
-	c.hooks.UserRelations = append(c.hooks.UserRelations, hooks...)
+// A call to `Use(f, g, h)` equals to `userrelation.Hooks(f(g(h())))`.
+func (c *UserRelationClient) Use(hooks ...Hook) {
+	c.hooks.UserRelation = append(c.hooks.UserRelation, hooks...)
 }
 
 // Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `userrelations.Intercept(f(g(h())))`.
-func (c *UserRelationsClient) Intercept(interceptors ...Interceptor) {
-	c.inters.UserRelations = append(c.inters.UserRelations, interceptors...)
+// A call to `Intercept(f, g, h)` equals to `userrelation.Intercept(f(g(h())))`.
+func (c *UserRelationClient) Intercept(interceptors ...Interceptor) {
+	c.inters.UserRelation = append(c.inters.UserRelation, interceptors...)
 }
 
-// Create returns a builder for creating a UserRelations entity.
-func (c *UserRelationsClient) Create() *UserRelationsCreate {
-	mutation := newUserRelationsMutation(c.config, OpCreate)
-	return &UserRelationsCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Create returns a builder for creating a UserRelation entity.
+func (c *UserRelationClient) Create() *UserRelationCreate {
+	mutation := newUserRelationMutation(c.config, OpCreate)
+	return &UserRelationCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// CreateBulk returns a builder for creating a bulk of UserRelations entities.
-func (c *UserRelationsClient) CreateBulk(builders ...*UserRelationsCreate) *UserRelationsCreateBulk {
-	return &UserRelationsCreateBulk{config: c.config, builders: builders}
+// CreateBulk returns a builder for creating a bulk of UserRelation entities.
+func (c *UserRelationClient) CreateBulk(builders ...*UserRelationCreate) *UserRelationCreateBulk {
+	return &UserRelationCreateBulk{config: c.config, builders: builders}
 }
 
 // MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
 // a builder and applies setFunc on it.
-func (c *UserRelationsClient) MapCreateBulk(slice any, setFunc func(*UserRelationsCreate, int)) *UserRelationsCreateBulk {
+func (c *UserRelationClient) MapCreateBulk(slice any, setFunc func(*UserRelationCreate, int)) *UserRelationCreateBulk {
 	rv := reflect.ValueOf(slice)
 	if rv.Kind() != reflect.Slice {
-		return &UserRelationsCreateBulk{err: fmt.Errorf("calling to UserRelationsClient.MapCreateBulk with wrong type %T, need slice", slice)}
+		return &UserRelationCreateBulk{err: fmt.Errorf("calling to UserRelationClient.MapCreateBulk with wrong type %T, need slice", slice)}
 	}
-	builders := make([]*UserRelationsCreate, rv.Len())
+	builders := make([]*UserRelationCreate, rv.Len())
 	for i := 0; i < rv.Len(); i++ {
 		builders[i] = c.Create()
 		setFunc(builders[i], i)
 	}
-	return &UserRelationsCreateBulk{config: c.config, builders: builders}
+	return &UserRelationCreateBulk{config: c.config, builders: builders}
 }
 
-// Update returns an update builder for UserRelations.
-func (c *UserRelationsClient) Update() *UserRelationsUpdate {
-	mutation := newUserRelationsMutation(c.config, OpUpdate)
-	return &UserRelationsUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Update returns an update builder for UserRelation.
+func (c *UserRelationClient) Update() *UserRelationUpdate {
+	mutation := newUserRelationMutation(c.config, OpUpdate)
+	return &UserRelationUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *UserRelationsClient) UpdateOne(ur *UserRelations) *UserRelationsUpdateOne {
-	mutation := newUserRelationsMutation(c.config, OpUpdateOne, withUserRelations(ur))
-	return &UserRelationsUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *UserRelationClient) UpdateOne(ur *UserRelation) *UserRelationUpdateOne {
+	mutation := newUserRelationMutation(c.config, OpUpdateOne, withUserRelation(ur))
+	return &UserRelationUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *UserRelationsClient) UpdateOneID(id int) *UserRelationsUpdateOne {
-	mutation := newUserRelationsMutation(c.config, OpUpdateOne, withUserRelationsID(id))
-	return &UserRelationsUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *UserRelationClient) UpdateOneID(id int) *UserRelationUpdateOne {
+	mutation := newUserRelationMutation(c.config, OpUpdateOne, withUserRelationID(id))
+	return &UserRelationUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// Delete returns a delete builder for UserRelations.
-func (c *UserRelationsClient) Delete() *UserRelationsDelete {
-	mutation := newUserRelationsMutation(c.config, OpDelete)
-	return &UserRelationsDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Delete returns a delete builder for UserRelation.
+func (c *UserRelationClient) Delete() *UserRelationDelete {
+	mutation := newUserRelationMutation(c.config, OpDelete)
+	return &UserRelationDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *UserRelationsClient) DeleteOne(ur *UserRelations) *UserRelationsDeleteOne {
+func (c *UserRelationClient) DeleteOne(ur *UserRelation) *UserRelationDeleteOne {
 	return c.DeleteOneID(ur.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *UserRelationsClient) DeleteOneID(id int) *UserRelationsDeleteOne {
-	builder := c.Delete().Where(userrelations.ID(id))
+func (c *UserRelationClient) DeleteOneID(id int) *UserRelationDeleteOne {
+	builder := c.Delete().Where(userrelation.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
-	return &UserRelationsDeleteOne{builder}
+	return &UserRelationDeleteOne{builder}
 }
 
-// Query returns a query builder for UserRelations.
-func (c *UserRelationsClient) Query() *UserRelationsQuery {
-	return &UserRelationsQuery{
+// Query returns a query builder for UserRelation.
+func (c *UserRelationClient) Query() *UserRelationQuery {
+	return &UserRelationQuery{
 		config: c.config,
-		ctx:    &QueryContext{Type: TypeUserRelations},
+		ctx:    &QueryContext{Type: TypeUserRelation},
 		inters: c.Interceptors(),
 	}
 }
 
-// Get returns a UserRelations entity by its id.
-func (c *UserRelationsClient) Get(ctx context.Context, id int) (*UserRelations, error) {
-	return c.Query().Where(userrelations.ID(id)).Only(ctx)
+// Get returns a UserRelation entity by its id.
+func (c *UserRelationClient) Get(ctx context.Context, id int) (*UserRelation, error) {
+	return c.Query().Where(userrelation.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *UserRelationsClient) GetX(ctx context.Context, id int) *UserRelations {
+func (c *UserRelationClient) GetX(ctx context.Context, id int) *UserRelation {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -591,37 +688,69 @@ func (c *UserRelationsClient) GetX(ctx context.Context, id int) *UserRelations {
 	return obj
 }
 
+// QueryUser1 queries the user1 edge of a UserRelation.
+func (c *UserRelationClient) QueryUser1(ur *UserRelation) *UserQuery {
+	query := (&UserClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := ur.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(userrelation.Table, userrelation.FieldID, id),
+			sqlgraph.To(user.Table, user.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, userrelation.User1Table, userrelation.User1Column),
+		)
+		fromV = sqlgraph.Neighbors(ur.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryUser2 queries the user2 edge of a UserRelation.
+func (c *UserRelationClient) QueryUser2(ur *UserRelation) *UserQuery {
+	query := (&UserClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := ur.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(userrelation.Table, userrelation.FieldID, id),
+			sqlgraph.To(user.Table, user.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, userrelation.User2Table, userrelation.User2Column),
+		)
+		fromV = sqlgraph.Neighbors(ur.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
 // Hooks returns the client hooks.
-func (c *UserRelationsClient) Hooks() []Hook {
-	return c.hooks.UserRelations
+func (c *UserRelationClient) Hooks() []Hook {
+	return c.hooks.UserRelation
 }
 
 // Interceptors returns the client interceptors.
-func (c *UserRelationsClient) Interceptors() []Interceptor {
-	return c.inters.UserRelations
+func (c *UserRelationClient) Interceptors() []Interceptor {
+	return c.inters.UserRelation
 }
 
-func (c *UserRelationsClient) mutate(ctx context.Context, m *UserRelationsMutation) (Value, error) {
+func (c *UserRelationClient) mutate(ctx context.Context, m *UserRelationMutation) (Value, error) {
 	switch m.Op() {
 	case OpCreate:
-		return (&UserRelationsCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&UserRelationCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdate:
-		return (&UserRelationsUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&UserRelationUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdateOne:
-		return (&UserRelationsUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&UserRelationUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpDelete, OpDeleteOne:
-		return (&UserRelationsDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+		return (&UserRelationDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
-		return nil, fmt.Errorf("ent: unknown UserRelations mutation op: %q", m.Op())
+		return nil, fmt.Errorf("ent: unknown UserRelation mutation op: %q", m.Op())
 	}
 }
 
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		Chat, User, UserRelations []ent.Hook
+		Chat, User, UserRelation []ent.Hook
 	}
 	inters struct {
-		Chat, User, UserRelations []ent.Interceptor
+		Chat, User, UserRelation []ent.Interceptor
 	}
 )

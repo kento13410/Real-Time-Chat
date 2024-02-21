@@ -3,7 +3,10 @@
 package chat
 
 import (
+	"time"
+
 	"entgo.io/ent/dialect/sql"
+	"entgo.io/ent/dialect/sql/sqlgraph"
 )
 
 const (
@@ -19,8 +22,26 @@ const (
 	FieldMessage = "message"
 	// FieldSentAt holds the string denoting the sent_at field in the database.
 	FieldSentAt = "sent_at"
+	// EdgeSender holds the string denoting the sender edge name in mutations.
+	EdgeSender = "sender"
+	// EdgeReceiver holds the string denoting the receiver edge name in mutations.
+	EdgeReceiver = "receiver"
 	// Table holds the table name of the chat in the database.
 	Table = "chats"
+	// SenderTable is the table that holds the sender relation/edge.
+	SenderTable = "chats"
+	// SenderInverseTable is the table name for the User entity.
+	// It exists in this package in order to avoid circular dependency with the "user" package.
+	SenderInverseTable = "users"
+	// SenderColumn is the table column denoting the sender relation/edge.
+	SenderColumn = "user_sent_messages"
+	// ReceiverTable is the table that holds the receiver relation/edge.
+	ReceiverTable = "chats"
+	// ReceiverInverseTable is the table name for the User entity.
+	// It exists in this package in order to avoid circular dependency with the "user" package.
+	ReceiverInverseTable = "users"
+	// ReceiverColumn is the table column denoting the receiver relation/edge.
+	ReceiverColumn = "user_received_messages"
 )
 
 // Columns holds all SQL columns for chat fields.
@@ -32,6 +53,13 @@ var Columns = []string{
 	FieldSentAt,
 }
 
+// ForeignKeys holds the SQL foreign-keys that are owned by the "chats"
+// table and are not defined as standalone fields in the schema.
+var ForeignKeys = []string{
+	"user_sent_messages",
+	"user_received_messages",
+}
+
 // ValidColumn reports if the column name is valid (part of the table columns).
 func ValidColumn(column string) bool {
 	for i := range Columns {
@@ -39,8 +67,18 @@ func ValidColumn(column string) bool {
 			return true
 		}
 	}
+	for i := range ForeignKeys {
+		if column == ForeignKeys[i] {
+			return true
+		}
+	}
 	return false
 }
+
+var (
+	// DefaultSentAt holds the default value on creation for the "sent_at" field.
+	DefaultSentAt func() time.Time
+)
 
 // OrderOption defines the ordering options for the Chat queries.
 type OrderOption func(*sql.Selector)
@@ -68,4 +106,32 @@ func ByMessage(opts ...sql.OrderTermOption) OrderOption {
 // BySentAt orders the results by the sent_at field.
 func BySentAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldSentAt, opts...).ToFunc()
+}
+
+// BySenderField orders the results by sender field.
+func BySenderField(field string, opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newSenderStep(), sql.OrderByField(field, opts...))
+	}
+}
+
+// ByReceiverField orders the results by receiver field.
+func ByReceiverField(field string, opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newReceiverStep(), sql.OrderByField(field, opts...))
+	}
+}
+func newSenderStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(SenderInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.M2O, true, SenderTable, SenderColumn),
+	)
+}
+func newReceiverStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(ReceiverInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.M2O, true, ReceiverTable, ReceiverColumn),
+	)
 }

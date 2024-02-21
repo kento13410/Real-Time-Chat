@@ -572,274 +572,274 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	UserRelationsService_Create_FullMethodName      = "/entpb.UserRelationsService/Create"
-	UserRelationsService_Get_FullMethodName         = "/entpb.UserRelationsService/Get"
-	UserRelationsService_Update_FullMethodName      = "/entpb.UserRelationsService/Update"
-	UserRelationsService_Delete_FullMethodName      = "/entpb.UserRelationsService/Delete"
-	UserRelationsService_List_FullMethodName        = "/entpb.UserRelationsService/List"
-	UserRelationsService_BatchCreate_FullMethodName = "/entpb.UserRelationsService/BatchCreate"
+	UserRelationService_Create_FullMethodName      = "/entpb.UserRelationService/Create"
+	UserRelationService_Get_FullMethodName         = "/entpb.UserRelationService/Get"
+	UserRelationService_Update_FullMethodName      = "/entpb.UserRelationService/Update"
+	UserRelationService_Delete_FullMethodName      = "/entpb.UserRelationService/Delete"
+	UserRelationService_List_FullMethodName        = "/entpb.UserRelationService/List"
+	UserRelationService_BatchCreate_FullMethodName = "/entpb.UserRelationService/BatchCreate"
 )
 
-// UserRelationsServiceClient is the client API for UserRelationsService service.
+// UserRelationServiceClient is the client API for UserRelationService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type UserRelationsServiceClient interface {
-	Create(ctx context.Context, in *CreateUserRelationsRequest, opts ...grpc.CallOption) (*UserRelations, error)
-	Get(ctx context.Context, in *GetUserRelationsRequest, opts ...grpc.CallOption) (*UserRelations, error)
-	Update(ctx context.Context, in *UpdateUserRelationsRequest, opts ...grpc.CallOption) (*UserRelations, error)
-	Delete(ctx context.Context, in *DeleteUserRelationsRequest, opts ...grpc.CallOption) (*empty.Empty, error)
-	List(ctx context.Context, in *ListUserRelationsRequest, opts ...grpc.CallOption) (*ListUserRelationsResponse, error)
-	BatchCreate(ctx context.Context, in *BatchCreateUserRelationsSliceRequest, opts ...grpc.CallOption) (*BatchCreateUserRelationsSliceResponse, error)
+type UserRelationServiceClient interface {
+	Create(ctx context.Context, in *CreateUserRelationRequest, opts ...grpc.CallOption) (*UserRelation, error)
+	Get(ctx context.Context, in *GetUserRelationRequest, opts ...grpc.CallOption) (*UserRelation, error)
+	Update(ctx context.Context, in *UpdateUserRelationRequest, opts ...grpc.CallOption) (*UserRelation, error)
+	Delete(ctx context.Context, in *DeleteUserRelationRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	List(ctx context.Context, in *ListUserRelationRequest, opts ...grpc.CallOption) (*ListUserRelationResponse, error)
+	BatchCreate(ctx context.Context, in *BatchCreateUserRelationsRequest, opts ...grpc.CallOption) (*BatchCreateUserRelationsResponse, error)
 }
 
-type userRelationsServiceClient struct {
+type userRelationServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewUserRelationsServiceClient(cc grpc.ClientConnInterface) UserRelationsServiceClient {
-	return &userRelationsServiceClient{cc}
+func NewUserRelationServiceClient(cc grpc.ClientConnInterface) UserRelationServiceClient {
+	return &userRelationServiceClient{cc}
 }
 
-func (c *userRelationsServiceClient) Create(ctx context.Context, in *CreateUserRelationsRequest, opts ...grpc.CallOption) (*UserRelations, error) {
-	out := new(UserRelations)
-	err := c.cc.Invoke(ctx, UserRelationsService_Create_FullMethodName, in, out, opts...)
+func (c *userRelationServiceClient) Create(ctx context.Context, in *CreateUserRelationRequest, opts ...grpc.CallOption) (*UserRelation, error) {
+	out := new(UserRelation)
+	err := c.cc.Invoke(ctx, UserRelationService_Create_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userRelationsServiceClient) Get(ctx context.Context, in *GetUserRelationsRequest, opts ...grpc.CallOption) (*UserRelations, error) {
-	out := new(UserRelations)
-	err := c.cc.Invoke(ctx, UserRelationsService_Get_FullMethodName, in, out, opts...)
+func (c *userRelationServiceClient) Get(ctx context.Context, in *GetUserRelationRequest, opts ...grpc.CallOption) (*UserRelation, error) {
+	out := new(UserRelation)
+	err := c.cc.Invoke(ctx, UserRelationService_Get_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userRelationsServiceClient) Update(ctx context.Context, in *UpdateUserRelationsRequest, opts ...grpc.CallOption) (*UserRelations, error) {
-	out := new(UserRelations)
-	err := c.cc.Invoke(ctx, UserRelationsService_Update_FullMethodName, in, out, opts...)
+func (c *userRelationServiceClient) Update(ctx context.Context, in *UpdateUserRelationRequest, opts ...grpc.CallOption) (*UserRelation, error) {
+	out := new(UserRelation)
+	err := c.cc.Invoke(ctx, UserRelationService_Update_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userRelationsServiceClient) Delete(ctx context.Context, in *DeleteUserRelationsRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+func (c *userRelationServiceClient) Delete(ctx context.Context, in *DeleteUserRelationRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
 	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, UserRelationsService_Delete_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, UserRelationService_Delete_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userRelationsServiceClient) List(ctx context.Context, in *ListUserRelationsRequest, opts ...grpc.CallOption) (*ListUserRelationsResponse, error) {
-	out := new(ListUserRelationsResponse)
-	err := c.cc.Invoke(ctx, UserRelationsService_List_FullMethodName, in, out, opts...)
+func (c *userRelationServiceClient) List(ctx context.Context, in *ListUserRelationRequest, opts ...grpc.CallOption) (*ListUserRelationResponse, error) {
+	out := new(ListUserRelationResponse)
+	err := c.cc.Invoke(ctx, UserRelationService_List_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userRelationsServiceClient) BatchCreate(ctx context.Context, in *BatchCreateUserRelationsSliceRequest, opts ...grpc.CallOption) (*BatchCreateUserRelationsSliceResponse, error) {
-	out := new(BatchCreateUserRelationsSliceResponse)
-	err := c.cc.Invoke(ctx, UserRelationsService_BatchCreate_FullMethodName, in, out, opts...)
+func (c *userRelationServiceClient) BatchCreate(ctx context.Context, in *BatchCreateUserRelationsRequest, opts ...grpc.CallOption) (*BatchCreateUserRelationsResponse, error) {
+	out := new(BatchCreateUserRelationsResponse)
+	err := c.cc.Invoke(ctx, UserRelationService_BatchCreate_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// UserRelationsServiceServer is the server API for UserRelationsService service.
-// All implementations must embed UnimplementedUserRelationsServiceServer
+// UserRelationServiceServer is the server API for UserRelationService service.
+// All implementations must embed UnimplementedUserRelationServiceServer
 // for forward compatibility
-type UserRelationsServiceServer interface {
-	Create(context.Context, *CreateUserRelationsRequest) (*UserRelations, error)
-	Get(context.Context, *GetUserRelationsRequest) (*UserRelations, error)
-	Update(context.Context, *UpdateUserRelationsRequest) (*UserRelations, error)
-	Delete(context.Context, *DeleteUserRelationsRequest) (*empty.Empty, error)
-	List(context.Context, *ListUserRelationsRequest) (*ListUserRelationsResponse, error)
-	BatchCreate(context.Context, *BatchCreateUserRelationsSliceRequest) (*BatchCreateUserRelationsSliceResponse, error)
-	mustEmbedUnimplementedUserRelationsServiceServer()
+type UserRelationServiceServer interface {
+	Create(context.Context, *CreateUserRelationRequest) (*UserRelation, error)
+	Get(context.Context, *GetUserRelationRequest) (*UserRelation, error)
+	Update(context.Context, *UpdateUserRelationRequest) (*UserRelation, error)
+	Delete(context.Context, *DeleteUserRelationRequest) (*empty.Empty, error)
+	List(context.Context, *ListUserRelationRequest) (*ListUserRelationResponse, error)
+	BatchCreate(context.Context, *BatchCreateUserRelationsRequest) (*BatchCreateUserRelationsResponse, error)
+	mustEmbedUnimplementedUserRelationServiceServer()
 }
 
-// UnimplementedUserRelationsServiceServer must be embedded to have forward compatible implementations.
-type UnimplementedUserRelationsServiceServer struct {
+// UnimplementedUserRelationServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedUserRelationServiceServer struct {
 }
 
-func (UnimplementedUserRelationsServiceServer) Create(context.Context, *CreateUserRelationsRequest) (*UserRelations, error) {
+func (UnimplementedUserRelationServiceServer) Create(context.Context, *CreateUserRelationRequest) (*UserRelation, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
-func (UnimplementedUserRelationsServiceServer) Get(context.Context, *GetUserRelationsRequest) (*UserRelations, error) {
+func (UnimplementedUserRelationServiceServer) Get(context.Context, *GetUserRelationRequest) (*UserRelation, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
-func (UnimplementedUserRelationsServiceServer) Update(context.Context, *UpdateUserRelationsRequest) (*UserRelations, error) {
+func (UnimplementedUserRelationServiceServer) Update(context.Context, *UpdateUserRelationRequest) (*UserRelation, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
-func (UnimplementedUserRelationsServiceServer) Delete(context.Context, *DeleteUserRelationsRequest) (*empty.Empty, error) {
+func (UnimplementedUserRelationServiceServer) Delete(context.Context, *DeleteUserRelationRequest) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
-func (UnimplementedUserRelationsServiceServer) List(context.Context, *ListUserRelationsRequest) (*ListUserRelationsResponse, error) {
+func (UnimplementedUserRelationServiceServer) List(context.Context, *ListUserRelationRequest) (*ListUserRelationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method List not implemented")
 }
-func (UnimplementedUserRelationsServiceServer) BatchCreate(context.Context, *BatchCreateUserRelationsSliceRequest) (*BatchCreateUserRelationsSliceResponse, error) {
+func (UnimplementedUserRelationServiceServer) BatchCreate(context.Context, *BatchCreateUserRelationsRequest) (*BatchCreateUserRelationsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method BatchCreate not implemented")
 }
-func (UnimplementedUserRelationsServiceServer) mustEmbedUnimplementedUserRelationsServiceServer() {}
+func (UnimplementedUserRelationServiceServer) mustEmbedUnimplementedUserRelationServiceServer() {}
 
-// UnsafeUserRelationsServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to UserRelationsServiceServer will
+// UnsafeUserRelationServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to UserRelationServiceServer will
 // result in compilation errors.
-type UnsafeUserRelationsServiceServer interface {
-	mustEmbedUnimplementedUserRelationsServiceServer()
+type UnsafeUserRelationServiceServer interface {
+	mustEmbedUnimplementedUserRelationServiceServer()
 }
 
-func RegisterUserRelationsServiceServer(s grpc.ServiceRegistrar, srv UserRelationsServiceServer) {
-	s.RegisterService(&UserRelationsService_ServiceDesc, srv)
+func RegisterUserRelationServiceServer(s grpc.ServiceRegistrar, srv UserRelationServiceServer) {
+	s.RegisterService(&UserRelationService_ServiceDesc, srv)
 }
 
-func _UserRelationsService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateUserRelationsRequest)
+func _UserRelationService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateUserRelationRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserRelationsServiceServer).Create(ctx, in)
+		return srv.(UserRelationServiceServer).Create(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserRelationsService_Create_FullMethodName,
+		FullMethod: UserRelationService_Create_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserRelationsServiceServer).Create(ctx, req.(*CreateUserRelationsRequest))
+		return srv.(UserRelationServiceServer).Create(ctx, req.(*CreateUserRelationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserRelationsService_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetUserRelationsRequest)
+func _UserRelationService_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserRelationRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserRelationsServiceServer).Get(ctx, in)
+		return srv.(UserRelationServiceServer).Get(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserRelationsService_Get_FullMethodName,
+		FullMethod: UserRelationService_Get_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserRelationsServiceServer).Get(ctx, req.(*GetUserRelationsRequest))
+		return srv.(UserRelationServiceServer).Get(ctx, req.(*GetUserRelationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserRelationsService_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateUserRelationsRequest)
+func _UserRelationService_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateUserRelationRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserRelationsServiceServer).Update(ctx, in)
+		return srv.(UserRelationServiceServer).Update(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserRelationsService_Update_FullMethodName,
+		FullMethod: UserRelationService_Update_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserRelationsServiceServer).Update(ctx, req.(*UpdateUserRelationsRequest))
+		return srv.(UserRelationServiceServer).Update(ctx, req.(*UpdateUserRelationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserRelationsService_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteUserRelationsRequest)
+func _UserRelationService_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteUserRelationRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserRelationsServiceServer).Delete(ctx, in)
+		return srv.(UserRelationServiceServer).Delete(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserRelationsService_Delete_FullMethodName,
+		FullMethod: UserRelationService_Delete_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserRelationsServiceServer).Delete(ctx, req.(*DeleteUserRelationsRequest))
+		return srv.(UserRelationServiceServer).Delete(ctx, req.(*DeleteUserRelationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserRelationsService_List_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListUserRelationsRequest)
+func _UserRelationService_List_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListUserRelationRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserRelationsServiceServer).List(ctx, in)
+		return srv.(UserRelationServiceServer).List(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserRelationsService_List_FullMethodName,
+		FullMethod: UserRelationService_List_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserRelationsServiceServer).List(ctx, req.(*ListUserRelationsRequest))
+		return srv.(UserRelationServiceServer).List(ctx, req.(*ListUserRelationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserRelationsService_BatchCreate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(BatchCreateUserRelationsSliceRequest)
+func _UserRelationService_BatchCreate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BatchCreateUserRelationsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserRelationsServiceServer).BatchCreate(ctx, in)
+		return srv.(UserRelationServiceServer).BatchCreate(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserRelationsService_BatchCreate_FullMethodName,
+		FullMethod: UserRelationService_BatchCreate_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserRelationsServiceServer).BatchCreate(ctx, req.(*BatchCreateUserRelationsSliceRequest))
+		return srv.(UserRelationServiceServer).BatchCreate(ctx, req.(*BatchCreateUserRelationsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// UserRelationsService_ServiceDesc is the grpc.ServiceDesc for UserRelationsService service.
+// UserRelationService_ServiceDesc is the grpc.ServiceDesc for UserRelationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var UserRelationsService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "entpb.UserRelationsService",
-	HandlerType: (*UserRelationsServiceServer)(nil),
+var UserRelationService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "entpb.UserRelationService",
+	HandlerType: (*UserRelationServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "Create",
-			Handler:    _UserRelationsService_Create_Handler,
+			Handler:    _UserRelationService_Create_Handler,
 		},
 		{
 			MethodName: "Get",
-			Handler:    _UserRelationsService_Get_Handler,
+			Handler:    _UserRelationService_Get_Handler,
 		},
 		{
 			MethodName: "Update",
-			Handler:    _UserRelationsService_Update_Handler,
+			Handler:    _UserRelationService_Update_Handler,
 		},
 		{
 			MethodName: "Delete",
-			Handler:    _UserRelationsService_Delete_Handler,
+			Handler:    _UserRelationService_Delete_Handler,
 		},
 		{
 			MethodName: "List",
-			Handler:    _UserRelationsService_List_Handler,
+			Handler:    _UserRelationService_List_Handler,
 		},
 		{
 			MethodName: "BatchCreate",
-			Handler:    _UserRelationsService_BatchCreate_Handler,
+			Handler:    _UserRelationService_BatchCreate_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

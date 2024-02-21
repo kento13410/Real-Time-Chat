@@ -32,16 +32,16 @@ func (f UserFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error)
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.UserMutation", m)
 }
 
-// The UserRelationsFunc type is an adapter to allow the use of ordinary
-// function as UserRelations mutator.
-type UserRelationsFunc func(context.Context, *ent.UserRelationsMutation) (ent.Value, error)
+// The UserRelationFunc type is an adapter to allow the use of ordinary
+// function as UserRelation mutator.
+type UserRelationFunc func(context.Context, *ent.UserRelationMutation) (ent.Value, error)
 
 // Mutate calls f(ctx, m).
-func (f UserRelationsFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.UserRelationsMutation); ok {
+func (f UserRelationFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.UserRelationMutation); ok {
 		return f(ctx, mv)
 	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.UserRelationsMutation", m)
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.UserRelationMutation", m)
 }
 
 // Condition is a hook condition function.

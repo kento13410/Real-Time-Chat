@@ -4,7 +4,7 @@ package ent
 
 import (
 	"Real-Time-Chat/ent/predicate"
-	"Real-Time-Chat/ent/userrelations"
+	"Real-Time-Chat/ent/userrelation"
 	"context"
 
 	"entgo.io/ent/dialect/sql"
@@ -12,26 +12,26 @@ import (
 	"entgo.io/ent/schema/field"
 )
 
-// UserRelationsDelete is the builder for deleting a UserRelations entity.
-type UserRelationsDelete struct {
+// UserRelationDelete is the builder for deleting a UserRelation entity.
+type UserRelationDelete struct {
 	config
 	hooks    []Hook
-	mutation *UserRelationsMutation
+	mutation *UserRelationMutation
 }
 
-// Where appends a list predicates to the UserRelationsDelete builder.
-func (urd *UserRelationsDelete) Where(ps ...predicate.UserRelations) *UserRelationsDelete {
+// Where appends a list predicates to the UserRelationDelete builder.
+func (urd *UserRelationDelete) Where(ps ...predicate.UserRelation) *UserRelationDelete {
 	urd.mutation.Where(ps...)
 	return urd
 }
 
 // Exec executes the deletion query and returns how many vertices were deleted.
-func (urd *UserRelationsDelete) Exec(ctx context.Context) (int, error) {
+func (urd *UserRelationDelete) Exec(ctx context.Context) (int, error) {
 	return withHooks(ctx, urd.sqlExec, urd.mutation, urd.hooks)
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (urd *UserRelationsDelete) ExecX(ctx context.Context) int {
+func (urd *UserRelationDelete) ExecX(ctx context.Context) int {
 	n, err := urd.Exec(ctx)
 	if err != nil {
 		panic(err)
@@ -39,8 +39,8 @@ func (urd *UserRelationsDelete) ExecX(ctx context.Context) int {
 	return n
 }
 
-func (urd *UserRelationsDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(userrelations.Table, sqlgraph.NewFieldSpec(userrelations.FieldID, field.TypeInt))
+func (urd *UserRelationDelete) sqlExec(ctx context.Context) (int, error) {
+	_spec := sqlgraph.NewDeleteSpec(userrelation.Table, sqlgraph.NewFieldSpec(userrelation.FieldID, field.TypeInt))
 	if ps := urd.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -56,32 +56,32 @@ func (urd *UserRelationsDelete) sqlExec(ctx context.Context) (int, error) {
 	return affected, err
 }
 
-// UserRelationsDeleteOne is the builder for deleting a single UserRelations entity.
-type UserRelationsDeleteOne struct {
-	urd *UserRelationsDelete
+// UserRelationDeleteOne is the builder for deleting a single UserRelation entity.
+type UserRelationDeleteOne struct {
+	urd *UserRelationDelete
 }
 
-// Where appends a list predicates to the UserRelationsDelete builder.
-func (urdo *UserRelationsDeleteOne) Where(ps ...predicate.UserRelations) *UserRelationsDeleteOne {
+// Where appends a list predicates to the UserRelationDelete builder.
+func (urdo *UserRelationDeleteOne) Where(ps ...predicate.UserRelation) *UserRelationDeleteOne {
 	urdo.urd.mutation.Where(ps...)
 	return urdo
 }
 
 // Exec executes the deletion query.
-func (urdo *UserRelationsDeleteOne) Exec(ctx context.Context) error {
+func (urdo *UserRelationDeleteOne) Exec(ctx context.Context) error {
 	n, err := urdo.urd.Exec(ctx)
 	switch {
 	case err != nil:
 		return err
 	case n == 0:
-		return &NotFoundError{userrelations.Label}
+		return &NotFoundError{userrelation.Label}
 	default:
 		return nil
 	}
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (urdo *UserRelationsDeleteOne) ExecX(ctx context.Context) {
+func (urdo *UserRelationDeleteOne) ExecX(ctx context.Context) {
 	if err := urdo.Exec(ctx); err != nil {
 		panic(err)
 	}

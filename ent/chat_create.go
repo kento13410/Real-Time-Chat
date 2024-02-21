@@ -4,6 +4,7 @@ package ent
 
 import (
 	"Real-Time-Chat/ent/chat"
+	"Real-Time-Chat/ent/user"
 	"context"
 	"errors"
 	"fmt"
@@ -44,6 +45,36 @@ func (cc *ChatCreate) SetSentAt(t time.Time) *ChatCreate {
 	return cc
 }
 
+// SetNillableSentAt sets the "sent_at" field if the given value is not nil.
+func (cc *ChatCreate) SetNillableSentAt(t *time.Time) *ChatCreate {
+	if t != nil {
+		cc.SetSentAt(*t)
+	}
+	return cc
+}
+
+// SetSenderID sets the "sender" edge to the User entity by ID.
+func (cc *ChatCreate) SetSenderID(id int) *ChatCreate {
+	cc.mutation.SetSenderID(id)
+	return cc
+}
+
+// SetSender sets the "sender" edge to the User entity.
+func (cc *ChatCreate) SetSender(u *User) *ChatCreate {
+	return cc.SetSenderID(u.ID)
+}
+
+// SetReceiverID sets the "receiver" edge to the User entity by ID.
+func (cc *ChatCreate) SetReceiverID(id int) *ChatCreate {
+	cc.mutation.SetReceiverID(id)
+	return cc
+}
+
+// SetReceiver sets the "receiver" edge to the User entity.
+func (cc *ChatCreate) SetReceiver(u *User) *ChatCreate {
+	return cc.SetReceiverID(u.ID)
+}
+
 // Mutation returns the ChatMutation object of the builder.
 func (cc *ChatCreate) Mutation() *ChatMutation {
 	return cc.mutation
@@ -51,6 +82,7 @@ func (cc *ChatCreate) Mutation() *ChatMutation {
 
 // Save creates the Chat in the database.
 func (cc *ChatCreate) Save(ctx context.Context) (*Chat, error) {
+	cc.defaults()
 	return withHooks(ctx, cc.sqlSave, cc.mutation, cc.hooks)
 }
 
@@ -76,6 +108,14 @@ func (cc *ChatCreate) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (cc *ChatCreate) defaults() {
+	if _, ok := cc.mutation.SentAt(); !ok {
+		v := chat.DefaultSentAt()
+		cc.mutation.SetSentAt(v)
+	}
+}
+
 // check runs all checks and user-defined validators on the builder.
 func (cc *ChatCreate) check() error {
 	if _, ok := cc.mutation.SenderID(); !ok {
@@ -89,6 +129,12 @@ func (cc *ChatCreate) check() error {
 	}
 	if _, ok := cc.mutation.SentAt(); !ok {
 		return &ValidationError{Name: "sent_at", err: errors.New(`ent: missing required field "Chat.sent_at"`)}
+	}
+	if _, ok := cc.mutation.SenderID(); !ok {
+		return &ValidationError{Name: "sender", err: errors.New(`ent: missing required edge "Chat.sender"`)}
+	}
+	if _, ok := cc.mutation.ReceiverID(); !ok {
+		return &ValidationError{Name: "receiver", err: errors.New(`ent: missing required edge "Chat.receiver"`)}
 	}
 	return nil
 }
@@ -132,6 +178,40 @@ func (cc *ChatCreate) createSpec() (*Chat, *sqlgraph.CreateSpec) {
 		_spec.SetField(chat.FieldSentAt, field.TypeTime, value)
 		_node.SentAt = value
 	}
+	if nodes := cc.mutation.SenderIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   chat.SenderTable,
+			Columns: []string{chat.SenderColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_node.user_sent_messages = &nodes[0]
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := cc.mutation.ReceiverIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   chat.ReceiverTable,
+			Columns: []string{chat.ReceiverColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_node.user_received_messages = &nodes[0]
+		_spec.Edges = append(_spec.Edges, edge)
+	}
 	return _node, _spec
 }
 
@@ -153,6 +233,7 @@ func (ccb *ChatCreateBulk) Save(ctx context.Context) ([]*Chat, error) {
 	for i := range ccb.builders {
 		func(i int, root context.Context) {
 			builder := ccb.builders[i]
+			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*ChatMutation)
 				if !ok {

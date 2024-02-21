@@ -3,7 +3,10 @@
 package user
 
 import (
+	"time"
+
 	"entgo.io/ent/dialect/sql"
+	"entgo.io/ent/dialect/sql/sqlgraph"
 )
 
 const (
@@ -17,8 +20,46 @@ const (
 	FieldEmail = "email"
 	// FieldPasswordHash holds the string denoting the password_hash field in the database.
 	FieldPasswordHash = "password_hash"
+	// FieldCreatedAt holds the string denoting the created_at field in the database.
+	FieldCreatedAt = "created_at"
+	// EdgeUserRelations1 holds the string denoting the user_relations_1 edge name in mutations.
+	EdgeUserRelations1 = "user_relations_1"
+	// EdgeUserRelations2 holds the string denoting the user_relations_2 edge name in mutations.
+	EdgeUserRelations2 = "user_relations_2"
+	// EdgeSentMessages holds the string denoting the sent_messages edge name in mutations.
+	EdgeSentMessages = "sent_messages"
+	// EdgeReceivedMessages holds the string denoting the received_messages edge name in mutations.
+	EdgeReceivedMessages = "received_messages"
 	// Table holds the table name of the user in the database.
 	Table = "users"
+	// UserRelations1Table is the table that holds the user_relations_1 relation/edge.
+	UserRelations1Table = "user_relations"
+	// UserRelations1InverseTable is the table name for the UserRelation entity.
+	// It exists in this package in order to avoid circular dependency with the "userrelation" package.
+	UserRelations1InverseTable = "user_relations"
+	// UserRelations1Column is the table column denoting the user_relations_1 relation/edge.
+	UserRelations1Column = "user_user_relations_1"
+	// UserRelations2Table is the table that holds the user_relations_2 relation/edge.
+	UserRelations2Table = "user_relations"
+	// UserRelations2InverseTable is the table name for the UserRelation entity.
+	// It exists in this package in order to avoid circular dependency with the "userrelation" package.
+	UserRelations2InverseTable = "user_relations"
+	// UserRelations2Column is the table column denoting the user_relations_2 relation/edge.
+	UserRelations2Column = "user_user_relations_2"
+	// SentMessagesTable is the table that holds the sent_messages relation/edge.
+	SentMessagesTable = "chats"
+	// SentMessagesInverseTable is the table name for the Chat entity.
+	// It exists in this package in order to avoid circular dependency with the "chat" package.
+	SentMessagesInverseTable = "chats"
+	// SentMessagesColumn is the table column denoting the sent_messages relation/edge.
+	SentMessagesColumn = "user_sent_messages"
+	// ReceivedMessagesTable is the table that holds the received_messages relation/edge.
+	ReceivedMessagesTable = "chats"
+	// ReceivedMessagesInverseTable is the table name for the Chat entity.
+	// It exists in this package in order to avoid circular dependency with the "chat" package.
+	ReceivedMessagesInverseTable = "chats"
+	// ReceivedMessagesColumn is the table column denoting the received_messages relation/edge.
+	ReceivedMessagesColumn = "user_received_messages"
 )
 
 // Columns holds all SQL columns for user fields.
@@ -27,6 +68,7 @@ var Columns = []string{
 	FieldUsername,
 	FieldEmail,
 	FieldPasswordHash,
+	FieldCreatedAt,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -38,6 +80,11 @@ func ValidColumn(column string) bool {
 	}
 	return false
 }
+
+var (
+	// DefaultCreatedAt holds the default value on creation for the "created_at" field.
+	DefaultCreatedAt func() time.Time
+)
 
 // OrderOption defines the ordering options for the User queries.
 type OrderOption func(*sql.Selector)
@@ -60,4 +107,93 @@ func ByEmail(opts ...sql.OrderTermOption) OrderOption {
 // ByPasswordHash orders the results by the password_hash field.
 func ByPasswordHash(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldPasswordHash, opts...).ToFunc()
+}
+
+// ByCreatedAt orders the results by the created_at field.
+func ByCreatedAt(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldCreatedAt, opts...).ToFunc()
+}
+
+// ByUserRelations1Count orders the results by user_relations_1 count.
+func ByUserRelations1Count(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newUserRelations1Step(), opts...)
+	}
+}
+
+// ByUserRelations1 orders the results by user_relations_1 terms.
+func ByUserRelations1(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newUserRelations1Step(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
+
+// ByUserRelations2Count orders the results by user_relations_2 count.
+func ByUserRelations2Count(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newUserRelations2Step(), opts...)
+	}
+}
+
+// ByUserRelations2 orders the results by user_relations_2 terms.
+func ByUserRelations2(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newUserRelations2Step(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
+
+// BySentMessagesCount orders the results by sent_messages count.
+func BySentMessagesCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newSentMessagesStep(), opts...)
+	}
+}
+
+// BySentMessages orders the results by sent_messages terms.
+func BySentMessages(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newSentMessagesStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
+
+// ByReceivedMessagesCount orders the results by received_messages count.
+func ByReceivedMessagesCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newReceivedMessagesStep(), opts...)
+	}
+}
+
+// ByReceivedMessages orders the results by received_messages terms.
+func ByReceivedMessages(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newReceivedMessagesStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
+func newUserRelations1Step() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(UserRelations1InverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, UserRelations1Table, UserRelations1Column),
+	)
+}
+func newUserRelations2Step() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(UserRelations2InverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, UserRelations2Table, UserRelations2Column),
+	)
+}
+func newSentMessagesStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(SentMessagesInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, SentMessagesTable, SentMessagesColumn),
+	)
+}
+func newReceivedMessagesStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(ReceivedMessagesInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, ReceivedMessagesTable, ReceivedMessagesColumn),
+	)
 }

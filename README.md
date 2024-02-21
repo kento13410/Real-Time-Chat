@@ -32,19 +32,21 @@ flowchart TD
 ### データベース設計
 ```mermaid
 erDiagram
-    USERS ||--o{ USER_RELATIONS : has
-    USERS {
+    USER ||--o{ USER_RELATION : has
+    USER {
         int id PK "Primary Key"
         string username "Unique"
         string email "Unique"
         string password_hash
+        datetime created_at
     }
-    USER_RELATIONS ||--o{ CHAT : communicates
-    USER_RELATIONS {
+    USER_RELATION {
         int id PK "Primary Key"
         int user_id_1 FK "Foreign Key to USERS.id"
         int user_id_2 FK "Foreign Key to USERS.id"
+        datetime created_at
     }
+    USER ||--o{ CHAT : communicates
     CHAT {
         int id PK "Primary Key"
         int sender_id FK "Foreign Key to USERS.id"

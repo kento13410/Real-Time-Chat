@@ -5,10 +5,10 @@ package ent
 import (
 	"Real-Time-Chat/ent/chat"
 	"Real-Time-Chat/ent/predicate"
+	"Real-Time-Chat/ent/user"
 	"context"
 	"errors"
 	"fmt"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -84,23 +84,43 @@ func (cu *ChatUpdate) SetNillableMessage(s *string) *ChatUpdate {
 	return cu
 }
 
-// SetSentAt sets the "sent_at" field.
-func (cu *ChatUpdate) SetSentAt(t time.Time) *ChatUpdate {
-	cu.mutation.SetSentAt(t)
+// SetSenderID sets the "sender" edge to the User entity by ID.
+func (cu *ChatUpdate) SetSenderID(id int) *ChatUpdate {
+	cu.mutation.SetSenderID(id)
 	return cu
 }
 
-// SetNillableSentAt sets the "sent_at" field if the given value is not nil.
-func (cu *ChatUpdate) SetNillableSentAt(t *time.Time) *ChatUpdate {
-	if t != nil {
-		cu.SetSentAt(*t)
-	}
+// SetSender sets the "sender" edge to the User entity.
+func (cu *ChatUpdate) SetSender(u *User) *ChatUpdate {
+	return cu.SetSenderID(u.ID)
+}
+
+// SetReceiverID sets the "receiver" edge to the User entity by ID.
+func (cu *ChatUpdate) SetReceiverID(id int) *ChatUpdate {
+	cu.mutation.SetReceiverID(id)
 	return cu
+}
+
+// SetReceiver sets the "receiver" edge to the User entity.
+func (cu *ChatUpdate) SetReceiver(u *User) *ChatUpdate {
+	return cu.SetReceiverID(u.ID)
 }
 
 // Mutation returns the ChatMutation object of the builder.
 func (cu *ChatUpdate) Mutation() *ChatMutation {
 	return cu.mutation
+}
+
+// ClearSender clears the "sender" edge to the User entity.
+func (cu *ChatUpdate) ClearSender() *ChatUpdate {
+	cu.mutation.ClearSender()
+	return cu
+}
+
+// ClearReceiver clears the "receiver" edge to the User entity.
+func (cu *ChatUpdate) ClearReceiver() *ChatUpdate {
+	cu.mutation.ClearReceiver()
+	return cu
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
@@ -130,7 +150,21 @@ func (cu *ChatUpdate) ExecX(ctx context.Context) {
 	}
 }
 
+// check runs all checks and user-defined validators on the builder.
+func (cu *ChatUpdate) check() error {
+	if _, ok := cu.mutation.SenderID(); cu.mutation.SenderCleared() && !ok {
+		return errors.New(`ent: clearing a required unique edge "Chat.sender"`)
+	}
+	if _, ok := cu.mutation.ReceiverID(); cu.mutation.ReceiverCleared() && !ok {
+		return errors.New(`ent: clearing a required unique edge "Chat.receiver"`)
+	}
+	return nil
+}
+
 func (cu *ChatUpdate) sqlSave(ctx context.Context) (n int, err error) {
+	if err := cu.check(); err != nil {
+		return n, err
+	}
 	_spec := sqlgraph.NewUpdateSpec(chat.Table, chat.Columns, sqlgraph.NewFieldSpec(chat.FieldID, field.TypeInt))
 	if ps := cu.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -154,8 +188,63 @@ func (cu *ChatUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if value, ok := cu.mutation.Message(); ok {
 		_spec.SetField(chat.FieldMessage, field.TypeString, value)
 	}
-	if value, ok := cu.mutation.SentAt(); ok {
-		_spec.SetField(chat.FieldSentAt, field.TypeTime, value)
+	if cu.mutation.SenderCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   chat.SenderTable,
+			Columns: []string{chat.SenderColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := cu.mutation.SenderIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   chat.SenderTable,
+			Columns: []string{chat.SenderColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if cu.mutation.ReceiverCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   chat.ReceiverTable,
+			Columns: []string{chat.ReceiverColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := cu.mutation.ReceiverIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   chat.ReceiverTable,
+			Columns: []string{chat.ReceiverColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, cu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -233,23 +322,43 @@ func (cuo *ChatUpdateOne) SetNillableMessage(s *string) *ChatUpdateOne {
 	return cuo
 }
 
-// SetSentAt sets the "sent_at" field.
-func (cuo *ChatUpdateOne) SetSentAt(t time.Time) *ChatUpdateOne {
-	cuo.mutation.SetSentAt(t)
+// SetSenderID sets the "sender" edge to the User entity by ID.
+func (cuo *ChatUpdateOne) SetSenderID(id int) *ChatUpdateOne {
+	cuo.mutation.SetSenderID(id)
 	return cuo
 }
 
-// SetNillableSentAt sets the "sent_at" field if the given value is not nil.
-func (cuo *ChatUpdateOne) SetNillableSentAt(t *time.Time) *ChatUpdateOne {
-	if t != nil {
-		cuo.SetSentAt(*t)
-	}
+// SetSender sets the "sender" edge to the User entity.
+func (cuo *ChatUpdateOne) SetSender(u *User) *ChatUpdateOne {
+	return cuo.SetSenderID(u.ID)
+}
+
+// SetReceiverID sets the "receiver" edge to the User entity by ID.
+func (cuo *ChatUpdateOne) SetReceiverID(id int) *ChatUpdateOne {
+	cuo.mutation.SetReceiverID(id)
 	return cuo
+}
+
+// SetReceiver sets the "receiver" edge to the User entity.
+func (cuo *ChatUpdateOne) SetReceiver(u *User) *ChatUpdateOne {
+	return cuo.SetReceiverID(u.ID)
 }
 
 // Mutation returns the ChatMutation object of the builder.
 func (cuo *ChatUpdateOne) Mutation() *ChatMutation {
 	return cuo.mutation
+}
+
+// ClearSender clears the "sender" edge to the User entity.
+func (cuo *ChatUpdateOne) ClearSender() *ChatUpdateOne {
+	cuo.mutation.ClearSender()
+	return cuo
+}
+
+// ClearReceiver clears the "receiver" edge to the User entity.
+func (cuo *ChatUpdateOne) ClearReceiver() *ChatUpdateOne {
+	cuo.mutation.ClearReceiver()
+	return cuo
 }
 
 // Where appends a list predicates to the ChatUpdate builder.
@@ -292,7 +401,21 @@ func (cuo *ChatUpdateOne) ExecX(ctx context.Context) {
 	}
 }
 
+// check runs all checks and user-defined validators on the builder.
+func (cuo *ChatUpdateOne) check() error {
+	if _, ok := cuo.mutation.SenderID(); cuo.mutation.SenderCleared() && !ok {
+		return errors.New(`ent: clearing a required unique edge "Chat.sender"`)
+	}
+	if _, ok := cuo.mutation.ReceiverID(); cuo.mutation.ReceiverCleared() && !ok {
+		return errors.New(`ent: clearing a required unique edge "Chat.receiver"`)
+	}
+	return nil
+}
+
 func (cuo *ChatUpdateOne) sqlSave(ctx context.Context) (_node *Chat, err error) {
+	if err := cuo.check(); err != nil {
+		return _node, err
+	}
 	_spec := sqlgraph.NewUpdateSpec(chat.Table, chat.Columns, sqlgraph.NewFieldSpec(chat.FieldID, field.TypeInt))
 	id, ok := cuo.mutation.ID()
 	if !ok {
@@ -333,8 +456,63 @@ func (cuo *ChatUpdateOne) sqlSave(ctx context.Context) (_node *Chat, err error) 
 	if value, ok := cuo.mutation.Message(); ok {
 		_spec.SetField(chat.FieldMessage, field.TypeString, value)
 	}
-	if value, ok := cuo.mutation.SentAt(); ok {
-		_spec.SetField(chat.FieldSentAt, field.TypeTime, value)
+	if cuo.mutation.SenderCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   chat.SenderTable,
+			Columns: []string{chat.SenderColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := cuo.mutation.SenderIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   chat.SenderTable,
+			Columns: []string{chat.SenderColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if cuo.mutation.ReceiverCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   chat.ReceiverTable,
+			Columns: []string{chat.ReceiverColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := cuo.mutation.ReceiverIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   chat.ReceiverTable,
+			Columns: []string{chat.ReceiverColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
 	_node = &Chat{config: cuo.config}
 	_spec.Assign = _node.assignValues

@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"entgo.io/ent/dialect/sql"
+	"entgo.io/ent/dialect/sql/sqlgraph"
 )
 
 // ID filters vertices based on their ID field.
@@ -257,6 +258,52 @@ func SentAtLT(v time.Time) predicate.Chat {
 // SentAtLTE applies the LTE predicate on the "sent_at" field.
 func SentAtLTE(v time.Time) predicate.Chat {
 	return predicate.Chat(sql.FieldLTE(FieldSentAt, v))
+}
+
+// HasSender applies the HasEdge predicate on the "sender" edge.
+func HasSender() predicate.Chat {
+	return predicate.Chat(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, SenderTable, SenderColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasSenderWith applies the HasEdge predicate on the "sender" edge with a given conditions (other predicates).
+func HasSenderWith(preds ...predicate.User) predicate.Chat {
+	return predicate.Chat(func(s *sql.Selector) {
+		step := newSenderStep()
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
+// HasReceiver applies the HasEdge predicate on the "receiver" edge.
+func HasReceiver() predicate.Chat {
+	return predicate.Chat(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, ReceiverTable, ReceiverColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasReceiverWith applies the HasEdge predicate on the "receiver" edge with a given conditions (other predicates).
+func HasReceiverWith(preds ...predicate.User) predicate.Chat {
+	return predicate.Chat(func(s *sql.Selector) {
+		step := newReceiverStep()
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
 }
 
 // And groups predicates with the AND operator between them.

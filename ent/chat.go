@@ -4,6 +4,7 @@ package ent
 
 import (
 	"Real-Time-Chat/ent/chat"
+	"Real-Time-Chat/ent/user"
 	"fmt"
 	"strings"
 	"time"
@@ -24,8 +25,50 @@ type Chat struct {
 	// Message holds the value of the "message" field.
 	Message string `json:"message,omitempty"`
 	// SentAt holds the value of the "sent_at" field.
-	SentAt       time.Time `json:"sent_at,omitempty"`
-	selectValues sql.SelectValues
+	SentAt time.Time `json:"sent_at,omitempty"`
+	// Edges holds the relations/edges for other nodes in the graph.
+	// The values are being populated by the ChatQuery when eager-loading is set.
+	Edges                  ChatEdges `json:"edges"`
+	user_sent_messages     *int
+	user_received_messages *int
+	selectValues           sql.SelectValues
+}
+
+// ChatEdges holds the relations/edges for other nodes in the graph.
+type ChatEdges struct {
+	// Sender holds the value of the sender edge.
+	Sender *User `json:"sender,omitempty"`
+	// Receiver holds the value of the receiver edge.
+	Receiver *User `json:"receiver,omitempty"`
+	// loadedTypes holds the information for reporting if a
+	// type was loaded (or requested) in eager-loading or not.
+	loadedTypes [2]bool
+}
+
+// SenderOrErr returns the Sender value or an error if the edge
+// was not loaded in eager-loading, or loaded but was not found.
+func (e ChatEdges) SenderOrErr() (*User, error) {
+	if e.loadedTypes[0] {
+		if e.Sender == nil {
+			// Edge was loaded but was not found.
+			return nil, &NotFoundError{label: user.Label}
+		}
+		return e.Sender, nil
+	}
+	return nil, &NotLoadedError{edge: "sender"}
+}
+
+// ReceiverOrErr returns the Receiver value or an error if the edge
+// was not loaded in eager-loading, or loaded but was not found.
+func (e ChatEdges) ReceiverOrErr() (*User, error) {
+	if e.loadedTypes[1] {
+		if e.Receiver == nil {
+			// Edge was loaded but was not found.
+			return nil, &NotFoundError{label: user.Label}
+		}
+		return e.Receiver, nil
+	}
+	return nil, &NotLoadedError{edge: "receiver"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -39,6 +82,10 @@ func (*Chat) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullString)
 		case chat.FieldSentAt:
 			values[i] = new(sql.NullTime)
+		case chat.ForeignKeys[0]: // user_sent_messages
+			values[i] = new(sql.NullInt64)
+		case chat.ForeignKeys[1]: // user_received_messages
+			values[i] = new(sql.NullInt64)
 		default:
 			values[i] = new(sql.UnknownType)
 		}
@@ -84,6 +131,20 @@ func (c *Chat) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				c.SentAt = value.Time
 			}
+		case chat.ForeignKeys[0]:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for edge-field user_sent_messages", value)
+			} else if value.Valid {
+				c.user_sent_messages = new(int)
+				*c.user_sent_messages = int(value.Int64)
+			}
+		case chat.ForeignKeys[1]:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for edge-field user_received_messages", value)
+			} else if value.Valid {
+				c.user_received_messages = new(int)
+				*c.user_received_messages = int(value.Int64)
+			}
 		default:
 			c.selectValues.Set(columns[i], values[i])
 		}
@@ -95,6 +156,16 @@ func (c *Chat) assignValues(columns []string, values []any) error {
 // This includes values selected through modifiers, order, etc.
 func (c *Chat) Value(name string) (ent.Value, error) {
 	return c.selectValues.Get(name)
+}
+
+// QuerySender queries the "sender" edge of the Chat entity.
+func (c *Chat) QuerySender() *UserQuery {
+	return NewChatClient(c.config).QuerySender(c)
+}
+
+// QueryReceiver queries the "receiver" edge of the Chat entity.
+func (c *Chat) QueryReceiver() *UserQuery {
+	return NewChatClient(c.config).QueryReceiver(c)
 }
 
 // Update returns a builder for updating this Chat.

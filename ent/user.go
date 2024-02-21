@@ -6,6 +6,7 @@ import (
 	"Real-Time-Chat/ent/user"
 	"fmt"
 	"strings"
+	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -22,7 +23,63 @@ type User struct {
 	Email string `json:"email,omitempty"`
 	// PasswordHash holds the value of the "password_hash" field.
 	PasswordHash string `json:"password_hash,omitempty"`
+	// CreatedAt holds the value of the "created_at" field.
+	CreatedAt time.Time `json:"created_at,omitempty"`
+	// Edges holds the relations/edges for other nodes in the graph.
+	// The values are being populated by the UserQuery when eager-loading is set.
+	Edges        UserEdges `json:"edges"`
 	selectValues sql.SelectValues
+}
+
+// UserEdges holds the relations/edges for other nodes in the graph.
+type UserEdges struct {
+	// UserRelations1 holds the value of the user_relations_1 edge.
+	UserRelations1 []*UserRelation `json:"user_relations_1,omitempty"`
+	// UserRelations2 holds the value of the user_relations_2 edge.
+	UserRelations2 []*UserRelation `json:"user_relations_2,omitempty"`
+	// SentMessages holds the value of the sent_messages edge.
+	SentMessages []*Chat `json:"sent_messages,omitempty"`
+	// ReceivedMessages holds the value of the received_messages edge.
+	ReceivedMessages []*Chat `json:"received_messages,omitempty"`
+	// loadedTypes holds the information for reporting if a
+	// type was loaded (or requested) in eager-loading or not.
+	loadedTypes [4]bool
+}
+
+// UserRelations1OrErr returns the UserRelations1 value or an error if the edge
+// was not loaded in eager-loading.
+func (e UserEdges) UserRelations1OrErr() ([]*UserRelation, error) {
+	if e.loadedTypes[0] {
+		return e.UserRelations1, nil
+	}
+	return nil, &NotLoadedError{edge: "user_relations_1"}
+}
+
+// UserRelations2OrErr returns the UserRelations2 value or an error if the edge
+// was not loaded in eager-loading.
+func (e UserEdges) UserRelations2OrErr() ([]*UserRelation, error) {
+	if e.loadedTypes[1] {
+		return e.UserRelations2, nil
+	}
+	return nil, &NotLoadedError{edge: "user_relations_2"}
+}
+
+// SentMessagesOrErr returns the SentMessages value or an error if the edge
+// was not loaded in eager-loading.
+func (e UserEdges) SentMessagesOrErr() ([]*Chat, error) {
+	if e.loadedTypes[2] {
+		return e.SentMessages, nil
+	}
+	return nil, &NotLoadedError{edge: "sent_messages"}
+}
+
+// ReceivedMessagesOrErr returns the ReceivedMessages value or an error if the edge
+// was not loaded in eager-loading.
+func (e UserEdges) ReceivedMessagesOrErr() ([]*Chat, error) {
+	if e.loadedTypes[3] {
+		return e.ReceivedMessages, nil
+	}
+	return nil, &NotLoadedError{edge: "received_messages"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -34,6 +91,8 @@ func (*User) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullInt64)
 		case user.FieldUsername, user.FieldEmail, user.FieldPasswordHash:
 			values[i] = new(sql.NullString)
+		case user.FieldCreatedAt:
+			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
 		}
@@ -73,6 +132,12 @@ func (u *User) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				u.PasswordHash = value.String
 			}
+		case user.FieldCreatedAt:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field created_at", values[i])
+			} else if value.Valid {
+				u.CreatedAt = value.Time
+			}
 		default:
 			u.selectValues.Set(columns[i], values[i])
 		}
@@ -84,6 +149,26 @@ func (u *User) assignValues(columns []string, values []any) error {
 // This includes values selected through modifiers, order, etc.
 func (u *User) Value(name string) (ent.Value, error) {
 	return u.selectValues.Get(name)
+}
+
+// QueryUserRelations1 queries the "user_relations_1" edge of the User entity.
+func (u *User) QueryUserRelations1() *UserRelationQuery {
+	return NewUserClient(u.config).QueryUserRelations1(u)
+}
+
+// QueryUserRelations2 queries the "user_relations_2" edge of the User entity.
+func (u *User) QueryUserRelations2() *UserRelationQuery {
+	return NewUserClient(u.config).QueryUserRelations2(u)
+}
+
+// QuerySentMessages queries the "sent_messages" edge of the User entity.
+func (u *User) QuerySentMessages() *ChatQuery {
+	return NewUserClient(u.config).QuerySentMessages(u)
+}
+
+// QueryReceivedMessages queries the "received_messages" edge of the User entity.
+func (u *User) QueryReceivedMessages() *ChatQuery {
+	return NewUserClient(u.config).QueryReceivedMessages(u)
 }
 
 // Update returns a builder for updating this User.
@@ -117,6 +202,9 @@ func (u *User) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("password_hash=")
 	builder.WriteString(u.PasswordHash)
+	builder.WriteString(", ")
+	builder.WriteString("created_at=")
+	builder.WriteString(u.CreatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }

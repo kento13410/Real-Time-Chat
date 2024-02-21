@@ -19,6 +19,10 @@ message Chat {
   string message = 4;
 
   google.protobuf.Timestamp sent_at = 5;
+
+  User sender = 6;
+
+  User receiver = 7;
 }
 
 message CreateChatRequest {
@@ -85,6 +89,16 @@ message User {
   string email = 3;
 
   string password_hash = 4;
+
+  google.protobuf.Timestamp created_at = 5;
+
+  repeated UserRelation user_relations_1 = 6;
+
+  repeated UserRelation user_relations_2 = 7;
+
+  repeated Chat sent_messages = 8;
+
+  repeated Chat received_messages = 9;
 }
 
 message CreateUserRequest {
@@ -143,19 +157,25 @@ message BatchCreateUsersResponse {
   repeated User users = 1;
 }
 
-message UserRelations {
+message UserRelation {
   int64 id = 1;
 
   int64 user_id_1 = 2;
 
   int64 user_id_2 = 3;
+
+  google.protobuf.Timestamp created_at = 4;
+
+  User user1 = 5;
+
+  User user2 = 6;
 }
 
-message CreateUserRelationsRequest {
-  UserRelations user_relations = 1;
+message CreateUserRelationRequest {
+  UserRelation user_relation = 1;
 }
 
-message GetUserRelationsRequest {
+message GetUserRelationRequest {
   int64 id = 1;
 
   View view = 2;
@@ -169,15 +189,15 @@ message GetUserRelationsRequest {
   }
 }
 
-message UpdateUserRelationsRequest {
-  UserRelations user_relations = 1;
+message UpdateUserRelationRequest {
+  UserRelation user_relation = 1;
 }
 
-message DeleteUserRelationsRequest {
+message DeleteUserRelationRequest {
   int64 id = 1;
 }
 
-message ListUserRelationsRequest {
+message ListUserRelationRequest {
   int32 page_size = 1;
 
   string page_token = 2;
@@ -193,18 +213,18 @@ message ListUserRelationsRequest {
   }
 }
 
-message ListUserRelationsResponse {
-  repeated UserRelations user_relations_list = 1;
+message ListUserRelationResponse {
+  repeated UserRelation user_relation_list = 1;
 
   string next_page_token = 2;
 }
 
-message BatchCreateUserRelationsSliceRequest {
-  repeated CreateUserRelationsRequest requests = 1;
+message BatchCreateUserRelationsRequest {
+  repeated CreateUserRelationRequest requests = 1;
 }
 
-message BatchCreateUserRelationsSliceResponse {
-  repeated UserRelations user_relations_slice = 1;
+message BatchCreateUserRelationsResponse {
+  repeated UserRelation user_relations = 1;
 }
 
 service ChatService {
@@ -235,16 +255,16 @@ service UserService {
   rpc BatchCreate ( BatchCreateUsersRequest ) returns ( BatchCreateUsersResponse );
 }
 
-service UserRelationsService {
-  rpc Create ( CreateUserRelationsRequest ) returns ( UserRelations );
+service UserRelationService {
+  rpc Create ( CreateUserRelationRequest ) returns ( UserRelation );
 
-  rpc Get ( GetUserRelationsRequest ) returns ( UserRelations );
+  rpc Get ( GetUserRelationRequest ) returns ( UserRelation );
 
-  rpc Update ( UpdateUserRelationsRequest ) returns ( UserRelations );
+  rpc Update ( UpdateUserRelationRequest ) returns ( UserRelation );
 
-  rpc Delete ( DeleteUserRelationsRequest ) returns ( google.protobuf.Empty );
+  rpc Delete ( DeleteUserRelationRequest ) returns ( google.protobuf.Empty );
 
-  rpc List ( ListUserRelationsRequest ) returns ( ListUserRelationsResponse );
+  rpc List ( ListUserRelationRequest ) returns ( ListUserRelationResponse );
 
-  rpc BatchCreate ( BatchCreateUserRelationsSliceRequest ) returns ( BatchCreateUserRelationsSliceResponse );
+  rpc BatchCreate ( BatchCreateUserRelationsRequest ) returns ( BatchCreateUserRelationsResponse );
 }

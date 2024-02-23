@@ -45,15 +45,15 @@ func toProtoChat(e *ent.Chat) (*Chat, error) {
 	v.SenderId = sender_id
 	sent_at := timestamppb.New(e.SentAt)
 	v.SentAt = sent_at
-	if edg := e.Edges.Receiver; edg != nil {
+	if edg := e.Edges.Received; edg != nil {
 		id := int64(edg.ID)
-		v.Receiver = &User{
+		v.Received = &User{
 			Id: id,
 		}
 	}
-	if edg := e.Edges.Sender; edg != nil {
+	if edg := e.Edges.Sent; edg != nil {
 		id := int64(edg.ID)
-		v.Sender = &User{
+		v.Sent = &User{
 			Id: id,
 		}
 	}
@@ -111,10 +111,10 @@ func (svc *ChatService) Get(ctx context.Context, req *GetChatRequest) (*Chat, er
 	case GetChatRequest_WITH_EDGE_IDS:
 		get, err = svc.client.Chat.Query().
 			Where(chat.ID(id)).
-			WithReceiver(func(query *ent.UserQuery) {
+			WithReceived(func(query *ent.UserQuery) {
 				query.Select(user.FieldID)
 			}).
-			WithSender(func(query *ent.UserQuery) {
+			WithSent(func(query *ent.UserQuery) {
 				query.Select(user.FieldID)
 			}).
 			Only(ctx)
@@ -143,13 +143,13 @@ func (svc *ChatService) Update(ctx context.Context, req *UpdateChatRequest) (*Ch
 	m.SetReceiverID(chatReceiverID)
 	chatSenderID := int(chat.GetSenderId())
 	m.SetSenderID(chatSenderID)
-	if chat.GetReceiver() != nil {
-		chatReceiver := int(chat.GetReceiver().GetId())
-		m.SetReceiverID(chatReceiver)
+	if chat.GetReceived() != nil {
+		chatReceived := int(chat.GetReceived().GetId())
+		m.SetReceivedID(chatReceived)
 	}
-	if chat.GetSender() != nil {
-		chatSender := int(chat.GetSender().GetId())
-		m.SetSenderID(chatSender)
+	if chat.GetSent() != nil {
+		chatSent := int(chat.GetSent().GetId())
+		m.SetSentID(chatSent)
 	}
 
 	res, err := m.Save(ctx)
@@ -221,10 +221,10 @@ func (svc *ChatService) List(ctx context.Context, req *ListChatRequest) (*ListCh
 		entList, err = listQuery.All(ctx)
 	case ListChatRequest_WITH_EDGE_IDS:
 		entList, err = listQuery.
-			WithReceiver(func(query *ent.UserQuery) {
+			WithReceived(func(query *ent.UserQuery) {
 				query.Select(user.FieldID)
 			}).
-			WithSender(func(query *ent.UserQuery) {
+			WithSent(func(query *ent.UserQuery) {
 				query.Select(user.FieldID)
 			}).
 			All(ctx)
@@ -296,13 +296,13 @@ func (svc *ChatService) createBuilder(chat *Chat) (*ent.ChatCreate, error) {
 	m.SetSenderID(chatSenderID)
 	chatSentAt := runtime.ExtractTime(chat.GetSentAt())
 	m.SetSentAt(chatSentAt)
-	if chat.GetReceiver() != nil {
-		chatReceiver := int(chat.GetReceiver().GetId())
-		m.SetReceiverID(chatReceiver)
+	if chat.GetReceived() != nil {
+		chatReceived := int(chat.GetReceived().GetId())
+		m.SetReceivedID(chatReceived)
 	}
-	if chat.GetSender() != nil {
-		chatSender := int(chat.GetSender().GetId())
-		m.SetSenderID(chatSender)
+	if chat.GetSent() != nil {
+		chatSent := int(chat.GetSent().GetId())
+		m.SetSentID(chatSent)
 	}
 	return m, nil
 }

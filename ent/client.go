@@ -326,15 +326,15 @@ func (c *ChatClient) GetX(ctx context.Context, id int) *Chat {
 	return obj
 }
 
-// QuerySender queries the sender edge of a Chat.
-func (c *ChatClient) QuerySender(ch *Chat) *UserQuery {
+// QuerySent queries the sent edge of a Chat.
+func (c *ChatClient) QuerySent(ch *Chat) *UserQuery {
 	query := (&UserClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
 		id := ch.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(chat.Table, chat.FieldID, id),
 			sqlgraph.To(user.Table, user.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, chat.SenderTable, chat.SenderColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, chat.SentTable, chat.SentColumn),
 		)
 		fromV = sqlgraph.Neighbors(ch.driver.Dialect(), step)
 		return fromV, nil
@@ -342,15 +342,15 @@ func (c *ChatClient) QuerySender(ch *Chat) *UserQuery {
 	return query
 }
 
-// QueryReceiver queries the receiver edge of a Chat.
-func (c *ChatClient) QueryReceiver(ch *Chat) *UserQuery {
+// QueryReceived queries the received edge of a Chat.
+func (c *ChatClient) QueryReceived(ch *Chat) *UserQuery {
 	query := (&UserClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
 		id := ch.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(chat.Table, chat.FieldID, id),
 			sqlgraph.To(user.Table, user.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, chat.ReceiverTable, chat.ReceiverColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, chat.ReceivedTable, chat.ReceivedColumn),
 		)
 		fromV = sqlgraph.Neighbors(ch.driver.Dialect(), step)
 		return fromV, nil

@@ -22,26 +22,26 @@ const (
 	FieldMessage = "message"
 	// FieldSentAt holds the string denoting the sent_at field in the database.
 	FieldSentAt = "sent_at"
-	// EdgeSender holds the string denoting the sender edge name in mutations.
-	EdgeSender = "sender"
-	// EdgeReceiver holds the string denoting the receiver edge name in mutations.
-	EdgeReceiver = "receiver"
+	// EdgeSent holds the string denoting the sent edge name in mutations.
+	EdgeSent = "sent"
+	// EdgeReceived holds the string denoting the received edge name in mutations.
+	EdgeReceived = "received"
 	// Table holds the table name of the chat in the database.
 	Table = "chats"
-	// SenderTable is the table that holds the sender relation/edge.
-	SenderTable = "chats"
-	// SenderInverseTable is the table name for the User entity.
+	// SentTable is the table that holds the sent relation/edge.
+	SentTable = "chats"
+	// SentInverseTable is the table name for the User entity.
 	// It exists in this package in order to avoid circular dependency with the "user" package.
-	SenderInverseTable = "users"
-	// SenderColumn is the table column denoting the sender relation/edge.
-	SenderColumn = "user_sent_messages"
-	// ReceiverTable is the table that holds the receiver relation/edge.
-	ReceiverTable = "chats"
-	// ReceiverInverseTable is the table name for the User entity.
+	SentInverseTable = "users"
+	// SentColumn is the table column denoting the sent relation/edge.
+	SentColumn = "user_sent_messages"
+	// ReceivedTable is the table that holds the received relation/edge.
+	ReceivedTable = "chats"
+	// ReceivedInverseTable is the table name for the User entity.
 	// It exists in this package in order to avoid circular dependency with the "user" package.
-	ReceiverInverseTable = "users"
-	// ReceiverColumn is the table column denoting the receiver relation/edge.
-	ReceiverColumn = "user_received_messages"
+	ReceivedInverseTable = "users"
+	// ReceivedColumn is the table column denoting the received relation/edge.
+	ReceivedColumn = "user_received_messages"
 )
 
 // Columns holds all SQL columns for chat fields.
@@ -108,30 +108,30 @@ func BySentAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldSentAt, opts...).ToFunc()
 }
 
-// BySenderField orders the results by sender field.
-func BySenderField(field string, opts ...sql.OrderTermOption) OrderOption {
+// BySentField orders the results by sent field.
+func BySentField(field string, opts ...sql.OrderTermOption) OrderOption {
 	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborTerms(s, newSenderStep(), sql.OrderByField(field, opts...))
+		sqlgraph.OrderByNeighborTerms(s, newSentStep(), sql.OrderByField(field, opts...))
 	}
 }
 
-// ByReceiverField orders the results by receiver field.
-func ByReceiverField(field string, opts ...sql.OrderTermOption) OrderOption {
+// ByReceivedField orders the results by received field.
+func ByReceivedField(field string, opts ...sql.OrderTermOption) OrderOption {
 	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborTerms(s, newReceiverStep(), sql.OrderByField(field, opts...))
+		sqlgraph.OrderByNeighborTerms(s, newReceivedStep(), sql.OrderByField(field, opts...))
 	}
 }
-func newSenderStep() *sqlgraph.Step {
+func newSentStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
-		sqlgraph.To(SenderInverseTable, FieldID),
-		sqlgraph.Edge(sqlgraph.M2O, true, SenderTable, SenderColumn),
+		sqlgraph.To(SentInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.M2O, true, SentTable, SentColumn),
 	)
 }
-func newReceiverStep() *sqlgraph.Step {
+func newReceivedStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
-		sqlgraph.To(ReceiverInverseTable, FieldID),
-		sqlgraph.Edge(sqlgraph.M2O, true, ReceiverTable, ReceiverColumn),
+		sqlgraph.To(ReceivedInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.M2O, true, ReceivedTable, ReceivedColumn),
 	)
 }

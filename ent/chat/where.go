@@ -260,21 +260,21 @@ func SentAtLTE(v time.Time) predicate.Chat {
 	return predicate.Chat(sql.FieldLTE(FieldSentAt, v))
 }
 
-// HasSender applies the HasEdge predicate on the "sender" edge.
-func HasSender() predicate.Chat {
+// HasSent applies the HasEdge predicate on the "sent" edge.
+func HasSent() predicate.Chat {
 	return predicate.Chat(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, SenderTable, SenderColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, SentTable, SentColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasSenderWith applies the HasEdge predicate on the "sender" edge with a given conditions (other predicates).
-func HasSenderWith(preds ...predicate.User) predicate.Chat {
+// HasSentWith applies the HasEdge predicate on the "sent" edge with a given conditions (other predicates).
+func HasSentWith(preds ...predicate.User) predicate.Chat {
 	return predicate.Chat(func(s *sql.Selector) {
-		step := newSenderStep()
+		step := newSentStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)
@@ -283,21 +283,21 @@ func HasSenderWith(preds ...predicate.User) predicate.Chat {
 	})
 }
 
-// HasReceiver applies the HasEdge predicate on the "receiver" edge.
-func HasReceiver() predicate.Chat {
+// HasReceived applies the HasEdge predicate on the "received" edge.
+func HasReceived() predicate.Chat {
 	return predicate.Chat(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, ReceiverTable, ReceiverColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, ReceivedTable, ReceivedColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasReceiverWith applies the HasEdge predicate on the "receiver" edge with a given conditions (other predicates).
-func HasReceiverWith(preds ...predicate.User) predicate.Chat {
+// HasReceivedWith applies the HasEdge predicate on the "received" edge with a given conditions (other predicates).
+func HasReceivedWith(preds ...predicate.User) predicate.Chat {
 	return predicate.Chat(func(s *sql.Selector) {
-		step := newReceiverStep()
+		step := newReceivedStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)

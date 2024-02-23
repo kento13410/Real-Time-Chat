@@ -44,10 +44,10 @@ type ChatMutation struct {
 	message         *string
 	sent_at         *time.Time
 	clearedFields   map[string]struct{}
-	sender          *int
-	clearedsender   bool
-	receiver        *int
-	clearedreceiver bool
+	sent            *int
+	clearedsent     bool
+	received        *int
+	clearedreceived bool
 	done            bool
 	oldValue        func(context.Context) (*Chat, error)
 	predicates      []predicate.Chat
@@ -335,82 +335,82 @@ func (m *ChatMutation) ResetSentAt() {
 	m.sent_at = nil
 }
 
-// SetSenderID sets the "sender" edge to the User entity by id.
-func (m *ChatMutation) SetSenderID(id int) {
-	m.sender = &id
+// SetSentID sets the "sent" edge to the User entity by id.
+func (m *ChatMutation) SetSentID(id int) {
+	m.sent = &id
 }
 
-// ClearSender clears the "sender" edge to the User entity.
-func (m *ChatMutation) ClearSender() {
-	m.clearedsender = true
+// ClearSent clears the "sent" edge to the User entity.
+func (m *ChatMutation) ClearSent() {
+	m.clearedsent = true
 }
 
-// SenderCleared reports if the "sender" edge to the User entity was cleared.
-func (m *ChatMutation) SenderCleared() bool {
-	return m.clearedsender
+// SentCleared reports if the "sent" edge to the User entity was cleared.
+func (m *ChatMutation) SentCleared() bool {
+	return m.clearedsent
 }
 
-// SenderID returns the "sender" edge ID in the mutation.
-func (m *ChatMutation) SenderID() (id int, exists bool) {
-	if m.sender != nil {
-		return *m.sender, true
+// SentID returns the "sent" edge ID in the mutation.
+func (m *ChatMutation) SentID() (id int, exists bool) {
+	if m.sent != nil {
+		return *m.sent, true
 	}
 	return
 }
 
-// SenderIDs returns the "sender" edge IDs in the mutation.
+// SentIDs returns the "sent" edge IDs in the mutation.
 // Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// SenderID instead. It exists only for internal usage by the builders.
-func (m *ChatMutation) SenderIDs() (ids []int) {
-	if id := m.sender; id != nil {
+// SentID instead. It exists only for internal usage by the builders.
+func (m *ChatMutation) SentIDs() (ids []int) {
+	if id := m.sent; id != nil {
 		ids = append(ids, *id)
 	}
 	return
 }
 
-// ResetSender resets all changes to the "sender" edge.
-func (m *ChatMutation) ResetSender() {
-	m.sender = nil
-	m.clearedsender = false
+// ResetSent resets all changes to the "sent" edge.
+func (m *ChatMutation) ResetSent() {
+	m.sent = nil
+	m.clearedsent = false
 }
 
-// SetReceiverID sets the "receiver" edge to the User entity by id.
-func (m *ChatMutation) SetReceiverID(id int) {
-	m.receiver = &id
+// SetReceivedID sets the "received" edge to the User entity by id.
+func (m *ChatMutation) SetReceivedID(id int) {
+	m.received = &id
 }
 
-// ClearReceiver clears the "receiver" edge to the User entity.
-func (m *ChatMutation) ClearReceiver() {
-	m.clearedreceiver = true
+// ClearReceived clears the "received" edge to the User entity.
+func (m *ChatMutation) ClearReceived() {
+	m.clearedreceived = true
 }
 
-// ReceiverCleared reports if the "receiver" edge to the User entity was cleared.
-func (m *ChatMutation) ReceiverCleared() bool {
-	return m.clearedreceiver
+// ReceivedCleared reports if the "received" edge to the User entity was cleared.
+func (m *ChatMutation) ReceivedCleared() bool {
+	return m.clearedreceived
 }
 
-// ReceiverID returns the "receiver" edge ID in the mutation.
-func (m *ChatMutation) ReceiverID() (id int, exists bool) {
-	if m.receiver != nil {
-		return *m.receiver, true
+// ReceivedID returns the "received" edge ID in the mutation.
+func (m *ChatMutation) ReceivedID() (id int, exists bool) {
+	if m.received != nil {
+		return *m.received, true
 	}
 	return
 }
 
-// ReceiverIDs returns the "receiver" edge IDs in the mutation.
+// ReceivedIDs returns the "received" edge IDs in the mutation.
 // Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// ReceiverID instead. It exists only for internal usage by the builders.
-func (m *ChatMutation) ReceiverIDs() (ids []int) {
-	if id := m.receiver; id != nil {
+// ReceivedID instead. It exists only for internal usage by the builders.
+func (m *ChatMutation) ReceivedIDs() (ids []int) {
+	if id := m.received; id != nil {
 		ids = append(ids, *id)
 	}
 	return
 }
 
-// ResetReceiver resets all changes to the "receiver" edge.
-func (m *ChatMutation) ResetReceiver() {
-	m.receiver = nil
-	m.clearedreceiver = false
+// ResetReceived resets all changes to the "received" edge.
+func (m *ChatMutation) ResetReceived() {
+	m.received = nil
+	m.clearedreceived = false
 }
 
 // Where appends a list predicates to the ChatMutation builder.
@@ -625,11 +625,11 @@ func (m *ChatMutation) ResetField(name string) error {
 // AddedEdges returns all edge names that were set/added in this mutation.
 func (m *ChatMutation) AddedEdges() []string {
 	edges := make([]string, 0, 2)
-	if m.sender != nil {
-		edges = append(edges, chat.EdgeSender)
+	if m.sent != nil {
+		edges = append(edges, chat.EdgeSent)
 	}
-	if m.receiver != nil {
-		edges = append(edges, chat.EdgeReceiver)
+	if m.received != nil {
+		edges = append(edges, chat.EdgeReceived)
 	}
 	return edges
 }
@@ -638,12 +638,12 @@ func (m *ChatMutation) AddedEdges() []string {
 // name in this mutation.
 func (m *ChatMutation) AddedIDs(name string) []ent.Value {
 	switch name {
-	case chat.EdgeSender:
-		if id := m.sender; id != nil {
+	case chat.EdgeSent:
+		if id := m.sent; id != nil {
 			return []ent.Value{*id}
 		}
-	case chat.EdgeReceiver:
-		if id := m.receiver; id != nil {
+	case chat.EdgeReceived:
+		if id := m.received; id != nil {
 			return []ent.Value{*id}
 		}
 	}
@@ -665,11 +665,11 @@ func (m *ChatMutation) RemovedIDs(name string) []ent.Value {
 // ClearedEdges returns all edge names that were cleared in this mutation.
 func (m *ChatMutation) ClearedEdges() []string {
 	edges := make([]string, 0, 2)
-	if m.clearedsender {
-		edges = append(edges, chat.EdgeSender)
+	if m.clearedsent {
+		edges = append(edges, chat.EdgeSent)
 	}
-	if m.clearedreceiver {
-		edges = append(edges, chat.EdgeReceiver)
+	if m.clearedreceived {
+		edges = append(edges, chat.EdgeReceived)
 	}
 	return edges
 }
@@ -678,10 +678,10 @@ func (m *ChatMutation) ClearedEdges() []string {
 // was cleared in this mutation.
 func (m *ChatMutation) EdgeCleared(name string) bool {
 	switch name {
-	case chat.EdgeSender:
-		return m.clearedsender
-	case chat.EdgeReceiver:
-		return m.clearedreceiver
+	case chat.EdgeSent:
+		return m.clearedsent
+	case chat.EdgeReceived:
+		return m.clearedreceived
 	}
 	return false
 }
@@ -690,11 +690,11 @@ func (m *ChatMutation) EdgeCleared(name string) bool {
 // if that edge is not defined in the schema.
 func (m *ChatMutation) ClearEdge(name string) error {
 	switch name {
-	case chat.EdgeSender:
-		m.ClearSender()
+	case chat.EdgeSent:
+		m.ClearSent()
 		return nil
-	case chat.EdgeReceiver:
-		m.ClearReceiver()
+	case chat.EdgeReceived:
+		m.ClearReceived()
 		return nil
 	}
 	return fmt.Errorf("unknown Chat unique edge %s", name)
@@ -704,11 +704,11 @@ func (m *ChatMutation) ClearEdge(name string) error {
 // It returns an error if the edge is not defined in the schema.
 func (m *ChatMutation) ResetEdge(name string) error {
 	switch name {
-	case chat.EdgeSender:
-		m.ResetSender()
+	case chat.EdgeSent:
+		m.ResetSent()
 		return nil
-	case chat.EdgeReceiver:
-		m.ResetReceiver()
+	case chat.EdgeReceived:
+		m.ResetReceived()
 		return nil
 	}
 	return fmt.Errorf("unknown Chat edge %s", name)

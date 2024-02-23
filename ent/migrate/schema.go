@@ -15,8 +15,8 @@ var (
 		{Name: "receiver_id", Type: field.TypeInt},
 		{Name: "message", Type: field.TypeString},
 		{Name: "sent_at", Type: field.TypeTime},
-		{Name: "user_sent_messages", Type: field.TypeInt},
-		{Name: "user_received_messages", Type: field.TypeInt},
+		{Name: "user_sent_messages", Type: field.TypeInt, Nullable: true},
+		{Name: "user_received_messages", Type: field.TypeInt, Nullable: true},
 	}
 	// ChatsTable holds the schema information for the "chats" table.
 	ChatsTable = &schema.Table{
@@ -28,13 +28,13 @@ var (
 				Symbol:     "chats_users_sent_messages",
 				Columns:    []*schema.Column{ChatsColumns[5]},
 				RefColumns: []*schema.Column{UsersColumns[0]},
-				OnDelete:   schema.NoAction,
+				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:     "chats_users_received_messages",
 				Columns:    []*schema.Column{ChatsColumns[6]},
 				RefColumns: []*schema.Column{UsersColumns[0]},
-				OnDelete:   schema.NoAction,
+				OnDelete:   schema.SetNull,
 			},
 		},
 	}
@@ -58,8 +58,8 @@ var (
 		{Name: "user_id_1", Type: field.TypeInt},
 		{Name: "user_id_2", Type: field.TypeInt},
 		{Name: "created_at", Type: field.TypeTime},
-		{Name: "user_user_relations_1", Type: field.TypeInt},
-		{Name: "user_user_relations_2", Type: field.TypeInt},
+		{Name: "user_user_relations_1", Type: field.TypeInt, Nullable: true},
+		{Name: "user_user_relations_2", Type: field.TypeInt, Nullable: true},
 	}
 	// UserRelationsTable holds the schema information for the "user_relations" table.
 	UserRelationsTable = &schema.Table{
@@ -71,13 +71,13 @@ var (
 				Symbol:     "user_relations_users_user_relations_1",
 				Columns:    []*schema.Column{UserRelationsColumns[4]},
 				RefColumns: []*schema.Column{UsersColumns[0]},
-				OnDelete:   schema.NoAction,
+				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:     "user_relations_users_user_relations_2",
 				Columns:    []*schema.Column{UserRelationsColumns[5]},
 				RefColumns: []*schema.Column{UsersColumns[0]},
-				OnDelete:   schema.NoAction,
+				OnDelete:   schema.SetNull,
 			},
 		},
 	}

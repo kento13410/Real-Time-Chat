@@ -36,39 +36,39 @@ type Chat struct {
 
 // ChatEdges holds the relations/edges for other nodes in the graph.
 type ChatEdges struct {
-	// Sender holds the value of the sender edge.
-	Sender *User `json:"sender,omitempty"`
-	// Receiver holds the value of the receiver edge.
-	Receiver *User `json:"receiver,omitempty"`
+	// Sent holds the value of the sent edge.
+	Sent *User `json:"sent,omitempty"`
+	// Received holds the value of the received edge.
+	Received *User `json:"received,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [2]bool
 }
 
-// SenderOrErr returns the Sender value or an error if the edge
+// SentOrErr returns the Sent value or an error if the edge
 // was not loaded in eager-loading, or loaded but was not found.
-func (e ChatEdges) SenderOrErr() (*User, error) {
+func (e ChatEdges) SentOrErr() (*User, error) {
 	if e.loadedTypes[0] {
-		if e.Sender == nil {
+		if e.Sent == nil {
 			// Edge was loaded but was not found.
 			return nil, &NotFoundError{label: user.Label}
 		}
-		return e.Sender, nil
+		return e.Sent, nil
 	}
-	return nil, &NotLoadedError{edge: "sender"}
+	return nil, &NotLoadedError{edge: "sent"}
 }
 
-// ReceiverOrErr returns the Receiver value or an error if the edge
+// ReceivedOrErr returns the Received value or an error if the edge
 // was not loaded in eager-loading, or loaded but was not found.
-func (e ChatEdges) ReceiverOrErr() (*User, error) {
+func (e ChatEdges) ReceivedOrErr() (*User, error) {
 	if e.loadedTypes[1] {
-		if e.Receiver == nil {
+		if e.Received == nil {
 			// Edge was loaded but was not found.
 			return nil, &NotFoundError{label: user.Label}
 		}
-		return e.Receiver, nil
+		return e.Received, nil
 	}
-	return nil, &NotLoadedError{edge: "receiver"}
+	return nil, &NotLoadedError{edge: "received"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -158,14 +158,14 @@ func (c *Chat) Value(name string) (ent.Value, error) {
 	return c.selectValues.Get(name)
 }
 
-// QuerySender queries the "sender" edge of the Chat entity.
-func (c *Chat) QuerySender() *UserQuery {
-	return NewChatClient(c.config).QuerySender(c)
+// QuerySent queries the "sent" edge of the Chat entity.
+func (c *Chat) QuerySent() *UserQuery {
+	return NewChatClient(c.config).QuerySent(c)
 }
 
-// QueryReceiver queries the "receiver" edge of the Chat entity.
-func (c *Chat) QueryReceiver() *UserQuery {
-	return NewChatClient(c.config).QueryReceiver(c)
+// QueryReceived queries the "received" edge of the Chat entity.
+func (c *Chat) QueryReceived() *UserQuery {
+	return NewChatClient(c.config).QueryReceived(c)
 }
 
 // Update returns a builder for updating this Chat.

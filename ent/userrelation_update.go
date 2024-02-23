@@ -76,6 +76,14 @@ func (uru *UserRelationUpdate) SetUser1ID(id int) *UserRelationUpdate {
 	return uru
 }
 
+// SetNillableUser1ID sets the "user1" edge to the User entity by ID if the given value is not nil.
+func (uru *UserRelationUpdate) SetNillableUser1ID(id *int) *UserRelationUpdate {
+	if id != nil {
+		uru = uru.SetUser1ID(*id)
+	}
+	return uru
+}
+
 // SetUser1 sets the "user1" edge to the User entity.
 func (uru *UserRelationUpdate) SetUser1(u *User) *UserRelationUpdate {
 	return uru.SetUser1ID(u.ID)
@@ -84,6 +92,14 @@ func (uru *UserRelationUpdate) SetUser1(u *User) *UserRelationUpdate {
 // SetUser2ID sets the "user2" edge to the User entity by ID.
 func (uru *UserRelationUpdate) SetUser2ID(id int) *UserRelationUpdate {
 	uru.mutation.SetUser2ID(id)
+	return uru
+}
+
+// SetNillableUser2ID sets the "user2" edge to the User entity by ID if the given value is not nil.
+func (uru *UserRelationUpdate) SetNillableUser2ID(id *int) *UserRelationUpdate {
+	if id != nil {
+		uru = uru.SetUser2ID(*id)
+	}
 	return uru
 }
 
@@ -136,21 +152,7 @@ func (uru *UserRelationUpdate) ExecX(ctx context.Context) {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (uru *UserRelationUpdate) check() error {
-	if _, ok := uru.mutation.User1ID(); uru.mutation.User1Cleared() && !ok {
-		return errors.New(`ent: clearing a required unique edge "UserRelation.user1"`)
-	}
-	if _, ok := uru.mutation.User2ID(); uru.mutation.User2Cleared() && !ok {
-		return errors.New(`ent: clearing a required unique edge "UserRelation.user2"`)
-	}
-	return nil
-}
-
 func (uru *UserRelationUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := uru.check(); err != nil {
-		return n, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(userrelation.Table, userrelation.Columns, sqlgraph.NewFieldSpec(userrelation.FieldID, field.TypeInt))
 	if ps := uru.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -297,6 +299,14 @@ func (uruo *UserRelationUpdateOne) SetUser1ID(id int) *UserRelationUpdateOne {
 	return uruo
 }
 
+// SetNillableUser1ID sets the "user1" edge to the User entity by ID if the given value is not nil.
+func (uruo *UserRelationUpdateOne) SetNillableUser1ID(id *int) *UserRelationUpdateOne {
+	if id != nil {
+		uruo = uruo.SetUser1ID(*id)
+	}
+	return uruo
+}
+
 // SetUser1 sets the "user1" edge to the User entity.
 func (uruo *UserRelationUpdateOne) SetUser1(u *User) *UserRelationUpdateOne {
 	return uruo.SetUser1ID(u.ID)
@@ -305,6 +315,14 @@ func (uruo *UserRelationUpdateOne) SetUser1(u *User) *UserRelationUpdateOne {
 // SetUser2ID sets the "user2" edge to the User entity by ID.
 func (uruo *UserRelationUpdateOne) SetUser2ID(id int) *UserRelationUpdateOne {
 	uruo.mutation.SetUser2ID(id)
+	return uruo
+}
+
+// SetNillableUser2ID sets the "user2" edge to the User entity by ID if the given value is not nil.
+func (uruo *UserRelationUpdateOne) SetNillableUser2ID(id *int) *UserRelationUpdateOne {
+	if id != nil {
+		uruo = uruo.SetUser2ID(*id)
+	}
 	return uruo
 }
 
@@ -370,21 +388,7 @@ func (uruo *UserRelationUpdateOne) ExecX(ctx context.Context) {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (uruo *UserRelationUpdateOne) check() error {
-	if _, ok := uruo.mutation.User1ID(); uruo.mutation.User1Cleared() && !ok {
-		return errors.New(`ent: clearing a required unique edge "UserRelation.user1"`)
-	}
-	if _, ok := uruo.mutation.User2ID(); uruo.mutation.User2Cleared() && !ok {
-		return errors.New(`ent: clearing a required unique edge "UserRelation.user2"`)
-	}
-	return nil
-}
-
 func (uruo *UserRelationUpdateOne) sqlSave(ctx context.Context) (_node *UserRelation, err error) {
-	if err := uruo.check(); err != nil {
-		return _node, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(userrelation.Table, userrelation.Columns, sqlgraph.NewFieldSpec(userrelation.FieldID, field.TypeInt))
 	id, ok := uruo.mutation.ID()
 	if !ok {

@@ -53,6 +53,14 @@ func (urc *UserRelationCreate) SetUser1ID(id int) *UserRelationCreate {
 	return urc
 }
 
+// SetNillableUser1ID sets the "user1" edge to the User entity by ID if the given value is not nil.
+func (urc *UserRelationCreate) SetNillableUser1ID(id *int) *UserRelationCreate {
+	if id != nil {
+		urc = urc.SetUser1ID(*id)
+	}
+	return urc
+}
+
 // SetUser1 sets the "user1" edge to the User entity.
 func (urc *UserRelationCreate) SetUser1(u *User) *UserRelationCreate {
 	return urc.SetUser1ID(u.ID)
@@ -61,6 +69,14 @@ func (urc *UserRelationCreate) SetUser1(u *User) *UserRelationCreate {
 // SetUser2ID sets the "user2" edge to the User entity by ID.
 func (urc *UserRelationCreate) SetUser2ID(id int) *UserRelationCreate {
 	urc.mutation.SetUser2ID(id)
+	return urc
+}
+
+// SetNillableUser2ID sets the "user2" edge to the User entity by ID if the given value is not nil.
+func (urc *UserRelationCreate) SetNillableUser2ID(id *int) *UserRelationCreate {
+	if id != nil {
+		urc = urc.SetUser2ID(*id)
+	}
 	return urc
 }
 
@@ -120,12 +136,6 @@ func (urc *UserRelationCreate) check() error {
 	}
 	if _, ok := urc.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "created_at", err: errors.New(`ent: missing required field "UserRelation.created_at"`)}
-	}
-	if _, ok := urc.mutation.User1ID(); !ok {
-		return &ValidationError{Name: "user1", err: errors.New(`ent: missing required edge "UserRelation.user1"`)}
-	}
-	if _, ok := urc.mutation.User2ID(); !ok {
-		return &ValidationError{Name: "user2", err: errors.New(`ent: missing required edge "UserRelation.user2"`)}
 	}
 	return nil
 }

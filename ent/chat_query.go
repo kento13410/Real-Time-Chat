@@ -22,8 +22,8 @@ type ChatQuery struct {
 	order        []chat.OrderOption
 	inters       []Interceptor
 	predicates   []predicate.Chat
-	withSender   *UserQuery
-	withReceiver *UserQuery
+	withSent     *UserQuery
+	withReceived *UserQuery
 	withFKs      bool
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
@@ -61,8 +61,8 @@ func (cq *ChatQuery) Order(o ...chat.OrderOption) *ChatQuery {
 	return cq
 }
 
-// QuerySender chains the current query on the "sender" edge.
-func (cq *ChatQuery) QuerySender() *UserQuery {
+// QuerySent chains the current query on the "sent" edge.
+func (cq *ChatQuery) QuerySent() *UserQuery {
 	query := (&UserClient{config: cq.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := cq.prepareQuery(ctx); err != nil {
@@ -75,7 +75,7 @@ func (cq *ChatQuery) QuerySender() *UserQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(chat.Table, chat.FieldID, selector),
 			sqlgraph.To(user.Table, user.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, chat.SenderTable, chat.SenderColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, chat.SentTable, chat.SentColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(cq.driver.Dialect(), step)
 		return fromU, nil
@@ -83,8 +83,8 @@ func (cq *ChatQuery) QuerySender() *UserQuery {
 	return query
 }
 
-// QueryReceiver chains the current query on the "receiver" edge.
-func (cq *ChatQuery) QueryReceiver() *UserQuery {
+// QueryReceived chains the current query on the "received" edge.
+func (cq *ChatQuery) QueryReceived() *UserQuery {
 	query := (&UserClient{config: cq.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := cq.prepareQuery(ctx); err != nil {
@@ -97,7 +97,7 @@ func (cq *ChatQuery) QueryReceiver() *UserQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(chat.Table, chat.FieldID, selector),
 			sqlgraph.To(user.Table, user.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, chat.ReceiverTable, chat.ReceiverColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, chat.ReceivedTable, chat.ReceivedColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(cq.driver.Dialect(), step)
 		return fromU, nil
@@ -297,33 +297,33 @@ func (cq *ChatQuery) Clone() *ChatQuery {
 		order:        append([]chat.OrderOption{}, cq.order...),
 		inters:       append([]Interceptor{}, cq.inters...),
 		predicates:   append([]predicate.Chat{}, cq.predicates...),
-		withSender:   cq.withSender.Clone(),
-		withReceiver: cq.withReceiver.Clone(),
+		withSent:     cq.withSent.Clone(),
+		withReceived: cq.withReceived.Clone(),
 		// clone intermediate query.
 		sql:  cq.sql.Clone(),
 		path: cq.path,
 	}
 }
 
-// WithSender tells the query-builder to eager-load the nodes that are connected to
-// the "sender" edge. The optional arguments are used to configure the query builder of the edge.
-func (cq *ChatQuery) WithSender(opts ...func(*UserQuery)) *ChatQuery {
+// WithSent tells the query-builder to eager-load the nodes that are connected to
+// the "sent" edge. The optional arguments are used to configure the query builder of the edge.
+func (cq *ChatQuery) WithSent(opts ...func(*UserQuery)) *ChatQuery {
 	query := (&UserClient{config: cq.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	cq.withSender = query
+	cq.withSent = query
 	return cq
 }
 
-// WithReceiver tells the query-builder to eager-load the nodes that are connected to
-// the "receiver" edge. The optional arguments are used to configure the query builder of the edge.
-func (cq *ChatQuery) WithReceiver(opts ...func(*UserQuery)) *ChatQuery {
+// WithReceived tells the query-builder to eager-load the nodes that are connected to
+// the "received" edge. The optional arguments are used to configure the query builder of the edge.
+func (cq *ChatQuery) WithReceived(opts ...func(*UserQuery)) *ChatQuery {
 	query := (&UserClient{config: cq.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	cq.withReceiver = query
+	cq.withReceived = query
 	return cq
 }
 
@@ -407,11 +407,11 @@ func (cq *ChatQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Chat, e
 		withFKs     = cq.withFKs
 		_spec       = cq.querySpec()
 		loadedTypes = [2]bool{
-			cq.withSender != nil,
-			cq.withReceiver != nil,
+			cq.withSent != nil,
+			cq.withReceived != nil,
 		}
 	)
-	if cq.withSender != nil || cq.withReceiver != nil {
+	if cq.withSent != nil || cq.withReceived != nil {
 		withFKs = true
 	}
 	if withFKs {
@@ -435,22 +435,22 @@ func (cq *ChatQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Chat, e
 	if len(nodes) == 0 {
 		return nodes, nil
 	}
-	if query := cq.withSender; query != nil {
-		if err := cq.loadSender(ctx, query, nodes, nil,
-			func(n *Chat, e *User) { n.Edges.Sender = e }); err != nil {
+	if query := cq.withSent; query != nil {
+		if err := cq.loadSent(ctx, query, nodes, nil,
+			func(n *Chat, e *User) { n.Edges.Sent = e }); err != nil {
 			return nil, err
 		}
 	}
-	if query := cq.withReceiver; query != nil {
-		if err := cq.loadReceiver(ctx, query, nodes, nil,
-			func(n *Chat, e *User) { n.Edges.Receiver = e }); err != nil {
+	if query := cq.withReceived; query != nil {
+		if err := cq.loadReceived(ctx, query, nodes, nil,
+			func(n *Chat, e *User) { n.Edges.Received = e }); err != nil {
 			return nil, err
 		}
 	}
 	return nodes, nil
 }
 
-func (cq *ChatQuery) loadSender(ctx context.Context, query *UserQuery, nodes []*Chat, init func(*Chat), assign func(*Chat, *User)) error {
+func (cq *ChatQuery) loadSent(ctx context.Context, query *UserQuery, nodes []*Chat, init func(*Chat), assign func(*Chat, *User)) error {
 	ids := make([]int, 0, len(nodes))
 	nodeids := make(map[int][]*Chat)
 	for i := range nodes {
@@ -482,7 +482,7 @@ func (cq *ChatQuery) loadSender(ctx context.Context, query *UserQuery, nodes []*
 	}
 	return nil
 }
-func (cq *ChatQuery) loadReceiver(ctx context.Context, query *UserQuery, nodes []*Chat, init func(*Chat), assign func(*Chat, *User)) error {
+func (cq *ChatQuery) loadReceived(ctx context.Context, query *UserQuery, nodes []*Chat, init func(*Chat), assign func(*Chat, *User)) error {
 	ids := make([]int, 0, len(nodes))
 	nodeids := make(map[int][]*Chat)
 	for i := range nodes {

@@ -48,13 +48,11 @@ func (Chat) Fields() []ent.Field {
 
 func (Chat) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.From("sender", User.Type).
-			Required().
+		edge.From("sent", User.Type).
 			Ref("sent_messages").
 			Annotations(entproto.Field(6)).
 			Unique(),
-		edge.From("receiver", User.Type).
-			Required().
+		edge.From("received", User.Type).
 			Ref("received_messages").
 			Annotations(entproto.Field(7)).
 			Unique(),

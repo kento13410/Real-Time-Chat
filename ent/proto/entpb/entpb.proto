@@ -20,9 +20,9 @@ message Chat {
 
   google.protobuf.Timestamp sent_at = 5;
 
-  User sender = 6;
+  User sent = 6;
 
-  User receiver = 7;
+  User received = 7;
 }
 
 message CreateChatRequest {

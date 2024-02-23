@@ -45,12 +45,10 @@ func (UserRelation) Fields() []ent.Field {
 func (UserRelation) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.From("user1", User.Type).
-			Required().
 			Ref("user_relations_1").
 			Annotations(entproto.Field(5)).
 			Unique(),
 		edge.From("user2", User.Type).
-			Required().
 			Ref("user_relations_2").
 			Annotations(entproto.Field(6)).
 			Unique(),

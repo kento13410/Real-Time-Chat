@@ -4,6 +4,7 @@ import (
 	"Real-Time-Chat/ent"
 	"Real-Time-Chat/ent/proto/entpb"
 	"Real-Time-Chat/model"
+	"context"
 	"fmt"
 	"net"
 
@@ -23,6 +24,11 @@ func main() {
 	// entクライアントの初期化
 	client := model.EntOpen()
 	defer model.EntClose(client)
+
+	// マイグレーションツールの実行（テーブルの作成など）
+	if err := client.Schema.Create(context.Background()); err != nil {
+		log.Fatalf("failed creating schema resources: %v", err)
+	}
 
 	port := 8080
 	listener, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
@@ -61,5 +67,5 @@ func registerGrpcServices(server *grpc.Server) {
 func registerEntServices(server *grpc.Server, client *ent.Client) {
 	entpb.RegisterChatServiceServer(server, entpb.NewChatService(client))
 	entpb.RegisterUserServiceServer(server, entpb.NewUserService(client))
-	entpb.RegisterUserRelationsServiceServer(server, entpb.NewUserRelationsService(client))
+	entpb.RegisterUserRelationServiceServer(server, entpb.NewUserRelationService(client))
 }

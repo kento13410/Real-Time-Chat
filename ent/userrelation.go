@@ -18,10 +18,6 @@ type UserRelation struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
-	// UserID1 holds the value of the "user_id_1" field.
-	UserID1 int `json:"user_id_1,omitempty"`
-	// UserID2 holds the value of the "user_id_2" field.
-	UserID2 int `json:"user_id_2,omitempty"`
 	// CreatedAt holds the value of the "created_at" field.
 	CreatedAt time.Time `json:"created_at,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
@@ -74,7 +70,7 @@ func (*UserRelation) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case userrelation.FieldID, userrelation.FieldUserID1, userrelation.FieldUserID2:
+		case userrelation.FieldID:
 			values[i] = new(sql.NullInt64)
 		case userrelation.FieldCreatedAt:
 			values[i] = new(sql.NullTime)
@@ -103,18 +99,6 @@ func (ur *UserRelation) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
 			ur.ID = int(value.Int64)
-		case userrelation.FieldUserID1:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field user_id_1", values[i])
-			} else if value.Valid {
-				ur.UserID1 = int(value.Int64)
-			}
-		case userrelation.FieldUserID2:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field user_id_2", values[i])
-			} else if value.Valid {
-				ur.UserID2 = int(value.Int64)
-			}
 		case userrelation.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
@@ -181,12 +165,6 @@ func (ur *UserRelation) String() string {
 	var builder strings.Builder
 	builder.WriteString("UserRelation(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", ur.ID))
-	builder.WriteString("user_id_1=")
-	builder.WriteString(fmt.Sprintf("%v", ur.UserID1))
-	builder.WriteString(", ")
-	builder.WriteString("user_id_2=")
-	builder.WriteString(fmt.Sprintf("%v", ur.UserID2))
-	builder.WriteString(", ")
 	builder.WriteString("created_at=")
 	builder.WriteString(ur.CreatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')

@@ -24,37 +24,29 @@ func (Chat) Annotations() []schema.Annotation {
 // Fields of the Chat.
 func (Chat) Fields() []ent.Field {
 	return []ent.Field{
-		field.Int("sender_id").
-			Annotations(
-				entproto.Field(2),
-			),
-		field.Int("receiver_id").
-			Annotations(
-				entproto.Field(3),
-			),
 		field.String("message").
 			Annotations(
-				entproto.Field(4),
+				entproto.Field(2),
 			),
 		field.Time("sent_at").Immutable().
 			Default(func() time.Time {
 				return time.Now()
 			}).
 			Annotations(
-				entproto.Field(5),
+				entproto.Field(3),
 			),
 	}
 }
 
 func (Chat) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.From("sent", User.Type).
+		edge.From("sent_user", User.Type).
 			Ref("sent_messages").
-			Annotations(entproto.Field(6)).
+			Annotations(entproto.Field(4)).
 			Unique(),
-		edge.From("received", User.Type).
+		edge.From("received_user", User.Type).
 			Ref("received_messages").
-			Annotations(entproto.Field(7)).
+			Annotations(entproto.Field(5)).
 			Unique(),
 	}
 }

@@ -14,10 +14,6 @@ const (
 	Label = "user_relation"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
-	// FieldUserID1 holds the string denoting the user_id_1 field in the database.
-	FieldUserID1 = "user_id_1"
-	// FieldUserID2 holds the string denoting the user_id_2 field in the database.
-	FieldUserID2 = "user_id_2"
 	// FieldCreatedAt holds the string denoting the created_at field in the database.
 	FieldCreatedAt = "created_at"
 	// EdgeUser1 holds the string denoting the user1 edge name in mutations.
@@ -45,8 +41,6 @@ const (
 // Columns holds all SQL columns for userrelation fields.
 var Columns = []string{
 	FieldID,
-	FieldUserID1,
-	FieldUserID2,
 	FieldCreatedAt,
 }
 
@@ -83,16 +77,6 @@ type OrderOption func(*sql.Selector)
 // ByID orders the results by the id field.
 func ByID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldID, opts...).ToFunc()
-}
-
-// ByUserID1 orders the results by the user_id_1 field.
-func ByUserID1(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldUserID1, opts...).ToFunc()
-}
-
-// ByUserID2 orders the results by the user_id_2 field.
-func ByUserID2(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldUserID2, opts...).ToFunc()
 }
 
 // ByCreatedAt orders the results by the created_at field.

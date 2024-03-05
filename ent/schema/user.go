@@ -28,29 +28,25 @@ func (User) Fields() []ent.Field {
 			Annotations(
 				entproto.Field(2),
 			),
-		field.String("email").Unique().
-			Annotations(
-				entproto.Field(3),
-			),
 		field.String("password_hash").
 			Annotations(
-				entproto.Field(4),
+				entproto.Field(3),
 			),
 		field.Time("created_at").Immutable().
 			Default(func() time.Time {
 				return time.Now()
 			}).
 			Annotations(
-				entproto.Field(5),
+				entproto.Field(4),
 			),
 	}
 }
 
 func (User) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("user_relations_1", UserRelation.Type).Annotations(entproto.Field(6)),
-		edge.To("user_relations_2", UserRelation.Type).Annotations(entproto.Field(7)),
-		edge.To("sent_messages", Chat.Type).Annotations(entproto.Field(8)),
-		edge.To("received_messages", Chat.Type).Annotations(entproto.Field(9)),
+		edge.To("user_relations_1", UserRelation.Type).Annotations(entproto.Field(5)),
+		edge.To("user_relations_2", UserRelation.Type).Annotations(entproto.Field(6)),
+		edge.To("sent_messages", Chat.Type).Annotations(entproto.Field(7)),
+		edge.To("received_messages", Chat.Type).Annotations(entproto.Field(8)),
 	}
 }

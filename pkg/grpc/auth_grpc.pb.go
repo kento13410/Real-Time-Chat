@@ -7,16 +7,20 @@
 package grpc
 
 import (
+	"Real-Time-Chat/ent/proto/entpb"
 	context "context"
 	"crypto/rand"
 	"encoding/base64"
 	"github.com/go-redis/redis/v8"
 	empty "github.com/golang/protobuf/ptypes/empty"
+	"golang.org/x/crypto/bcrypt"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
+	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/metadata"
 	status "google.golang.org/grpc/status"
 	"io"
+	"log"
 	"time"
 )
 
@@ -85,14 +89,29 @@ type AuthServiceServer interface {
 	mustEmbedUnimplementedAuthServiceServer()
 }
 
-var conn *redis.Client
+var (
+	redisConn *redis.Client
+	grpConn *grpc.ClientConn
+	client entpb.UserServiceClient
+)
 
 func init() {
-	conn = redis.NewClient(&redis.Options{
+	// Redisとのコネクションを開く
+	redisConn = redis.NewClient(&redis.Options{
 		Addr:     "redis:6379",
 		Password: "",
 		DB:       0,
 	})
+
+	// gRPCサーバーとのコネクションを開く
+	var err error
+	grpConn, err = grpc.Dial(":8080", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		log.Fatalf("failed connecting to server: %s", err)
+	}
+
+	// Create a User service Client on the connection.
+	client = entpb.NewUserServiceClient(grpConn)
 }
 
 type AuthServer struct {
@@ -103,15 +122,23 @@ type AuthServer struct {
 type UnimplementedAuthServiceServer struct {
 }
 
-func (UnimplementedAuthServiceServer) Signup(context.Context, *SignupRequest) (*SignupResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Signup not implemented")
+func (UnimplementedAuthServiceServer) Signup(ctx context.Context, req *SignupRequest) (*SignupResponse, error) {
+	hash, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "パスワードのハッシュ化に失敗しました: %v", err)
+	}
+	_, err = client.Create(ctx, &entpb.CreateUserRequest{
+		User: &entpb.User{
+			Username: req.Username,
+			PasswordHash: string(hash),
+		},
+	})
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "ユーザー作成時にエラーが発生しました: %v", err)
+	}
+	return &SignupResponse{Success: true}, nil
 }
 func (UnimplementedAuthServiceServer) Login(ctx context.Context, req *LoginRequest) (*LoginResponse, error) {
-	// ユーザー認証ロジック (ダミーの例)
-	if req.Username != "expectedUsername" || req.Password != "expectedPassword" {
-		return &LoginResponse{Success: false}, status.Errorf(codes.Unauthenticated, "invalid username or password")
-	}
-
 	b := make([]byte, 64)
 	if _, err := io.ReadFull(rand.Reader, b); err != nil {
 		return &LoginResponse{Success: false}, status.Errorf(codes.Internal, "ランダムな文字作成時にエラーが発生しました: %v", err)
@@ -120,7 +147,7 @@ func (UnimplementedAuthServiceServer) Login(ctx context.Context, req *LoginReque
 	redisValue := "user_id" // 実際にはリクエストから得られるユーザーIDやその他のユーザー情報を使う
 
 	// Redisにセッションキーを保存（例: 24時間の有効期限を設定）
-	if err := conn.Set(ctx, newRedisKey, redisValue, 24*time.Hour).Err(); err != nil {
+	if err := redisConn.Set(ctx, newRedisKey, redisValue, 24*time.Hour).Err(); err != nil {
 		return &LoginResponse{Success: false}, status.Errorf(codes.Internal, "Session登録時にエラーが発生: %v", err)
 	}
 
@@ -144,7 +171,7 @@ func (UnimplementedAuthServiceServer) Logout(ctx context.Context, req *empty.Emp
 	sessionID := sessionIDs[0]
 
 	// Redisからセッションキーを削除
-	if err := conn.Del(ctx, sessionID).Err(); err != nil {
+	if err := redisConn.Del(ctx, sessionID).Err(); err != nil {
 		return nil, status.Errorf(codes.Internal, "セッション削除時にエラーが発生: %v", err)
 	}
 

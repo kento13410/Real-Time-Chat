@@ -55,99 +55,9 @@ func IDLTE(id int) predicate.UserRelation {
 	return predicate.UserRelation(sql.FieldLTE(FieldID, id))
 }
 
-// UserID1 applies equality check predicate on the "user_id_1" field. It's identical to UserID1EQ.
-func UserID1(v int) predicate.UserRelation {
-	return predicate.UserRelation(sql.FieldEQ(FieldUserID1, v))
-}
-
-// UserID2 applies equality check predicate on the "user_id_2" field. It's identical to UserID2EQ.
-func UserID2(v int) predicate.UserRelation {
-	return predicate.UserRelation(sql.FieldEQ(FieldUserID2, v))
-}
-
 // CreatedAt applies equality check predicate on the "created_at" field. It's identical to CreatedAtEQ.
 func CreatedAt(v time.Time) predicate.UserRelation {
 	return predicate.UserRelation(sql.FieldEQ(FieldCreatedAt, v))
-}
-
-// UserID1EQ applies the EQ predicate on the "user_id_1" field.
-func UserID1EQ(v int) predicate.UserRelation {
-	return predicate.UserRelation(sql.FieldEQ(FieldUserID1, v))
-}
-
-// UserID1NEQ applies the NEQ predicate on the "user_id_1" field.
-func UserID1NEQ(v int) predicate.UserRelation {
-	return predicate.UserRelation(sql.FieldNEQ(FieldUserID1, v))
-}
-
-// UserID1In applies the In predicate on the "user_id_1" field.
-func UserID1In(vs ...int) predicate.UserRelation {
-	return predicate.UserRelation(sql.FieldIn(FieldUserID1, vs...))
-}
-
-// UserID1NotIn applies the NotIn predicate on the "user_id_1" field.
-func UserID1NotIn(vs ...int) predicate.UserRelation {
-	return predicate.UserRelation(sql.FieldNotIn(FieldUserID1, vs...))
-}
-
-// UserID1GT applies the GT predicate on the "user_id_1" field.
-func UserID1GT(v int) predicate.UserRelation {
-	return predicate.UserRelation(sql.FieldGT(FieldUserID1, v))
-}
-
-// UserID1GTE applies the GTE predicate on the "user_id_1" field.
-func UserID1GTE(v int) predicate.UserRelation {
-	return predicate.UserRelation(sql.FieldGTE(FieldUserID1, v))
-}
-
-// UserID1LT applies the LT predicate on the "user_id_1" field.
-func UserID1LT(v int) predicate.UserRelation {
-	return predicate.UserRelation(sql.FieldLT(FieldUserID1, v))
-}
-
-// UserID1LTE applies the LTE predicate on the "user_id_1" field.
-func UserID1LTE(v int) predicate.UserRelation {
-	return predicate.UserRelation(sql.FieldLTE(FieldUserID1, v))
-}
-
-// UserID2EQ applies the EQ predicate on the "user_id_2" field.
-func UserID2EQ(v int) predicate.UserRelation {
-	return predicate.UserRelation(sql.FieldEQ(FieldUserID2, v))
-}
-
-// UserID2NEQ applies the NEQ predicate on the "user_id_2" field.
-func UserID2NEQ(v int) predicate.UserRelation {
-	return predicate.UserRelation(sql.FieldNEQ(FieldUserID2, v))
-}
-
-// UserID2In applies the In predicate on the "user_id_2" field.
-func UserID2In(vs ...int) predicate.UserRelation {
-	return predicate.UserRelation(sql.FieldIn(FieldUserID2, vs...))
-}
-
-// UserID2NotIn applies the NotIn predicate on the "user_id_2" field.
-func UserID2NotIn(vs ...int) predicate.UserRelation {
-	return predicate.UserRelation(sql.FieldNotIn(FieldUserID2, vs...))
-}
-
-// UserID2GT applies the GT predicate on the "user_id_2" field.
-func UserID2GT(v int) predicate.UserRelation {
-	return predicate.UserRelation(sql.FieldGT(FieldUserID2, v))
-}
-
-// UserID2GTE applies the GTE predicate on the "user_id_2" field.
-func UserID2GTE(v int) predicate.UserRelation {
-	return predicate.UserRelation(sql.FieldGTE(FieldUserID2, v))
-}
-
-// UserID2LT applies the LT predicate on the "user_id_2" field.
-func UserID2LT(v int) predicate.UserRelation {
-	return predicate.UserRelation(sql.FieldLT(FieldUserID2, v))
-}
-
-// UserID2LTE applies the LTE predicate on the "user_id_2" field.
-func UserID2LTE(v int) predicate.UserRelation {
-	return predicate.UserRelation(sql.FieldLTE(FieldUserID2, v))
 }
 
 // CreatedAtEQ applies the EQ predicate on the "created_at" field.

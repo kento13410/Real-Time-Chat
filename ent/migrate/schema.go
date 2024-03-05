@@ -11,8 +11,6 @@ var (
 	// ChatsColumns holds the columns for the "chats" table.
 	ChatsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "sender_id", Type: field.TypeInt},
-		{Name: "receiver_id", Type: field.TypeInt},
 		{Name: "message", Type: field.TypeString},
 		{Name: "sent_at", Type: field.TypeTime},
 		{Name: "user_sent_messages", Type: field.TypeInt, Nullable: true},
@@ -26,13 +24,13 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "chats_users_sent_messages",
-				Columns:    []*schema.Column{ChatsColumns[5]},
+				Columns:    []*schema.Column{ChatsColumns[3]},
 				RefColumns: []*schema.Column{UsersColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:     "chats_users_received_messages",
-				Columns:    []*schema.Column{ChatsColumns[6]},
+				Columns:    []*schema.Column{ChatsColumns[4]},
 				RefColumns: []*schema.Column{UsersColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
@@ -42,7 +40,6 @@ var (
 	UsersColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "username", Type: field.TypeString, Unique: true},
-		{Name: "email", Type: field.TypeString, Unique: true},
 		{Name: "password_hash", Type: field.TypeString},
 		{Name: "created_at", Type: field.TypeTime},
 	}
@@ -55,8 +52,6 @@ var (
 	// UserRelationsColumns holds the columns for the "user_relations" table.
 	UserRelationsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "user_id_1", Type: field.TypeInt},
-		{Name: "user_id_2", Type: field.TypeInt},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "user_user_relations_1", Type: field.TypeInt, Nullable: true},
 		{Name: "user_user_relations_2", Type: field.TypeInt, Nullable: true},
@@ -69,13 +64,13 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "user_relations_users_user_relations_1",
-				Columns:    []*schema.Column{UserRelationsColumns[4]},
+				Columns:    []*schema.Column{UserRelationsColumns[2]},
 				RefColumns: []*schema.Column{UsersColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:     "user_relations_users_user_relations_2",
-				Columns:    []*schema.Column{UserRelationsColumns[5]},
+				Columns:    []*schema.Column{UserRelationsColumns[3]},
 				RefColumns: []*schema.Column{UsersColumns[0]},
 				OnDelete:   schema.SetNull,
 			},

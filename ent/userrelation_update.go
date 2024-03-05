@@ -28,48 +28,6 @@ func (uru *UserRelationUpdate) Where(ps ...predicate.UserRelation) *UserRelation
 	return uru
 }
 
-// SetUserID1 sets the "user_id_1" field.
-func (uru *UserRelationUpdate) SetUserID1(i int) *UserRelationUpdate {
-	uru.mutation.ResetUserID1()
-	uru.mutation.SetUserID1(i)
-	return uru
-}
-
-// SetNillableUserID1 sets the "user_id_1" field if the given value is not nil.
-func (uru *UserRelationUpdate) SetNillableUserID1(i *int) *UserRelationUpdate {
-	if i != nil {
-		uru.SetUserID1(*i)
-	}
-	return uru
-}
-
-// AddUserID1 adds i to the "user_id_1" field.
-func (uru *UserRelationUpdate) AddUserID1(i int) *UserRelationUpdate {
-	uru.mutation.AddUserID1(i)
-	return uru
-}
-
-// SetUserID2 sets the "user_id_2" field.
-func (uru *UserRelationUpdate) SetUserID2(i int) *UserRelationUpdate {
-	uru.mutation.ResetUserID2()
-	uru.mutation.SetUserID2(i)
-	return uru
-}
-
-// SetNillableUserID2 sets the "user_id_2" field if the given value is not nil.
-func (uru *UserRelationUpdate) SetNillableUserID2(i *int) *UserRelationUpdate {
-	if i != nil {
-		uru.SetUserID2(*i)
-	}
-	return uru
-}
-
-// AddUserID2 adds i to the "user_id_2" field.
-func (uru *UserRelationUpdate) AddUserID2(i int) *UserRelationUpdate {
-	uru.mutation.AddUserID2(i)
-	return uru
-}
-
 // SetUser1ID sets the "user1" edge to the User entity by ID.
 func (uru *UserRelationUpdate) SetUser1ID(id int) *UserRelationUpdate {
 	uru.mutation.SetUser1ID(id)
@@ -161,18 +119,6 @@ func (uru *UserRelationUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			}
 		}
 	}
-	if value, ok := uru.mutation.UserID1(); ok {
-		_spec.SetField(userrelation.FieldUserID1, field.TypeInt, value)
-	}
-	if value, ok := uru.mutation.AddedUserID1(); ok {
-		_spec.AddField(userrelation.FieldUserID1, field.TypeInt, value)
-	}
-	if value, ok := uru.mutation.UserID2(); ok {
-		_spec.SetField(userrelation.FieldUserID2, field.TypeInt, value)
-	}
-	if value, ok := uru.mutation.AddedUserID2(); ok {
-		_spec.AddField(userrelation.FieldUserID2, field.TypeInt, value)
-	}
 	if uru.mutation.User1Cleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
@@ -249,48 +195,6 @@ type UserRelationUpdateOne struct {
 	fields   []string
 	hooks    []Hook
 	mutation *UserRelationMutation
-}
-
-// SetUserID1 sets the "user_id_1" field.
-func (uruo *UserRelationUpdateOne) SetUserID1(i int) *UserRelationUpdateOne {
-	uruo.mutation.ResetUserID1()
-	uruo.mutation.SetUserID1(i)
-	return uruo
-}
-
-// SetNillableUserID1 sets the "user_id_1" field if the given value is not nil.
-func (uruo *UserRelationUpdateOne) SetNillableUserID1(i *int) *UserRelationUpdateOne {
-	if i != nil {
-		uruo.SetUserID1(*i)
-	}
-	return uruo
-}
-
-// AddUserID1 adds i to the "user_id_1" field.
-func (uruo *UserRelationUpdateOne) AddUserID1(i int) *UserRelationUpdateOne {
-	uruo.mutation.AddUserID1(i)
-	return uruo
-}
-
-// SetUserID2 sets the "user_id_2" field.
-func (uruo *UserRelationUpdateOne) SetUserID2(i int) *UserRelationUpdateOne {
-	uruo.mutation.ResetUserID2()
-	uruo.mutation.SetUserID2(i)
-	return uruo
-}
-
-// SetNillableUserID2 sets the "user_id_2" field if the given value is not nil.
-func (uruo *UserRelationUpdateOne) SetNillableUserID2(i *int) *UserRelationUpdateOne {
-	if i != nil {
-		uruo.SetUserID2(*i)
-	}
-	return uruo
-}
-
-// AddUserID2 adds i to the "user_id_2" field.
-func (uruo *UserRelationUpdateOne) AddUserID2(i int) *UserRelationUpdateOne {
-	uruo.mutation.AddUserID2(i)
-	return uruo
 }
 
 // SetUser1ID sets the "user1" edge to the User entity by ID.
@@ -413,18 +317,6 @@ func (uruo *UserRelationUpdateOne) sqlSave(ctx context.Context) (_node *UserRela
 				ps[i](selector)
 			}
 		}
-	}
-	if value, ok := uruo.mutation.UserID1(); ok {
-		_spec.SetField(userrelation.FieldUserID1, field.TypeInt, value)
-	}
-	if value, ok := uruo.mutation.AddedUserID1(); ok {
-		_spec.AddField(userrelation.FieldUserID1, field.TypeInt, value)
-	}
-	if value, ok := uruo.mutation.UserID2(); ok {
-		_spec.SetField(userrelation.FieldUserID2, field.TypeInt, value)
-	}
-	if value, ok := uruo.mutation.AddedUserID2(); ok {
-		_spec.AddField(userrelation.FieldUserID2, field.TypeInt, value)
 	}
 	if uruo.mutation.User1Cleared() {
 		edge := &sqlgraph.EdgeSpec{

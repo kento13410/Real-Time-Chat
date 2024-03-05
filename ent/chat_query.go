@@ -18,13 +18,13 @@ import (
 // ChatQuery is the builder for querying Chat entities.
 type ChatQuery struct {
 	config
-	ctx          *QueryContext
-	order        []chat.OrderOption
-	inters       []Interceptor
-	predicates   []predicate.Chat
-	withSent     *UserQuery
-	withReceived *UserQuery
-	withFKs      bool
+	ctx              *QueryContext
+	order            []chat.OrderOption
+	inters           []Interceptor
+	predicates       []predicate.Chat
+	withSentUser     *UserQuery
+	withReceivedUser *UserQuery
+	withFKs          bool
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -61,8 +61,8 @@ func (cq *ChatQuery) Order(o ...chat.OrderOption) *ChatQuery {
 	return cq
 }
 
-// QuerySent chains the current query on the "sent" edge.
-func (cq *ChatQuery) QuerySent() *UserQuery {
+// QuerySentUser chains the current query on the "sent_user" edge.
+func (cq *ChatQuery) QuerySentUser() *UserQuery {
 	query := (&UserClient{config: cq.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := cq.prepareQuery(ctx); err != nil {
@@ -75,7 +75,7 @@ func (cq *ChatQuery) QuerySent() *UserQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(chat.Table, chat.FieldID, selector),
 			sqlgraph.To(user.Table, user.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, chat.SentTable, chat.SentColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, chat.SentUserTable, chat.SentUserColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(cq.driver.Dialect(), step)
 		return fromU, nil
@@ -83,8 +83,8 @@ func (cq *ChatQuery) QuerySent() *UserQuery {
 	return query
 }
 
-// QueryReceived chains the current query on the "received" edge.
-func (cq *ChatQuery) QueryReceived() *UserQuery {
+// QueryReceivedUser chains the current query on the "received_user" edge.
+func (cq *ChatQuery) QueryReceivedUser() *UserQuery {
 	query := (&UserClient{config: cq.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := cq.prepareQuery(ctx); err != nil {
@@ -97,7 +97,7 @@ func (cq *ChatQuery) QueryReceived() *UserQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(chat.Table, chat.FieldID, selector),
 			sqlgraph.To(user.Table, user.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, chat.ReceivedTable, chat.ReceivedColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, chat.ReceivedUserTable, chat.ReceivedUserColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(cq.driver.Dialect(), step)
 		return fromU, nil
@@ -292,38 +292,38 @@ func (cq *ChatQuery) Clone() *ChatQuery {
 		return nil
 	}
 	return &ChatQuery{
-		config:       cq.config,
-		ctx:          cq.ctx.Clone(),
-		order:        append([]chat.OrderOption{}, cq.order...),
-		inters:       append([]Interceptor{}, cq.inters...),
-		predicates:   append([]predicate.Chat{}, cq.predicates...),
-		withSent:     cq.withSent.Clone(),
-		withReceived: cq.withReceived.Clone(),
+		config:           cq.config,
+		ctx:              cq.ctx.Clone(),
+		order:            append([]chat.OrderOption{}, cq.order...),
+		inters:           append([]Interceptor{}, cq.inters...),
+		predicates:       append([]predicate.Chat{}, cq.predicates...),
+		withSentUser:     cq.withSentUser.Clone(),
+		withReceivedUser: cq.withReceivedUser.Clone(),
 		// clone intermediate query.
 		sql:  cq.sql.Clone(),
 		path: cq.path,
 	}
 }
 
-// WithSent tells the query-builder to eager-load the nodes that are connected to
-// the "sent" edge. The optional arguments are used to configure the query builder of the edge.
-func (cq *ChatQuery) WithSent(opts ...func(*UserQuery)) *ChatQuery {
+// WithSentUser tells the query-builder to eager-load the nodes that are connected to
+// the "sent_user" edge. The optional arguments are used to configure the query builder of the edge.
+func (cq *ChatQuery) WithSentUser(opts ...func(*UserQuery)) *ChatQuery {
 	query := (&UserClient{config: cq.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	cq.withSent = query
+	cq.withSentUser = query
 	return cq
 }
 
-// WithReceived tells the query-builder to eager-load the nodes that are connected to
-// the "received" edge. The optional arguments are used to configure the query builder of the edge.
-func (cq *ChatQuery) WithReceived(opts ...func(*UserQuery)) *ChatQuery {
+// WithReceivedUser tells the query-builder to eager-load the nodes that are connected to
+// the "received_user" edge. The optional arguments are used to configure the query builder of the edge.
+func (cq *ChatQuery) WithReceivedUser(opts ...func(*UserQuery)) *ChatQuery {
 	query := (&UserClient{config: cq.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	cq.withReceived = query
+	cq.withReceivedUser = query
 	return cq
 }
 
@@ -333,12 +333,12 @@ func (cq *ChatQuery) WithReceived(opts ...func(*UserQuery)) *ChatQuery {
 // Example:
 //
 //	var v []struct {
-//		SenderID int `json:"sender_id,omitempty"`
+//		Message string `json:"message,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.Chat.Query().
-//		GroupBy(chat.FieldSenderID).
+//		GroupBy(chat.FieldMessage).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (cq *ChatQuery) GroupBy(field string, fields ...string) *ChatGroupBy {
@@ -356,11 +356,11 @@ func (cq *ChatQuery) GroupBy(field string, fields ...string) *ChatGroupBy {
 // Example:
 //
 //	var v []struct {
-//		SenderID int `json:"sender_id,omitempty"`
+//		Message string `json:"message,omitempty"`
 //	}
 //
 //	client.Chat.Query().
-//		Select(chat.FieldSenderID).
+//		Select(chat.FieldMessage).
 //		Scan(ctx, &v)
 func (cq *ChatQuery) Select(fields ...string) *ChatSelect {
 	cq.ctx.Fields = append(cq.ctx.Fields, fields...)
@@ -407,11 +407,11 @@ func (cq *ChatQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Chat, e
 		withFKs     = cq.withFKs
 		_spec       = cq.querySpec()
 		loadedTypes = [2]bool{
-			cq.withSent != nil,
-			cq.withReceived != nil,
+			cq.withSentUser != nil,
+			cq.withReceivedUser != nil,
 		}
 	)
-	if cq.withSent != nil || cq.withReceived != nil {
+	if cq.withSentUser != nil || cq.withReceivedUser != nil {
 		withFKs = true
 	}
 	if withFKs {
@@ -435,22 +435,22 @@ func (cq *ChatQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Chat, e
 	if len(nodes) == 0 {
 		return nodes, nil
 	}
-	if query := cq.withSent; query != nil {
-		if err := cq.loadSent(ctx, query, nodes, nil,
-			func(n *Chat, e *User) { n.Edges.Sent = e }); err != nil {
+	if query := cq.withSentUser; query != nil {
+		if err := cq.loadSentUser(ctx, query, nodes, nil,
+			func(n *Chat, e *User) { n.Edges.SentUser = e }); err != nil {
 			return nil, err
 		}
 	}
-	if query := cq.withReceived; query != nil {
-		if err := cq.loadReceived(ctx, query, nodes, nil,
-			func(n *Chat, e *User) { n.Edges.Received = e }); err != nil {
+	if query := cq.withReceivedUser; query != nil {
+		if err := cq.loadReceivedUser(ctx, query, nodes, nil,
+			func(n *Chat, e *User) { n.Edges.ReceivedUser = e }); err != nil {
 			return nil, err
 		}
 	}
 	return nodes, nil
 }
 
-func (cq *ChatQuery) loadSent(ctx context.Context, query *UserQuery, nodes []*Chat, init func(*Chat), assign func(*Chat, *User)) error {
+func (cq *ChatQuery) loadSentUser(ctx context.Context, query *UserQuery, nodes []*Chat, init func(*Chat), assign func(*Chat, *User)) error {
 	ids := make([]int, 0, len(nodes))
 	nodeids := make(map[int][]*Chat)
 	for i := range nodes {
@@ -482,7 +482,7 @@ func (cq *ChatQuery) loadSent(ctx context.Context, query *UserQuery, nodes []*Ch
 	}
 	return nil
 }
-func (cq *ChatQuery) loadReceived(ctx context.Context, query *UserQuery, nodes []*Chat, init func(*Chat), assign func(*Chat, *User)) error {
+func (cq *ChatQuery) loadReceivedUser(ctx context.Context, query *UserQuery, nodes []*Chat, init func(*Chat), assign func(*Chat, *User)) error {
 	ids := make([]int, 0, len(nodes))
 	nodeids := make(map[int][]*Chat)
 	for i := range nodes {

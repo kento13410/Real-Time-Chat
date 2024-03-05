@@ -55,16 +55,6 @@ func IDLTE(id int) predicate.Chat {
 	return predicate.Chat(sql.FieldLTE(FieldID, id))
 }
 
-// SenderID applies equality check predicate on the "sender_id" field. It's identical to SenderIDEQ.
-func SenderID(v int) predicate.Chat {
-	return predicate.Chat(sql.FieldEQ(FieldSenderID, v))
-}
-
-// ReceiverID applies equality check predicate on the "receiver_id" field. It's identical to ReceiverIDEQ.
-func ReceiverID(v int) predicate.Chat {
-	return predicate.Chat(sql.FieldEQ(FieldReceiverID, v))
-}
-
 // Message applies equality check predicate on the "message" field. It's identical to MessageEQ.
 func Message(v string) predicate.Chat {
 	return predicate.Chat(sql.FieldEQ(FieldMessage, v))
@@ -73,86 +63,6 @@ func Message(v string) predicate.Chat {
 // SentAt applies equality check predicate on the "sent_at" field. It's identical to SentAtEQ.
 func SentAt(v time.Time) predicate.Chat {
 	return predicate.Chat(sql.FieldEQ(FieldSentAt, v))
-}
-
-// SenderIDEQ applies the EQ predicate on the "sender_id" field.
-func SenderIDEQ(v int) predicate.Chat {
-	return predicate.Chat(sql.FieldEQ(FieldSenderID, v))
-}
-
-// SenderIDNEQ applies the NEQ predicate on the "sender_id" field.
-func SenderIDNEQ(v int) predicate.Chat {
-	return predicate.Chat(sql.FieldNEQ(FieldSenderID, v))
-}
-
-// SenderIDIn applies the In predicate on the "sender_id" field.
-func SenderIDIn(vs ...int) predicate.Chat {
-	return predicate.Chat(sql.FieldIn(FieldSenderID, vs...))
-}
-
-// SenderIDNotIn applies the NotIn predicate on the "sender_id" field.
-func SenderIDNotIn(vs ...int) predicate.Chat {
-	return predicate.Chat(sql.FieldNotIn(FieldSenderID, vs...))
-}
-
-// SenderIDGT applies the GT predicate on the "sender_id" field.
-func SenderIDGT(v int) predicate.Chat {
-	return predicate.Chat(sql.FieldGT(FieldSenderID, v))
-}
-
-// SenderIDGTE applies the GTE predicate on the "sender_id" field.
-func SenderIDGTE(v int) predicate.Chat {
-	return predicate.Chat(sql.FieldGTE(FieldSenderID, v))
-}
-
-// SenderIDLT applies the LT predicate on the "sender_id" field.
-func SenderIDLT(v int) predicate.Chat {
-	return predicate.Chat(sql.FieldLT(FieldSenderID, v))
-}
-
-// SenderIDLTE applies the LTE predicate on the "sender_id" field.
-func SenderIDLTE(v int) predicate.Chat {
-	return predicate.Chat(sql.FieldLTE(FieldSenderID, v))
-}
-
-// ReceiverIDEQ applies the EQ predicate on the "receiver_id" field.
-func ReceiverIDEQ(v int) predicate.Chat {
-	return predicate.Chat(sql.FieldEQ(FieldReceiverID, v))
-}
-
-// ReceiverIDNEQ applies the NEQ predicate on the "receiver_id" field.
-func ReceiverIDNEQ(v int) predicate.Chat {
-	return predicate.Chat(sql.FieldNEQ(FieldReceiverID, v))
-}
-
-// ReceiverIDIn applies the In predicate on the "receiver_id" field.
-func ReceiverIDIn(vs ...int) predicate.Chat {
-	return predicate.Chat(sql.FieldIn(FieldReceiverID, vs...))
-}
-
-// ReceiverIDNotIn applies the NotIn predicate on the "receiver_id" field.
-func ReceiverIDNotIn(vs ...int) predicate.Chat {
-	return predicate.Chat(sql.FieldNotIn(FieldReceiverID, vs...))
-}
-
-// ReceiverIDGT applies the GT predicate on the "receiver_id" field.
-func ReceiverIDGT(v int) predicate.Chat {
-	return predicate.Chat(sql.FieldGT(FieldReceiverID, v))
-}
-
-// ReceiverIDGTE applies the GTE predicate on the "receiver_id" field.
-func ReceiverIDGTE(v int) predicate.Chat {
-	return predicate.Chat(sql.FieldGTE(FieldReceiverID, v))
-}
-
-// ReceiverIDLT applies the LT predicate on the "receiver_id" field.
-func ReceiverIDLT(v int) predicate.Chat {
-	return predicate.Chat(sql.FieldLT(FieldReceiverID, v))
-}
-
-// ReceiverIDLTE applies the LTE predicate on the "receiver_id" field.
-func ReceiverIDLTE(v int) predicate.Chat {
-	return predicate.Chat(sql.FieldLTE(FieldReceiverID, v))
 }
 
 // MessageEQ applies the EQ predicate on the "message" field.
@@ -260,21 +170,21 @@ func SentAtLTE(v time.Time) predicate.Chat {
 	return predicate.Chat(sql.FieldLTE(FieldSentAt, v))
 }
 
-// HasSent applies the HasEdge predicate on the "sent" edge.
-func HasSent() predicate.Chat {
+// HasSentUser applies the HasEdge predicate on the "sent_user" edge.
+func HasSentUser() predicate.Chat {
 	return predicate.Chat(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, SentTable, SentColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, SentUserTable, SentUserColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasSentWith applies the HasEdge predicate on the "sent" edge with a given conditions (other predicates).
-func HasSentWith(preds ...predicate.User) predicate.Chat {
+// HasSentUserWith applies the HasEdge predicate on the "sent_user" edge with a given conditions (other predicates).
+func HasSentUserWith(preds ...predicate.User) predicate.Chat {
 	return predicate.Chat(func(s *sql.Selector) {
-		step := newSentStep()
+		step := newSentUserStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)
@@ -283,21 +193,21 @@ func HasSentWith(preds ...predicate.User) predicate.Chat {
 	})
 }
 
-// HasReceived applies the HasEdge predicate on the "received" edge.
-func HasReceived() predicate.Chat {
+// HasReceivedUser applies the HasEdge predicate on the "received_user" edge.
+func HasReceivedUser() predicate.Chat {
 	return predicate.Chat(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, ReceivedTable, ReceivedColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, ReceivedUserTable, ReceivedUserColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasReceivedWith applies the HasEdge predicate on the "received" edge with a given conditions (other predicates).
-func HasReceivedWith(preds ...predicate.User) predicate.Chat {
+// HasReceivedUserWith applies the HasEdge predicate on the "received_user" edge with a given conditions (other predicates).
+func HasReceivedUserWith(preds ...predicate.User) predicate.Chat {
 	return predicate.Chat(func(s *sql.Selector) {
-		step := newReceivedStep()
+		step := newReceivedUserStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)

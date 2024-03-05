@@ -14,41 +14,35 @@ const (
 	Label = "chat"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
-	// FieldSenderID holds the string denoting the sender_id field in the database.
-	FieldSenderID = "sender_id"
-	// FieldReceiverID holds the string denoting the receiver_id field in the database.
-	FieldReceiverID = "receiver_id"
 	// FieldMessage holds the string denoting the message field in the database.
 	FieldMessage = "message"
 	// FieldSentAt holds the string denoting the sent_at field in the database.
 	FieldSentAt = "sent_at"
-	// EdgeSent holds the string denoting the sent edge name in mutations.
-	EdgeSent = "sent"
-	// EdgeReceived holds the string denoting the received edge name in mutations.
-	EdgeReceived = "received"
+	// EdgeSentUser holds the string denoting the sent_user edge name in mutations.
+	EdgeSentUser = "sent_user"
+	// EdgeReceivedUser holds the string denoting the received_user edge name in mutations.
+	EdgeReceivedUser = "received_user"
 	// Table holds the table name of the chat in the database.
 	Table = "chats"
-	// SentTable is the table that holds the sent relation/edge.
-	SentTable = "chats"
-	// SentInverseTable is the table name for the User entity.
+	// SentUserTable is the table that holds the sent_user relation/edge.
+	SentUserTable = "chats"
+	// SentUserInverseTable is the table name for the User entity.
 	// It exists in this package in order to avoid circular dependency with the "user" package.
-	SentInverseTable = "users"
-	// SentColumn is the table column denoting the sent relation/edge.
-	SentColumn = "user_sent_messages"
-	// ReceivedTable is the table that holds the received relation/edge.
-	ReceivedTable = "chats"
-	// ReceivedInverseTable is the table name for the User entity.
+	SentUserInverseTable = "users"
+	// SentUserColumn is the table column denoting the sent_user relation/edge.
+	SentUserColumn = "user_sent_messages"
+	// ReceivedUserTable is the table that holds the received_user relation/edge.
+	ReceivedUserTable = "chats"
+	// ReceivedUserInverseTable is the table name for the User entity.
 	// It exists in this package in order to avoid circular dependency with the "user" package.
-	ReceivedInverseTable = "users"
-	// ReceivedColumn is the table column denoting the received relation/edge.
-	ReceivedColumn = "user_received_messages"
+	ReceivedUserInverseTable = "users"
+	// ReceivedUserColumn is the table column denoting the received_user relation/edge.
+	ReceivedUserColumn = "user_received_messages"
 )
 
 // Columns holds all SQL columns for chat fields.
 var Columns = []string{
 	FieldID,
-	FieldSenderID,
-	FieldReceiverID,
 	FieldMessage,
 	FieldSentAt,
 }
@@ -88,16 +82,6 @@ func ByID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldID, opts...).ToFunc()
 }
 
-// BySenderID orders the results by the sender_id field.
-func BySenderID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldSenderID, opts...).ToFunc()
-}
-
-// ByReceiverID orders the results by the receiver_id field.
-func ByReceiverID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldReceiverID, opts...).ToFunc()
-}
-
 // ByMessage orders the results by the message field.
 func ByMessage(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldMessage, opts...).ToFunc()
@@ -108,30 +92,30 @@ func BySentAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldSentAt, opts...).ToFunc()
 }
 
-// BySentField orders the results by sent field.
-func BySentField(field string, opts ...sql.OrderTermOption) OrderOption {
+// BySentUserField orders the results by sent_user field.
+func BySentUserField(field string, opts ...sql.OrderTermOption) OrderOption {
 	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborTerms(s, newSentStep(), sql.OrderByField(field, opts...))
+		sqlgraph.OrderByNeighborTerms(s, newSentUserStep(), sql.OrderByField(field, opts...))
 	}
 }
 
-// ByReceivedField orders the results by received field.
-func ByReceivedField(field string, opts ...sql.OrderTermOption) OrderOption {
+// ByReceivedUserField orders the results by received_user field.
+func ByReceivedUserField(field string, opts ...sql.OrderTermOption) OrderOption {
 	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborTerms(s, newReceivedStep(), sql.OrderByField(field, opts...))
+		sqlgraph.OrderByNeighborTerms(s, newReceivedUserStep(), sql.OrderByField(field, opts...))
 	}
 }
-func newSentStep() *sqlgraph.Step {
+func newSentUserStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
-		sqlgraph.To(SentInverseTable, FieldID),
-		sqlgraph.Edge(sqlgraph.M2O, true, SentTable, SentColumn),
+		sqlgraph.To(SentUserInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.M2O, true, SentUserTable, SentUserColumn),
 	)
 }
-func newReceivedStep() *sqlgraph.Step {
+func newReceivedUserStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
-		sqlgraph.To(ReceivedInverseTable, FieldID),
-		sqlgraph.Edge(sqlgraph.M2O, true, ReceivedTable, ReceivedColumn),
+		sqlgraph.To(ReceivedUserInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.M2O, true, ReceivedUserTable, ReceivedUserColumn),
 	)
 }

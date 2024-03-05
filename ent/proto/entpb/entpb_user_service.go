@@ -38,8 +38,6 @@ func toProtoUser(e *ent.User) (*User, error) {
 	v := &User{}
 	created_at := timestamppb.New(e.CreatedAt)
 	v.CreatedAt = created_at
-	email := e.Email
-	v.Email = email
 	id := int64(e.ID)
 	v.Id = id
 	password_hash := e.PasswordHash
@@ -156,8 +154,6 @@ func (svc *UserService) Update(ctx context.Context, req *UpdateUserRequest) (*Us
 	user := req.GetUser()
 	userID := int(user.GetId())
 	m := svc.client.User.UpdateOneID(userID)
-	userEmail := user.GetEmail()
-	m.SetEmail(userEmail)
 	userPasswordHash := user.GetPasswordHash()
 	m.SetPasswordHash(userPasswordHash)
 	userUsername := user.GetUsername()
@@ -323,8 +319,6 @@ func (svc *UserService) createBuilder(user *User) (*ent.UserCreate, error) {
 	m := svc.client.User.Create()
 	userCreatedAt := runtime.ExtractTime(user.GetCreatedAt())
 	m.SetCreatedAt(userCreatedAt)
-	userEmail := user.GetEmail()
-	m.SetEmail(userEmail)
 	userPasswordHash := user.GetPasswordHash()
 	m.SetPasswordHash(userPasswordHash)
 	userUsername := user.GetUsername()

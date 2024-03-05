@@ -21,18 +21,6 @@ type ChatCreate struct {
 	hooks    []Hook
 }
 
-// SetSenderID sets the "sender_id" field.
-func (cc *ChatCreate) SetSenderID(i int) *ChatCreate {
-	cc.mutation.SetSenderID(i)
-	return cc
-}
-
-// SetReceiverID sets the "receiver_id" field.
-func (cc *ChatCreate) SetReceiverID(i int) *ChatCreate {
-	cc.mutation.SetReceiverID(i)
-	return cc
-}
-
 // SetMessage sets the "message" field.
 func (cc *ChatCreate) SetMessage(s string) *ChatCreate {
 	cc.mutation.SetMessage(s)
@@ -53,42 +41,42 @@ func (cc *ChatCreate) SetNillableSentAt(t *time.Time) *ChatCreate {
 	return cc
 }
 
-// SetSentID sets the "sent" edge to the User entity by ID.
-func (cc *ChatCreate) SetSentID(id int) *ChatCreate {
-	cc.mutation.SetSentID(id)
+// SetSentUserID sets the "sent_user" edge to the User entity by ID.
+func (cc *ChatCreate) SetSentUserID(id int) *ChatCreate {
+	cc.mutation.SetSentUserID(id)
 	return cc
 }
 
-// SetNillableSentID sets the "sent" edge to the User entity by ID if the given value is not nil.
-func (cc *ChatCreate) SetNillableSentID(id *int) *ChatCreate {
+// SetNillableSentUserID sets the "sent_user" edge to the User entity by ID if the given value is not nil.
+func (cc *ChatCreate) SetNillableSentUserID(id *int) *ChatCreate {
 	if id != nil {
-		cc = cc.SetSentID(*id)
+		cc = cc.SetSentUserID(*id)
 	}
 	return cc
 }
 
-// SetSent sets the "sent" edge to the User entity.
-func (cc *ChatCreate) SetSent(u *User) *ChatCreate {
-	return cc.SetSentID(u.ID)
+// SetSentUser sets the "sent_user" edge to the User entity.
+func (cc *ChatCreate) SetSentUser(u *User) *ChatCreate {
+	return cc.SetSentUserID(u.ID)
 }
 
-// SetReceivedID sets the "received" edge to the User entity by ID.
-func (cc *ChatCreate) SetReceivedID(id int) *ChatCreate {
-	cc.mutation.SetReceivedID(id)
+// SetReceivedUserID sets the "received_user" edge to the User entity by ID.
+func (cc *ChatCreate) SetReceivedUserID(id int) *ChatCreate {
+	cc.mutation.SetReceivedUserID(id)
 	return cc
 }
 
-// SetNillableReceivedID sets the "received" edge to the User entity by ID if the given value is not nil.
-func (cc *ChatCreate) SetNillableReceivedID(id *int) *ChatCreate {
+// SetNillableReceivedUserID sets the "received_user" edge to the User entity by ID if the given value is not nil.
+func (cc *ChatCreate) SetNillableReceivedUserID(id *int) *ChatCreate {
 	if id != nil {
-		cc = cc.SetReceivedID(*id)
+		cc = cc.SetReceivedUserID(*id)
 	}
 	return cc
 }
 
-// SetReceived sets the "received" edge to the User entity.
-func (cc *ChatCreate) SetReceived(u *User) *ChatCreate {
-	return cc.SetReceivedID(u.ID)
+// SetReceivedUser sets the "received_user" edge to the User entity.
+func (cc *ChatCreate) SetReceivedUser(u *User) *ChatCreate {
+	return cc.SetReceivedUserID(u.ID)
 }
 
 // Mutation returns the ChatMutation object of the builder.
@@ -134,12 +122,6 @@ func (cc *ChatCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (cc *ChatCreate) check() error {
-	if _, ok := cc.mutation.SenderID(); !ok {
-		return &ValidationError{Name: "sender_id", err: errors.New(`ent: missing required field "Chat.sender_id"`)}
-	}
-	if _, ok := cc.mutation.ReceiverID(); !ok {
-		return &ValidationError{Name: "receiver_id", err: errors.New(`ent: missing required field "Chat.receiver_id"`)}
-	}
 	if _, ok := cc.mutation.Message(); !ok {
 		return &ValidationError{Name: "message", err: errors.New(`ent: missing required field "Chat.message"`)}
 	}
@@ -172,14 +154,6 @@ func (cc *ChatCreate) createSpec() (*Chat, *sqlgraph.CreateSpec) {
 		_node = &Chat{config: cc.config}
 		_spec = sqlgraph.NewCreateSpec(chat.Table, sqlgraph.NewFieldSpec(chat.FieldID, field.TypeInt))
 	)
-	if value, ok := cc.mutation.SenderID(); ok {
-		_spec.SetField(chat.FieldSenderID, field.TypeInt, value)
-		_node.SenderID = value
-	}
-	if value, ok := cc.mutation.ReceiverID(); ok {
-		_spec.SetField(chat.FieldReceiverID, field.TypeInt, value)
-		_node.ReceiverID = value
-	}
 	if value, ok := cc.mutation.Message(); ok {
 		_spec.SetField(chat.FieldMessage, field.TypeString, value)
 		_node.Message = value
@@ -188,12 +162,12 @@ func (cc *ChatCreate) createSpec() (*Chat, *sqlgraph.CreateSpec) {
 		_spec.SetField(chat.FieldSentAt, field.TypeTime, value)
 		_node.SentAt = value
 	}
-	if nodes := cc.mutation.SentIDs(); len(nodes) > 0 {
+	if nodes := cc.mutation.SentUserIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   chat.SentTable,
-			Columns: []string{chat.SentColumn},
+			Table:   chat.SentUserTable,
+			Columns: []string{chat.SentUserColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt),
@@ -205,12 +179,12 @@ func (cc *ChatCreate) createSpec() (*Chat, *sqlgraph.CreateSpec) {
 		_node.user_sent_messages = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := cc.mutation.ReceivedIDs(); len(nodes) > 0 {
+	if nodes := cc.mutation.ReceivedUserIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   chat.ReceivedTable,
-			Columns: []string{chat.ReceivedColumn},
+			Table:   chat.ReceivedUserTable,
+			Columns: []string{chat.ReceivedUserColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt),

@@ -39,10 +39,6 @@ func toProtoUserRelation(e *ent.UserRelation) (*UserRelation, error) {
 	v.CreatedAt = created_at
 	id := int64(e.ID)
 	v.Id = id
-	user_id_1 := int64(e.UserID1)
-	v.UserId_1 = user_id_1
-	user_id_2 := int64(e.UserID2)
-	v.UserId_2 = user_id_2
 	if edg := e.Edges.User1; edg != nil {
 		id := int64(edg.ID)
 		v.User1 = &User{
@@ -135,10 +131,6 @@ func (svc *UserRelationService) Update(ctx context.Context, req *UpdateUserRelat
 	userrelation := req.GetUserRelation()
 	userrelationID := int(userrelation.GetId())
 	m := svc.client.UserRelation.UpdateOneID(userrelationID)
-	userrelationUserID1 := int(userrelation.GetUserId_1())
-	m.SetUserID1(userrelationUserID1)
-	userrelationUserID2 := int(userrelation.GetUserId_2())
-	m.SetUserID2(userrelationUserID2)
 	if userrelation.GetUser1() != nil {
 		userrelationUser1 := int(userrelation.GetUser1().GetId())
 		m.SetUser1ID(userrelationUser1)
@@ -286,10 +278,6 @@ func (svc *UserRelationService) createBuilder(userrelation *UserRelation) (*ent.
 	m := svc.client.UserRelation.Create()
 	userrelationCreatedAt := runtime.ExtractTime(userrelation.GetCreatedAt())
 	m.SetCreatedAt(userrelationCreatedAt)
-	userrelationUserID1 := int(userrelation.GetUserId_1())
-	m.SetUserID1(userrelationUserID1)
-	userrelationUserID2 := int(userrelation.GetUserId_2())
-	m.SetUserID2(userrelationUserID2)
 	if userrelation.GetUser1() != nil {
 		userrelationUser1 := int(userrelation.GetUser1().GetId())
 		m.SetUser1ID(userrelationUser1)

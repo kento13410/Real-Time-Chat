@@ -24,20 +24,12 @@ func (UserRelation) Annotations() []schema.Annotation {
 // Fields of the UserRelations.
 func (UserRelation) Fields() []ent.Field {
 	return []ent.Field{
-		field.Int("user_id_1").
-			Annotations(
-				entproto.Field(2),
-			),
-		field.Int("user_id_2").
-			Annotations(
-				entproto.Field(3),
-			),
 		field.Time("created_at").Immutable().
 			Default(func() time.Time {
 				return time.Now()
 			}).
 			Annotations(
-				entproto.Field(4),
+				entproto.Field(2),
 			),
 	}
 }
@@ -46,11 +38,11 @@ func (UserRelation) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.From("user1", User.Type).
 			Ref("user_relations_1").
-			Annotations(entproto.Field(5)).
+			Annotations(entproto.Field(3)).
 			Unique(),
 		edge.From("user2", User.Type).
 			Ref("user_relations_2").
-			Annotations(entproto.Field(6)).
+			Annotations(entproto.Field(4)).
 			Unique(),
 	}
 }

@@ -28,48 +28,6 @@ func (cu *ChatUpdate) Where(ps ...predicate.Chat) *ChatUpdate {
 	return cu
 }
 
-// SetSenderID sets the "sender_id" field.
-func (cu *ChatUpdate) SetSenderID(i int) *ChatUpdate {
-	cu.mutation.ResetSenderID()
-	cu.mutation.SetSenderID(i)
-	return cu
-}
-
-// SetNillableSenderID sets the "sender_id" field if the given value is not nil.
-func (cu *ChatUpdate) SetNillableSenderID(i *int) *ChatUpdate {
-	if i != nil {
-		cu.SetSenderID(*i)
-	}
-	return cu
-}
-
-// AddSenderID adds i to the "sender_id" field.
-func (cu *ChatUpdate) AddSenderID(i int) *ChatUpdate {
-	cu.mutation.AddSenderID(i)
-	return cu
-}
-
-// SetReceiverID sets the "receiver_id" field.
-func (cu *ChatUpdate) SetReceiverID(i int) *ChatUpdate {
-	cu.mutation.ResetReceiverID()
-	cu.mutation.SetReceiverID(i)
-	return cu
-}
-
-// SetNillableReceiverID sets the "receiver_id" field if the given value is not nil.
-func (cu *ChatUpdate) SetNillableReceiverID(i *int) *ChatUpdate {
-	if i != nil {
-		cu.SetReceiverID(*i)
-	}
-	return cu
-}
-
-// AddReceiverID adds i to the "receiver_id" field.
-func (cu *ChatUpdate) AddReceiverID(i int) *ChatUpdate {
-	cu.mutation.AddReceiverID(i)
-	return cu
-}
-
 // SetMessage sets the "message" field.
 func (cu *ChatUpdate) SetMessage(s string) *ChatUpdate {
 	cu.mutation.SetMessage(s)
@@ -84,42 +42,42 @@ func (cu *ChatUpdate) SetNillableMessage(s *string) *ChatUpdate {
 	return cu
 }
 
-// SetSentID sets the "sent" edge to the User entity by ID.
-func (cu *ChatUpdate) SetSentID(id int) *ChatUpdate {
-	cu.mutation.SetSentID(id)
+// SetSentUserID sets the "sent_user" edge to the User entity by ID.
+func (cu *ChatUpdate) SetSentUserID(id int) *ChatUpdate {
+	cu.mutation.SetSentUserID(id)
 	return cu
 }
 
-// SetNillableSentID sets the "sent" edge to the User entity by ID if the given value is not nil.
-func (cu *ChatUpdate) SetNillableSentID(id *int) *ChatUpdate {
+// SetNillableSentUserID sets the "sent_user" edge to the User entity by ID if the given value is not nil.
+func (cu *ChatUpdate) SetNillableSentUserID(id *int) *ChatUpdate {
 	if id != nil {
-		cu = cu.SetSentID(*id)
+		cu = cu.SetSentUserID(*id)
 	}
 	return cu
 }
 
-// SetSent sets the "sent" edge to the User entity.
-func (cu *ChatUpdate) SetSent(u *User) *ChatUpdate {
-	return cu.SetSentID(u.ID)
+// SetSentUser sets the "sent_user" edge to the User entity.
+func (cu *ChatUpdate) SetSentUser(u *User) *ChatUpdate {
+	return cu.SetSentUserID(u.ID)
 }
 
-// SetReceivedID sets the "received" edge to the User entity by ID.
-func (cu *ChatUpdate) SetReceivedID(id int) *ChatUpdate {
-	cu.mutation.SetReceivedID(id)
+// SetReceivedUserID sets the "received_user" edge to the User entity by ID.
+func (cu *ChatUpdate) SetReceivedUserID(id int) *ChatUpdate {
+	cu.mutation.SetReceivedUserID(id)
 	return cu
 }
 
-// SetNillableReceivedID sets the "received" edge to the User entity by ID if the given value is not nil.
-func (cu *ChatUpdate) SetNillableReceivedID(id *int) *ChatUpdate {
+// SetNillableReceivedUserID sets the "received_user" edge to the User entity by ID if the given value is not nil.
+func (cu *ChatUpdate) SetNillableReceivedUserID(id *int) *ChatUpdate {
 	if id != nil {
-		cu = cu.SetReceivedID(*id)
+		cu = cu.SetReceivedUserID(*id)
 	}
 	return cu
 }
 
-// SetReceived sets the "received" edge to the User entity.
-func (cu *ChatUpdate) SetReceived(u *User) *ChatUpdate {
-	return cu.SetReceivedID(u.ID)
+// SetReceivedUser sets the "received_user" edge to the User entity.
+func (cu *ChatUpdate) SetReceivedUser(u *User) *ChatUpdate {
+	return cu.SetReceivedUserID(u.ID)
 }
 
 // Mutation returns the ChatMutation object of the builder.
@@ -127,15 +85,15 @@ func (cu *ChatUpdate) Mutation() *ChatMutation {
 	return cu.mutation
 }
 
-// ClearSent clears the "sent" edge to the User entity.
-func (cu *ChatUpdate) ClearSent() *ChatUpdate {
-	cu.mutation.ClearSent()
+// ClearSentUser clears the "sent_user" edge to the User entity.
+func (cu *ChatUpdate) ClearSentUser() *ChatUpdate {
+	cu.mutation.ClearSentUser()
 	return cu
 }
 
-// ClearReceived clears the "received" edge to the User entity.
-func (cu *ChatUpdate) ClearReceived() *ChatUpdate {
-	cu.mutation.ClearReceived()
+// ClearReceivedUser clears the "received_user" edge to the User entity.
+func (cu *ChatUpdate) ClearReceivedUser() *ChatUpdate {
+	cu.mutation.ClearReceivedUser()
 	return cu
 }
 
@@ -175,27 +133,15 @@ func (cu *ChatUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			}
 		}
 	}
-	if value, ok := cu.mutation.SenderID(); ok {
-		_spec.SetField(chat.FieldSenderID, field.TypeInt, value)
-	}
-	if value, ok := cu.mutation.AddedSenderID(); ok {
-		_spec.AddField(chat.FieldSenderID, field.TypeInt, value)
-	}
-	if value, ok := cu.mutation.ReceiverID(); ok {
-		_spec.SetField(chat.FieldReceiverID, field.TypeInt, value)
-	}
-	if value, ok := cu.mutation.AddedReceiverID(); ok {
-		_spec.AddField(chat.FieldReceiverID, field.TypeInt, value)
-	}
 	if value, ok := cu.mutation.Message(); ok {
 		_spec.SetField(chat.FieldMessage, field.TypeString, value)
 	}
-	if cu.mutation.SentCleared() {
+	if cu.mutation.SentUserCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   chat.SentTable,
-			Columns: []string{chat.SentColumn},
+			Table:   chat.SentUserTable,
+			Columns: []string{chat.SentUserColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt),
@@ -203,12 +149,12 @@ func (cu *ChatUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cu.mutation.SentIDs(); len(nodes) > 0 {
+	if nodes := cu.mutation.SentUserIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   chat.SentTable,
-			Columns: []string{chat.SentColumn},
+			Table:   chat.SentUserTable,
+			Columns: []string{chat.SentUserColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt),
@@ -219,12 +165,12 @@ func (cu *ChatUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if cu.mutation.ReceivedCleared() {
+	if cu.mutation.ReceivedUserCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   chat.ReceivedTable,
-			Columns: []string{chat.ReceivedColumn},
+			Table:   chat.ReceivedUserTable,
+			Columns: []string{chat.ReceivedUserColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt),
@@ -232,12 +178,12 @@ func (cu *ChatUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cu.mutation.ReceivedIDs(); len(nodes) > 0 {
+	if nodes := cu.mutation.ReceivedUserIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   chat.ReceivedTable,
-			Columns: []string{chat.ReceivedColumn},
+			Table:   chat.ReceivedUserTable,
+			Columns: []string{chat.ReceivedUserColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt),
@@ -268,48 +214,6 @@ type ChatUpdateOne struct {
 	mutation *ChatMutation
 }
 
-// SetSenderID sets the "sender_id" field.
-func (cuo *ChatUpdateOne) SetSenderID(i int) *ChatUpdateOne {
-	cuo.mutation.ResetSenderID()
-	cuo.mutation.SetSenderID(i)
-	return cuo
-}
-
-// SetNillableSenderID sets the "sender_id" field if the given value is not nil.
-func (cuo *ChatUpdateOne) SetNillableSenderID(i *int) *ChatUpdateOne {
-	if i != nil {
-		cuo.SetSenderID(*i)
-	}
-	return cuo
-}
-
-// AddSenderID adds i to the "sender_id" field.
-func (cuo *ChatUpdateOne) AddSenderID(i int) *ChatUpdateOne {
-	cuo.mutation.AddSenderID(i)
-	return cuo
-}
-
-// SetReceiverID sets the "receiver_id" field.
-func (cuo *ChatUpdateOne) SetReceiverID(i int) *ChatUpdateOne {
-	cuo.mutation.ResetReceiverID()
-	cuo.mutation.SetReceiverID(i)
-	return cuo
-}
-
-// SetNillableReceiverID sets the "receiver_id" field if the given value is not nil.
-func (cuo *ChatUpdateOne) SetNillableReceiverID(i *int) *ChatUpdateOne {
-	if i != nil {
-		cuo.SetReceiverID(*i)
-	}
-	return cuo
-}
-
-// AddReceiverID adds i to the "receiver_id" field.
-func (cuo *ChatUpdateOne) AddReceiverID(i int) *ChatUpdateOne {
-	cuo.mutation.AddReceiverID(i)
-	return cuo
-}
-
 // SetMessage sets the "message" field.
 func (cuo *ChatUpdateOne) SetMessage(s string) *ChatUpdateOne {
 	cuo.mutation.SetMessage(s)
@@ -324,42 +228,42 @@ func (cuo *ChatUpdateOne) SetNillableMessage(s *string) *ChatUpdateOne {
 	return cuo
 }
 
-// SetSentID sets the "sent" edge to the User entity by ID.
-func (cuo *ChatUpdateOne) SetSentID(id int) *ChatUpdateOne {
-	cuo.mutation.SetSentID(id)
+// SetSentUserID sets the "sent_user" edge to the User entity by ID.
+func (cuo *ChatUpdateOne) SetSentUserID(id int) *ChatUpdateOne {
+	cuo.mutation.SetSentUserID(id)
 	return cuo
 }
 
-// SetNillableSentID sets the "sent" edge to the User entity by ID if the given value is not nil.
-func (cuo *ChatUpdateOne) SetNillableSentID(id *int) *ChatUpdateOne {
+// SetNillableSentUserID sets the "sent_user" edge to the User entity by ID if the given value is not nil.
+func (cuo *ChatUpdateOne) SetNillableSentUserID(id *int) *ChatUpdateOne {
 	if id != nil {
-		cuo = cuo.SetSentID(*id)
+		cuo = cuo.SetSentUserID(*id)
 	}
 	return cuo
 }
 
-// SetSent sets the "sent" edge to the User entity.
-func (cuo *ChatUpdateOne) SetSent(u *User) *ChatUpdateOne {
-	return cuo.SetSentID(u.ID)
+// SetSentUser sets the "sent_user" edge to the User entity.
+func (cuo *ChatUpdateOne) SetSentUser(u *User) *ChatUpdateOne {
+	return cuo.SetSentUserID(u.ID)
 }
 
-// SetReceivedID sets the "received" edge to the User entity by ID.
-func (cuo *ChatUpdateOne) SetReceivedID(id int) *ChatUpdateOne {
-	cuo.mutation.SetReceivedID(id)
+// SetReceivedUserID sets the "received_user" edge to the User entity by ID.
+func (cuo *ChatUpdateOne) SetReceivedUserID(id int) *ChatUpdateOne {
+	cuo.mutation.SetReceivedUserID(id)
 	return cuo
 }
 
-// SetNillableReceivedID sets the "received" edge to the User entity by ID if the given value is not nil.
-func (cuo *ChatUpdateOne) SetNillableReceivedID(id *int) *ChatUpdateOne {
+// SetNillableReceivedUserID sets the "received_user" edge to the User entity by ID if the given value is not nil.
+func (cuo *ChatUpdateOne) SetNillableReceivedUserID(id *int) *ChatUpdateOne {
 	if id != nil {
-		cuo = cuo.SetReceivedID(*id)
+		cuo = cuo.SetReceivedUserID(*id)
 	}
 	return cuo
 }
 
-// SetReceived sets the "received" edge to the User entity.
-func (cuo *ChatUpdateOne) SetReceived(u *User) *ChatUpdateOne {
-	return cuo.SetReceivedID(u.ID)
+// SetReceivedUser sets the "received_user" edge to the User entity.
+func (cuo *ChatUpdateOne) SetReceivedUser(u *User) *ChatUpdateOne {
+	return cuo.SetReceivedUserID(u.ID)
 }
 
 // Mutation returns the ChatMutation object of the builder.
@@ -367,15 +271,15 @@ func (cuo *ChatUpdateOne) Mutation() *ChatMutation {
 	return cuo.mutation
 }
 
-// ClearSent clears the "sent" edge to the User entity.
-func (cuo *ChatUpdateOne) ClearSent() *ChatUpdateOne {
-	cuo.mutation.ClearSent()
+// ClearSentUser clears the "sent_user" edge to the User entity.
+func (cuo *ChatUpdateOne) ClearSentUser() *ChatUpdateOne {
+	cuo.mutation.ClearSentUser()
 	return cuo
 }
 
-// ClearReceived clears the "received" edge to the User entity.
-func (cuo *ChatUpdateOne) ClearReceived() *ChatUpdateOne {
-	cuo.mutation.ClearReceived()
+// ClearReceivedUser clears the "received_user" edge to the User entity.
+func (cuo *ChatUpdateOne) ClearReceivedUser() *ChatUpdateOne {
+	cuo.mutation.ClearReceivedUser()
 	return cuo
 }
 
@@ -445,27 +349,15 @@ func (cuo *ChatUpdateOne) sqlSave(ctx context.Context) (_node *Chat, err error) 
 			}
 		}
 	}
-	if value, ok := cuo.mutation.SenderID(); ok {
-		_spec.SetField(chat.FieldSenderID, field.TypeInt, value)
-	}
-	if value, ok := cuo.mutation.AddedSenderID(); ok {
-		_spec.AddField(chat.FieldSenderID, field.TypeInt, value)
-	}
-	if value, ok := cuo.mutation.ReceiverID(); ok {
-		_spec.SetField(chat.FieldReceiverID, field.TypeInt, value)
-	}
-	if value, ok := cuo.mutation.AddedReceiverID(); ok {
-		_spec.AddField(chat.FieldReceiverID, field.TypeInt, value)
-	}
 	if value, ok := cuo.mutation.Message(); ok {
 		_spec.SetField(chat.FieldMessage, field.TypeString, value)
 	}
-	if cuo.mutation.SentCleared() {
+	if cuo.mutation.SentUserCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   chat.SentTable,
-			Columns: []string{chat.SentColumn},
+			Table:   chat.SentUserTable,
+			Columns: []string{chat.SentUserColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt),
@@ -473,12 +365,12 @@ func (cuo *ChatUpdateOne) sqlSave(ctx context.Context) (_node *Chat, err error) 
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cuo.mutation.SentIDs(); len(nodes) > 0 {
+	if nodes := cuo.mutation.SentUserIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   chat.SentTable,
-			Columns: []string{chat.SentColumn},
+			Table:   chat.SentUserTable,
+			Columns: []string{chat.SentUserColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt),
@@ -489,12 +381,12 @@ func (cuo *ChatUpdateOne) sqlSave(ctx context.Context) (_node *Chat, err error) 
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if cuo.mutation.ReceivedCleared() {
+	if cuo.mutation.ReceivedUserCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   chat.ReceivedTable,
-			Columns: []string{chat.ReceivedColumn},
+			Table:   chat.ReceivedUserTable,
+			Columns: []string{chat.ReceivedUserColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt),
@@ -502,12 +394,12 @@ func (cuo *ChatUpdateOne) sqlSave(ctx context.Context) (_node *Chat, err error) 
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cuo.mutation.ReceivedIDs(); len(nodes) > 0 {
+	if nodes := cuo.mutation.ReceivedUserIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   chat.ReceivedTable,
-			Columns: []string{chat.ReceivedColumn},
+			Table:   chat.ReceivedUserTable,
+			Columns: []string{chat.ReceivedUserColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt),

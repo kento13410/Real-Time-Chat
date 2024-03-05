@@ -12,17 +12,13 @@ option go_package = "Real-Time-Chat/ent/proto/entpb";
 message Chat {
   int64 id = 1;
 
-  int64 sender_id = 2;
+  string message = 2;
 
-  int64 receiver_id = 3;
+  google.protobuf.Timestamp sent_at = 3;
 
-  string message = 4;
+  User sent_user = 4;
 
-  google.protobuf.Timestamp sent_at = 5;
-
-  User sent = 6;
-
-  User received = 7;
+  User received_user = 5;
 }
 
 message CreateChatRequest {
@@ -86,19 +82,17 @@ message User {
 
   string username = 2;
 
-  string email = 3;
+  string password_hash = 3;
 
-  string password_hash = 4;
+  google.protobuf.Timestamp created_at = 4;
 
-  google.protobuf.Timestamp created_at = 5;
+  repeated UserRelation user_relations_1 = 5;
 
-  repeated UserRelation user_relations_1 = 6;
+  repeated UserRelation user_relations_2 = 6;
 
-  repeated UserRelation user_relations_2 = 7;
+  repeated Chat sent_messages = 7;
 
-  repeated Chat sent_messages = 8;
-
-  repeated Chat received_messages = 9;
+  repeated Chat received_messages = 8;
 }
 
 message CreateUserRequest {
@@ -160,15 +154,11 @@ message BatchCreateUsersResponse {
 message UserRelation {
   int64 id = 1;
 
-  int64 user_id_1 = 2;
+  google.protobuf.Timestamp created_at = 2;
 
-  int64 user_id_2 = 3;
+  User user1 = 3;
 
-  google.protobuf.Timestamp created_at = 4;
-
-  User user1 = 5;
-
-  User user2 = 6;
+  User user2 = 4;
 }
 
 message CreateUserRelationRequest {

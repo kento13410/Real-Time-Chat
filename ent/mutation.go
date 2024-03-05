@@ -34,23 +34,19 @@ const (
 // ChatMutation represents an operation that mutates the Chat nodes in the graph.
 type ChatMutation struct {
 	config
-	op              Op
-	typ             string
-	id              *int
-	sender_id       *int
-	addsender_id    *int
-	receiver_id     *int
-	addreceiver_id  *int
-	message         *string
-	sent_at         *time.Time
-	clearedFields   map[string]struct{}
-	sent            *int
-	clearedsent     bool
-	received        *int
-	clearedreceived bool
-	done            bool
-	oldValue        func(context.Context) (*Chat, error)
-	predicates      []predicate.Chat
+	op                   Op
+	typ                  string
+	id                   *int
+	message              *string
+	sent_at              *time.Time
+	clearedFields        map[string]struct{}
+	sent_user            *int
+	clearedsent_user     bool
+	received_user        *int
+	clearedreceived_user bool
+	done                 bool
+	oldValue             func(context.Context) (*Chat, error)
+	predicates           []predicate.Chat
 }
 
 var _ ent.Mutation = (*ChatMutation)(nil)
@@ -151,118 +147,6 @@ func (m *ChatMutation) IDs(ctx context.Context) ([]int, error) {
 	}
 }
 
-// SetSenderID sets the "sender_id" field.
-func (m *ChatMutation) SetSenderID(i int) {
-	m.sender_id = &i
-	m.addsender_id = nil
-}
-
-// SenderID returns the value of the "sender_id" field in the mutation.
-func (m *ChatMutation) SenderID() (r int, exists bool) {
-	v := m.sender_id
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldSenderID returns the old "sender_id" field's value of the Chat entity.
-// If the Chat object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *ChatMutation) OldSenderID(ctx context.Context) (v int, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldSenderID is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldSenderID requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldSenderID: %w", err)
-	}
-	return oldValue.SenderID, nil
-}
-
-// AddSenderID adds i to the "sender_id" field.
-func (m *ChatMutation) AddSenderID(i int) {
-	if m.addsender_id != nil {
-		*m.addsender_id += i
-	} else {
-		m.addsender_id = &i
-	}
-}
-
-// AddedSenderID returns the value that was added to the "sender_id" field in this mutation.
-func (m *ChatMutation) AddedSenderID() (r int, exists bool) {
-	v := m.addsender_id
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ResetSenderID resets all changes to the "sender_id" field.
-func (m *ChatMutation) ResetSenderID() {
-	m.sender_id = nil
-	m.addsender_id = nil
-}
-
-// SetReceiverID sets the "receiver_id" field.
-func (m *ChatMutation) SetReceiverID(i int) {
-	m.receiver_id = &i
-	m.addreceiver_id = nil
-}
-
-// ReceiverID returns the value of the "receiver_id" field in the mutation.
-func (m *ChatMutation) ReceiverID() (r int, exists bool) {
-	v := m.receiver_id
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldReceiverID returns the old "receiver_id" field's value of the Chat entity.
-// If the Chat object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *ChatMutation) OldReceiverID(ctx context.Context) (v int, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldReceiverID is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldReceiverID requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldReceiverID: %w", err)
-	}
-	return oldValue.ReceiverID, nil
-}
-
-// AddReceiverID adds i to the "receiver_id" field.
-func (m *ChatMutation) AddReceiverID(i int) {
-	if m.addreceiver_id != nil {
-		*m.addreceiver_id += i
-	} else {
-		m.addreceiver_id = &i
-	}
-}
-
-// AddedReceiverID returns the value that was added to the "receiver_id" field in this mutation.
-func (m *ChatMutation) AddedReceiverID() (r int, exists bool) {
-	v := m.addreceiver_id
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ResetReceiverID resets all changes to the "receiver_id" field.
-func (m *ChatMutation) ResetReceiverID() {
-	m.receiver_id = nil
-	m.addreceiver_id = nil
-}
-
 // SetMessage sets the "message" field.
 func (m *ChatMutation) SetMessage(s string) {
 	m.message = &s
@@ -335,82 +219,82 @@ func (m *ChatMutation) ResetSentAt() {
 	m.sent_at = nil
 }
 
-// SetSentID sets the "sent" edge to the User entity by id.
-func (m *ChatMutation) SetSentID(id int) {
-	m.sent = &id
+// SetSentUserID sets the "sent_user" edge to the User entity by id.
+func (m *ChatMutation) SetSentUserID(id int) {
+	m.sent_user = &id
 }
 
-// ClearSent clears the "sent" edge to the User entity.
-func (m *ChatMutation) ClearSent() {
-	m.clearedsent = true
+// ClearSentUser clears the "sent_user" edge to the User entity.
+func (m *ChatMutation) ClearSentUser() {
+	m.clearedsent_user = true
 }
 
-// SentCleared reports if the "sent" edge to the User entity was cleared.
-func (m *ChatMutation) SentCleared() bool {
-	return m.clearedsent
+// SentUserCleared reports if the "sent_user" edge to the User entity was cleared.
+func (m *ChatMutation) SentUserCleared() bool {
+	return m.clearedsent_user
 }
 
-// SentID returns the "sent" edge ID in the mutation.
-func (m *ChatMutation) SentID() (id int, exists bool) {
-	if m.sent != nil {
-		return *m.sent, true
+// SentUserID returns the "sent_user" edge ID in the mutation.
+func (m *ChatMutation) SentUserID() (id int, exists bool) {
+	if m.sent_user != nil {
+		return *m.sent_user, true
 	}
 	return
 }
 
-// SentIDs returns the "sent" edge IDs in the mutation.
+// SentUserIDs returns the "sent_user" edge IDs in the mutation.
 // Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// SentID instead. It exists only for internal usage by the builders.
-func (m *ChatMutation) SentIDs() (ids []int) {
-	if id := m.sent; id != nil {
+// SentUserID instead. It exists only for internal usage by the builders.
+func (m *ChatMutation) SentUserIDs() (ids []int) {
+	if id := m.sent_user; id != nil {
 		ids = append(ids, *id)
 	}
 	return
 }
 
-// ResetSent resets all changes to the "sent" edge.
-func (m *ChatMutation) ResetSent() {
-	m.sent = nil
-	m.clearedsent = false
+// ResetSentUser resets all changes to the "sent_user" edge.
+func (m *ChatMutation) ResetSentUser() {
+	m.sent_user = nil
+	m.clearedsent_user = false
 }
 
-// SetReceivedID sets the "received" edge to the User entity by id.
-func (m *ChatMutation) SetReceivedID(id int) {
-	m.received = &id
+// SetReceivedUserID sets the "received_user" edge to the User entity by id.
+func (m *ChatMutation) SetReceivedUserID(id int) {
+	m.received_user = &id
 }
 
-// ClearReceived clears the "received" edge to the User entity.
-func (m *ChatMutation) ClearReceived() {
-	m.clearedreceived = true
+// ClearReceivedUser clears the "received_user" edge to the User entity.
+func (m *ChatMutation) ClearReceivedUser() {
+	m.clearedreceived_user = true
 }
 
-// ReceivedCleared reports if the "received" edge to the User entity was cleared.
-func (m *ChatMutation) ReceivedCleared() bool {
-	return m.clearedreceived
+// ReceivedUserCleared reports if the "received_user" edge to the User entity was cleared.
+func (m *ChatMutation) ReceivedUserCleared() bool {
+	return m.clearedreceived_user
 }
 
-// ReceivedID returns the "received" edge ID in the mutation.
-func (m *ChatMutation) ReceivedID() (id int, exists bool) {
-	if m.received != nil {
-		return *m.received, true
+// ReceivedUserID returns the "received_user" edge ID in the mutation.
+func (m *ChatMutation) ReceivedUserID() (id int, exists bool) {
+	if m.received_user != nil {
+		return *m.received_user, true
 	}
 	return
 }
 
-// ReceivedIDs returns the "received" edge IDs in the mutation.
+// ReceivedUserIDs returns the "received_user" edge IDs in the mutation.
 // Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// ReceivedID instead. It exists only for internal usage by the builders.
-func (m *ChatMutation) ReceivedIDs() (ids []int) {
-	if id := m.received; id != nil {
+// ReceivedUserID instead. It exists only for internal usage by the builders.
+func (m *ChatMutation) ReceivedUserIDs() (ids []int) {
+	if id := m.received_user; id != nil {
 		ids = append(ids, *id)
 	}
 	return
 }
 
-// ResetReceived resets all changes to the "received" edge.
-func (m *ChatMutation) ResetReceived() {
-	m.received = nil
-	m.clearedreceived = false
+// ResetReceivedUser resets all changes to the "received_user" edge.
+func (m *ChatMutation) ResetReceivedUser() {
+	m.received_user = nil
+	m.clearedreceived_user = false
 }
 
 // Where appends a list predicates to the ChatMutation builder.
@@ -447,13 +331,7 @@ func (m *ChatMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *ChatMutation) Fields() []string {
-	fields := make([]string, 0, 4)
-	if m.sender_id != nil {
-		fields = append(fields, chat.FieldSenderID)
-	}
-	if m.receiver_id != nil {
-		fields = append(fields, chat.FieldReceiverID)
-	}
+	fields := make([]string, 0, 2)
 	if m.message != nil {
 		fields = append(fields, chat.FieldMessage)
 	}
@@ -468,10 +346,6 @@ func (m *ChatMutation) Fields() []string {
 // schema.
 func (m *ChatMutation) Field(name string) (ent.Value, bool) {
 	switch name {
-	case chat.FieldSenderID:
-		return m.SenderID()
-	case chat.FieldReceiverID:
-		return m.ReceiverID()
 	case chat.FieldMessage:
 		return m.Message()
 	case chat.FieldSentAt:
@@ -485,10 +359,6 @@ func (m *ChatMutation) Field(name string) (ent.Value, bool) {
 // database failed.
 func (m *ChatMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
-	case chat.FieldSenderID:
-		return m.OldSenderID(ctx)
-	case chat.FieldReceiverID:
-		return m.OldReceiverID(ctx)
 	case chat.FieldMessage:
 		return m.OldMessage(ctx)
 	case chat.FieldSentAt:
@@ -502,20 +372,6 @@ func (m *ChatMutation) OldField(ctx context.Context, name string) (ent.Value, er
 // type.
 func (m *ChatMutation) SetField(name string, value ent.Value) error {
 	switch name {
-	case chat.FieldSenderID:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetSenderID(v)
-		return nil
-	case chat.FieldReceiverID:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetReceiverID(v)
-		return nil
 	case chat.FieldMessage:
 		v, ok := value.(string)
 		if !ok {
@@ -537,26 +393,13 @@ func (m *ChatMutation) SetField(name string, value ent.Value) error {
 // AddedFields returns all numeric fields that were incremented/decremented during
 // this mutation.
 func (m *ChatMutation) AddedFields() []string {
-	var fields []string
-	if m.addsender_id != nil {
-		fields = append(fields, chat.FieldSenderID)
-	}
-	if m.addreceiver_id != nil {
-		fields = append(fields, chat.FieldReceiverID)
-	}
-	return fields
+	return nil
 }
 
 // AddedField returns the numeric value that was incremented/decremented on a field
 // with the given name. The second boolean return value indicates that this field
 // was not set, or was not defined in the schema.
 func (m *ChatMutation) AddedField(name string) (ent.Value, bool) {
-	switch name {
-	case chat.FieldSenderID:
-		return m.AddedSenderID()
-	case chat.FieldReceiverID:
-		return m.AddedReceiverID()
-	}
 	return nil, false
 }
 
@@ -565,20 +408,6 @@ func (m *ChatMutation) AddedField(name string) (ent.Value, bool) {
 // type.
 func (m *ChatMutation) AddField(name string, value ent.Value) error {
 	switch name {
-	case chat.FieldSenderID:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddSenderID(v)
-		return nil
-	case chat.FieldReceiverID:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddReceiverID(v)
-		return nil
 	}
 	return fmt.Errorf("unknown Chat numeric field %s", name)
 }
@@ -606,12 +435,6 @@ func (m *ChatMutation) ClearField(name string) error {
 // It returns an error if the field is not defined in the schema.
 func (m *ChatMutation) ResetField(name string) error {
 	switch name {
-	case chat.FieldSenderID:
-		m.ResetSenderID()
-		return nil
-	case chat.FieldReceiverID:
-		m.ResetReceiverID()
-		return nil
 	case chat.FieldMessage:
 		m.ResetMessage()
 		return nil
@@ -625,11 +448,11 @@ func (m *ChatMutation) ResetField(name string) error {
 // AddedEdges returns all edge names that were set/added in this mutation.
 func (m *ChatMutation) AddedEdges() []string {
 	edges := make([]string, 0, 2)
-	if m.sent != nil {
-		edges = append(edges, chat.EdgeSent)
+	if m.sent_user != nil {
+		edges = append(edges, chat.EdgeSentUser)
 	}
-	if m.received != nil {
-		edges = append(edges, chat.EdgeReceived)
+	if m.received_user != nil {
+		edges = append(edges, chat.EdgeReceivedUser)
 	}
 	return edges
 }
@@ -638,12 +461,12 @@ func (m *ChatMutation) AddedEdges() []string {
 // name in this mutation.
 func (m *ChatMutation) AddedIDs(name string) []ent.Value {
 	switch name {
-	case chat.EdgeSent:
-		if id := m.sent; id != nil {
+	case chat.EdgeSentUser:
+		if id := m.sent_user; id != nil {
 			return []ent.Value{*id}
 		}
-	case chat.EdgeReceived:
-		if id := m.received; id != nil {
+	case chat.EdgeReceivedUser:
+		if id := m.received_user; id != nil {
 			return []ent.Value{*id}
 		}
 	}
@@ -665,11 +488,11 @@ func (m *ChatMutation) RemovedIDs(name string) []ent.Value {
 // ClearedEdges returns all edge names that were cleared in this mutation.
 func (m *ChatMutation) ClearedEdges() []string {
 	edges := make([]string, 0, 2)
-	if m.clearedsent {
-		edges = append(edges, chat.EdgeSent)
+	if m.clearedsent_user {
+		edges = append(edges, chat.EdgeSentUser)
 	}
-	if m.clearedreceived {
-		edges = append(edges, chat.EdgeReceived)
+	if m.clearedreceived_user {
+		edges = append(edges, chat.EdgeReceivedUser)
 	}
 	return edges
 }
@@ -678,10 +501,10 @@ func (m *ChatMutation) ClearedEdges() []string {
 // was cleared in this mutation.
 func (m *ChatMutation) EdgeCleared(name string) bool {
 	switch name {
-	case chat.EdgeSent:
-		return m.clearedsent
-	case chat.EdgeReceived:
-		return m.clearedreceived
+	case chat.EdgeSentUser:
+		return m.clearedsent_user
+	case chat.EdgeReceivedUser:
+		return m.clearedreceived_user
 	}
 	return false
 }
@@ -690,11 +513,11 @@ func (m *ChatMutation) EdgeCleared(name string) bool {
 // if that edge is not defined in the schema.
 func (m *ChatMutation) ClearEdge(name string) error {
 	switch name {
-	case chat.EdgeSent:
-		m.ClearSent()
+	case chat.EdgeSentUser:
+		m.ClearSentUser()
 		return nil
-	case chat.EdgeReceived:
-		m.ClearReceived()
+	case chat.EdgeReceivedUser:
+		m.ClearReceivedUser()
 		return nil
 	}
 	return fmt.Errorf("unknown Chat unique edge %s", name)
@@ -704,11 +527,11 @@ func (m *ChatMutation) ClearEdge(name string) error {
 // It returns an error if the edge is not defined in the schema.
 func (m *ChatMutation) ResetEdge(name string) error {
 	switch name {
-	case chat.EdgeSent:
-		m.ResetSent()
+	case chat.EdgeSentUser:
+		m.ResetSentUser()
 		return nil
-	case chat.EdgeReceived:
-		m.ResetReceived()
+	case chat.EdgeReceivedUser:
+		m.ResetReceivedUser()
 		return nil
 	}
 	return fmt.Errorf("unknown Chat edge %s", name)
@@ -721,7 +544,6 @@ type UserMutation struct {
 	typ                      string
 	id                       *int
 	username                 *string
-	email                    *string
 	password_hash            *string
 	created_at               *time.Time
 	clearedFields            map[string]struct{}
@@ -874,42 +696,6 @@ func (m *UserMutation) OldUsername(ctx context.Context) (v string, err error) {
 // ResetUsername resets all changes to the "username" field.
 func (m *UserMutation) ResetUsername() {
 	m.username = nil
-}
-
-// SetEmail sets the "email" field.
-func (m *UserMutation) SetEmail(s string) {
-	m.email = &s
-}
-
-// Email returns the value of the "email" field in the mutation.
-func (m *UserMutation) Email() (r string, exists bool) {
-	v := m.email
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldEmail returns the old "email" field's value of the User entity.
-// If the User object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *UserMutation) OldEmail(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldEmail is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldEmail requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldEmail: %w", err)
-	}
-	return oldValue.Email, nil
-}
-
-// ResetEmail resets all changes to the "email" field.
-func (m *UserMutation) ResetEmail() {
-	m.email = nil
 }
 
 // SetPasswordHash sets the "password_hash" field.
@@ -1234,12 +1020,9 @@ func (m *UserMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *UserMutation) Fields() []string {
-	fields := make([]string, 0, 4)
+	fields := make([]string, 0, 3)
 	if m.username != nil {
 		fields = append(fields, user.FieldUsername)
-	}
-	if m.email != nil {
-		fields = append(fields, user.FieldEmail)
 	}
 	if m.password_hash != nil {
 		fields = append(fields, user.FieldPasswordHash)
@@ -1257,8 +1040,6 @@ func (m *UserMutation) Field(name string) (ent.Value, bool) {
 	switch name {
 	case user.FieldUsername:
 		return m.Username()
-	case user.FieldEmail:
-		return m.Email()
 	case user.FieldPasswordHash:
 		return m.PasswordHash()
 	case user.FieldCreatedAt:
@@ -1274,8 +1055,6 @@ func (m *UserMutation) OldField(ctx context.Context, name string) (ent.Value, er
 	switch name {
 	case user.FieldUsername:
 		return m.OldUsername(ctx)
-	case user.FieldEmail:
-		return m.OldEmail(ctx)
 	case user.FieldPasswordHash:
 		return m.OldPasswordHash(ctx)
 	case user.FieldCreatedAt:
@@ -1295,13 +1074,6 @@ func (m *UserMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetUsername(v)
-		return nil
-	case user.FieldEmail:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetEmail(v)
 		return nil
 	case user.FieldPasswordHash:
 		v, ok := value.(string)
@@ -1368,9 +1140,6 @@ func (m *UserMutation) ResetField(name string) error {
 	switch name {
 	case user.FieldUsername:
 		m.ResetUsername()
-		return nil
-	case user.FieldEmail:
-		m.ResetEmail()
 		return nil
 	case user.FieldPasswordHash:
 		m.ResetPasswordHash()
@@ -1550,10 +1319,6 @@ type UserRelationMutation struct {
 	op            Op
 	typ           string
 	id            *int
-	user_id_1     *int
-	adduser_id_1  *int
-	user_id_2     *int
-	adduser_id_2  *int
 	created_at    *time.Time
 	clearedFields map[string]struct{}
 	user1         *int
@@ -1661,118 +1426,6 @@ func (m *UserRelationMutation) IDs(ctx context.Context) ([]int, error) {
 	default:
 		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
 	}
-}
-
-// SetUserID1 sets the "user_id_1" field.
-func (m *UserRelationMutation) SetUserID1(i int) {
-	m.user_id_1 = &i
-	m.adduser_id_1 = nil
-}
-
-// UserID1 returns the value of the "user_id_1" field in the mutation.
-func (m *UserRelationMutation) UserID1() (r int, exists bool) {
-	v := m.user_id_1
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldUserID1 returns the old "user_id_1" field's value of the UserRelation entity.
-// If the UserRelation object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *UserRelationMutation) OldUserID1(ctx context.Context) (v int, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldUserID1 is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldUserID1 requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldUserID1: %w", err)
-	}
-	return oldValue.UserID1, nil
-}
-
-// AddUserID1 adds i to the "user_id_1" field.
-func (m *UserRelationMutation) AddUserID1(i int) {
-	if m.adduser_id_1 != nil {
-		*m.adduser_id_1 += i
-	} else {
-		m.adduser_id_1 = &i
-	}
-}
-
-// AddedUserID1 returns the value that was added to the "user_id_1" field in this mutation.
-func (m *UserRelationMutation) AddedUserID1() (r int, exists bool) {
-	v := m.adduser_id_1
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ResetUserID1 resets all changes to the "user_id_1" field.
-func (m *UserRelationMutation) ResetUserID1() {
-	m.user_id_1 = nil
-	m.adduser_id_1 = nil
-}
-
-// SetUserID2 sets the "user_id_2" field.
-func (m *UserRelationMutation) SetUserID2(i int) {
-	m.user_id_2 = &i
-	m.adduser_id_2 = nil
-}
-
-// UserID2 returns the value of the "user_id_2" field in the mutation.
-func (m *UserRelationMutation) UserID2() (r int, exists bool) {
-	v := m.user_id_2
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldUserID2 returns the old "user_id_2" field's value of the UserRelation entity.
-// If the UserRelation object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *UserRelationMutation) OldUserID2(ctx context.Context) (v int, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldUserID2 is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldUserID2 requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldUserID2: %w", err)
-	}
-	return oldValue.UserID2, nil
-}
-
-// AddUserID2 adds i to the "user_id_2" field.
-func (m *UserRelationMutation) AddUserID2(i int) {
-	if m.adduser_id_2 != nil {
-		*m.adduser_id_2 += i
-	} else {
-		m.adduser_id_2 = &i
-	}
-}
-
-// AddedUserID2 returns the value that was added to the "user_id_2" field in this mutation.
-func (m *UserRelationMutation) AddedUserID2() (r int, exists bool) {
-	v := m.adduser_id_2
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ResetUserID2 resets all changes to the "user_id_2" field.
-func (m *UserRelationMutation) ResetUserID2() {
-	m.user_id_2 = nil
-	m.adduser_id_2 = nil
 }
 
 // SetCreatedAt sets the "created_at" field.
@@ -1923,13 +1576,7 @@ func (m *UserRelationMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *UserRelationMutation) Fields() []string {
-	fields := make([]string, 0, 3)
-	if m.user_id_1 != nil {
-		fields = append(fields, userrelation.FieldUserID1)
-	}
-	if m.user_id_2 != nil {
-		fields = append(fields, userrelation.FieldUserID2)
-	}
+	fields := make([]string, 0, 1)
 	if m.created_at != nil {
 		fields = append(fields, userrelation.FieldCreatedAt)
 	}
@@ -1941,10 +1588,6 @@ func (m *UserRelationMutation) Fields() []string {
 // schema.
 func (m *UserRelationMutation) Field(name string) (ent.Value, bool) {
 	switch name {
-	case userrelation.FieldUserID1:
-		return m.UserID1()
-	case userrelation.FieldUserID2:
-		return m.UserID2()
 	case userrelation.FieldCreatedAt:
 		return m.CreatedAt()
 	}
@@ -1956,10 +1599,6 @@ func (m *UserRelationMutation) Field(name string) (ent.Value, bool) {
 // database failed.
 func (m *UserRelationMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
-	case userrelation.FieldUserID1:
-		return m.OldUserID1(ctx)
-	case userrelation.FieldUserID2:
-		return m.OldUserID2(ctx)
 	case userrelation.FieldCreatedAt:
 		return m.OldCreatedAt(ctx)
 	}
@@ -1971,20 +1610,6 @@ func (m *UserRelationMutation) OldField(ctx context.Context, name string) (ent.V
 // type.
 func (m *UserRelationMutation) SetField(name string, value ent.Value) error {
 	switch name {
-	case userrelation.FieldUserID1:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetUserID1(v)
-		return nil
-	case userrelation.FieldUserID2:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetUserID2(v)
-		return nil
 	case userrelation.FieldCreatedAt:
 		v, ok := value.(time.Time)
 		if !ok {
@@ -1999,26 +1624,13 @@ func (m *UserRelationMutation) SetField(name string, value ent.Value) error {
 // AddedFields returns all numeric fields that were incremented/decremented during
 // this mutation.
 func (m *UserRelationMutation) AddedFields() []string {
-	var fields []string
-	if m.adduser_id_1 != nil {
-		fields = append(fields, userrelation.FieldUserID1)
-	}
-	if m.adduser_id_2 != nil {
-		fields = append(fields, userrelation.FieldUserID2)
-	}
-	return fields
+	return nil
 }
 
 // AddedField returns the numeric value that was incremented/decremented on a field
 // with the given name. The second boolean return value indicates that this field
 // was not set, or was not defined in the schema.
 func (m *UserRelationMutation) AddedField(name string) (ent.Value, bool) {
-	switch name {
-	case userrelation.FieldUserID1:
-		return m.AddedUserID1()
-	case userrelation.FieldUserID2:
-		return m.AddedUserID2()
-	}
 	return nil, false
 }
 
@@ -2027,20 +1639,6 @@ func (m *UserRelationMutation) AddedField(name string) (ent.Value, bool) {
 // type.
 func (m *UserRelationMutation) AddField(name string, value ent.Value) error {
 	switch name {
-	case userrelation.FieldUserID1:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddUserID1(v)
-		return nil
-	case userrelation.FieldUserID2:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddUserID2(v)
-		return nil
 	}
 	return fmt.Errorf("unknown UserRelation numeric field %s", name)
 }
@@ -2068,12 +1666,6 @@ func (m *UserRelationMutation) ClearField(name string) error {
 // It returns an error if the field is not defined in the schema.
 func (m *UserRelationMutation) ResetField(name string) error {
 	switch name {
-	case userrelation.FieldUserID1:
-		m.ResetUserID1()
-		return nil
-	case userrelation.FieldUserID2:
-		m.ResetUserID2()
-		return nil
 	case userrelation.FieldCreatedAt:
 		m.ResetCreatedAt()
 		return nil

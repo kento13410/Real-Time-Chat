@@ -21,18 +21,6 @@ type UserRelationCreate struct {
 	hooks    []Hook
 }
 
-// SetUserID1 sets the "user_id_1" field.
-func (urc *UserRelationCreate) SetUserID1(i int) *UserRelationCreate {
-	urc.mutation.SetUserID1(i)
-	return urc
-}
-
-// SetUserID2 sets the "user_id_2" field.
-func (urc *UserRelationCreate) SetUserID2(i int) *UserRelationCreate {
-	urc.mutation.SetUserID2(i)
-	return urc
-}
-
 // SetCreatedAt sets the "created_at" field.
 func (urc *UserRelationCreate) SetCreatedAt(t time.Time) *UserRelationCreate {
 	urc.mutation.SetCreatedAt(t)
@@ -128,12 +116,6 @@ func (urc *UserRelationCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (urc *UserRelationCreate) check() error {
-	if _, ok := urc.mutation.UserID1(); !ok {
-		return &ValidationError{Name: "user_id_1", err: errors.New(`ent: missing required field "UserRelation.user_id_1"`)}
-	}
-	if _, ok := urc.mutation.UserID2(); !ok {
-		return &ValidationError{Name: "user_id_2", err: errors.New(`ent: missing required field "UserRelation.user_id_2"`)}
-	}
 	if _, ok := urc.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "created_at", err: errors.New(`ent: missing required field "UserRelation.created_at"`)}
 	}
@@ -163,14 +145,6 @@ func (urc *UserRelationCreate) createSpec() (*UserRelation, *sqlgraph.CreateSpec
 		_node = &UserRelation{config: urc.config}
 		_spec = sqlgraph.NewCreateSpec(userrelation.Table, sqlgraph.NewFieldSpec(userrelation.FieldID, field.TypeInt))
 	)
-	if value, ok := urc.mutation.UserID1(); ok {
-		_spec.SetField(userrelation.FieldUserID1, field.TypeInt, value)
-		_node.UserID1 = value
-	}
-	if value, ok := urc.mutation.UserID2(); ok {
-		_spec.SetField(userrelation.FieldUserID2, field.TypeInt, value)
-		_node.UserID2 = value
-	}
 	if value, ok := urc.mutation.CreatedAt(); ok {
 		_spec.SetField(userrelation.FieldCreatedAt, field.TypeTime, value)
 		_node.CreatedAt = value

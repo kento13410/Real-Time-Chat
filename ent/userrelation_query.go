@@ -333,12 +333,12 @@ func (urq *UserRelationQuery) WithUser2(opts ...func(*UserQuery)) *UserRelationQ
 // Example:
 //
 //	var v []struct {
-//		UserID1 int `json:"user_id_1,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.UserRelation.Query().
-//		GroupBy(userrelation.FieldUserID1).
+//		GroupBy(userrelation.FieldCreatedAt).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (urq *UserRelationQuery) GroupBy(field string, fields ...string) *UserRelationGroupBy {
@@ -356,11 +356,11 @@ func (urq *UserRelationQuery) GroupBy(field string, fields ...string) *UserRelat
 // Example:
 //
 //	var v []struct {
-//		UserID1 int `json:"user_id_1,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //	}
 //
 //	client.UserRelation.Query().
-//		Select(userrelation.FieldUserID1).
+//		Select(userrelation.FieldCreatedAt).
 //		Scan(ctx, &v)
 func (urq *UserRelationQuery) Select(fields ...string) *UserRelationSelect {
 	urq.ctx.Fields = append(urq.ctx.Fields, fields...)

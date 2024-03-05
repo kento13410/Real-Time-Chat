@@ -18,10 +18,6 @@ type Chat struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
-	// SenderID holds the value of the "sender_id" field.
-	SenderID int `json:"sender_id,omitempty"`
-	// ReceiverID holds the value of the "receiver_id" field.
-	ReceiverID int `json:"receiver_id,omitempty"`
 	// Message holds the value of the "message" field.
 	Message string `json:"message,omitempty"`
 	// SentAt holds the value of the "sent_at" field.
@@ -36,39 +32,39 @@ type Chat struct {
 
 // ChatEdges holds the relations/edges for other nodes in the graph.
 type ChatEdges struct {
-	// Sent holds the value of the sent edge.
-	Sent *User `json:"sent,omitempty"`
-	// Received holds the value of the received edge.
-	Received *User `json:"received,omitempty"`
+	// SentUser holds the value of the sent_user edge.
+	SentUser *User `json:"sent_user,omitempty"`
+	// ReceivedUser holds the value of the received_user edge.
+	ReceivedUser *User `json:"received_user,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [2]bool
 }
 
-// SentOrErr returns the Sent value or an error if the edge
+// SentUserOrErr returns the SentUser value or an error if the edge
 // was not loaded in eager-loading, or loaded but was not found.
-func (e ChatEdges) SentOrErr() (*User, error) {
+func (e ChatEdges) SentUserOrErr() (*User, error) {
 	if e.loadedTypes[0] {
-		if e.Sent == nil {
+		if e.SentUser == nil {
 			// Edge was loaded but was not found.
 			return nil, &NotFoundError{label: user.Label}
 		}
-		return e.Sent, nil
+		return e.SentUser, nil
 	}
-	return nil, &NotLoadedError{edge: "sent"}
+	return nil, &NotLoadedError{edge: "sent_user"}
 }
 
-// ReceivedOrErr returns the Received value or an error if the edge
+// ReceivedUserOrErr returns the ReceivedUser value or an error if the edge
 // was not loaded in eager-loading, or loaded but was not found.
-func (e ChatEdges) ReceivedOrErr() (*User, error) {
+func (e ChatEdges) ReceivedUserOrErr() (*User, error) {
 	if e.loadedTypes[1] {
-		if e.Received == nil {
+		if e.ReceivedUser == nil {
 			// Edge was loaded but was not found.
 			return nil, &NotFoundError{label: user.Label}
 		}
-		return e.Received, nil
+		return e.ReceivedUser, nil
 	}
-	return nil, &NotLoadedError{edge: "received"}
+	return nil, &NotLoadedError{edge: "received_user"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -76,7 +72,7 @@ func (*Chat) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case chat.FieldID, chat.FieldSenderID, chat.FieldReceiverID:
+		case chat.FieldID:
 			values[i] = new(sql.NullInt64)
 		case chat.FieldMessage:
 			values[i] = new(sql.NullString)
@@ -107,18 +103,6 @@ func (c *Chat) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
 			c.ID = int(value.Int64)
-		case chat.FieldSenderID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field sender_id", values[i])
-			} else if value.Valid {
-				c.SenderID = int(value.Int64)
-			}
-		case chat.FieldReceiverID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field receiver_id", values[i])
-			} else if value.Valid {
-				c.ReceiverID = int(value.Int64)
-			}
 		case chat.FieldMessage:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field message", values[i])
@@ -158,14 +142,14 @@ func (c *Chat) Value(name string) (ent.Value, error) {
 	return c.selectValues.Get(name)
 }
 
-// QuerySent queries the "sent" edge of the Chat entity.
-func (c *Chat) QuerySent() *UserQuery {
-	return NewChatClient(c.config).QuerySent(c)
+// QuerySentUser queries the "sent_user" edge of the Chat entity.
+func (c *Chat) QuerySentUser() *UserQuery {
+	return NewChatClient(c.config).QuerySentUser(c)
 }
 
-// QueryReceived queries the "received" edge of the Chat entity.
-func (c *Chat) QueryReceived() *UserQuery {
-	return NewChatClient(c.config).QueryReceived(c)
+// QueryReceivedUser queries the "received_user" edge of the Chat entity.
+func (c *Chat) QueryReceivedUser() *UserQuery {
+	return NewChatClient(c.config).QueryReceivedUser(c)
 }
 
 // Update returns a builder for updating this Chat.
@@ -191,12 +175,6 @@ func (c *Chat) String() string {
 	var builder strings.Builder
 	builder.WriteString("Chat(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", c.ID))
-	builder.WriteString("sender_id=")
-	builder.WriteString(fmt.Sprintf("%v", c.SenderID))
-	builder.WriteString(", ")
-	builder.WriteString("receiver_id=")
-	builder.WriteString(fmt.Sprintf("%v", c.ReceiverID))
-	builder.WriteString(", ")
 	builder.WriteString("message=")
 	builder.WriteString(c.Message)
 	builder.WriteString(", ")
